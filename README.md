@@ -11,7 +11,7 @@ The core hypothesis is that encoding observed co-occurrences among endoscopic fi
 |---|---|
 | Task | Multi-label classification of UGI endoscopy images |
 | Labels (core) | Enanthema, Polyp, Ulcer, Erosion, Micronodularity |
-| Dataset size | 2,046 images after quality filtering |
+| Dataset size | 1,980 images after quality filtering |
 | Multi-label prevalence | ~52 % of images carry ≥ 2 simultaneous findings |
 | Cross-validation | 5-fold iterative stratification (70 / 15 / 15) |
 | Backbone | ResNet-50 (primary); EfficientNet-B3, ConvNeXt-Tiny, Swin-T (ablation) |
