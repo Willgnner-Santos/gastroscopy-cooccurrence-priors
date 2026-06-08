@@ -89,7 +89,7 @@ Sparsification threshold τ ∈ {0, 0.1, 0.3, 0.5} is evaluated per graph type.
 |---|---|---|---|
 | M0 (BCE) | 0.517 ± 0.045 | 0.442 ± 0.102 | 0.063 ± 0.005 |
 | M1 (CC) | 0.519 ± 0.028 | 0.367 ± 0.057 | 0.055 ± 0.003 |
-| M2 (λ=0.3) | **0.537 ± —** | — | — |
+| M2 (λ=0.3) | **0.537 ± 0.041** | — | — |
 
 Full per-label and per-fold metrics are in `results/05_relational_results.json`.
 
