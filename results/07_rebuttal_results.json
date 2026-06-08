@@ -1,0 +1,284 @@
+{
+  "M0_post": [
+    {
+      "f1_macro": 0.4753393357115404,
+      "f1_micro": 0.5714285714285714,
+      "auprc_ENANTEMA": 0.4759375485091636,
+      "auprc_P\u00d3LIPO": 0.352235119737356,
+      "auprc_\u00daLCERA": 0.32391462951011885,
+      "auprc_EROS\u00c3O": 0.6589651991744766,
+      "auprc_MICRONODULARIDADE": 0.2913717095937912
+    },
+    {
+      "f1_macro": 0.48341228663809305,
+      "f1_micro": 0.5676567656765676,
+      "auprc_ENANTEMA": 0.3575137722124314,
+      "auprc_P\u00d3LIPO": 0.32697450363359465,
+      "auprc_\u00daLCERA": 0.49690317258448524,
+      "auprc_EROS\u00c3O": 0.5907134506428554,
+      "auprc_MICRONODULARIDADE": 0.1788788468410596
+    },
+    {
+      "f1_macro": 0.538463602211167,
+      "f1_micro": 0.56875,
+      "auprc_ENANTEMA": 0.4235445406680294,
+      "auprc_P\u00d3LIPO": 0.3428023352793995,
+      "auprc_\u00daLCERA": 0.35720393502054687,
+      "auprc_EROS\u00c3O": 0.6645434582646679,
+      "auprc_MICRONODULARIDADE": 0.46703296703296704
+    },
+    {
+      "f1_macro": 0.47636802134646955,
+      "f1_micro": 0.45121951219512196,
+      "auprc_ENANTEMA": 0.47652634052940374,
+      "auprc_P\u00d3LIPO": 0.48533114911158637,
+      "auprc_\u00daLCERA": 0.552376552141429,
+      "auprc_EROS\u00c3O": 0.5575231811883409,
+      "auprc_MICRONODULARIDADE": 0.3932753657018363
+    },
+    {
+      "f1_macro": 0.4813691886207098,
+      "f1_micro": 0.5546875,
+      "auprc_ENANTEMA": 0.4514992239605857,
+      "auprc_P\u00d3LIPO": 0.6245958820948267,
+      "auprc_\u00daLCERA": 0.3814042604311848,
+      "auprc_EROS\u00c3O": 0.6126709281340527,
+      "auprc_MICRONODULARIDADE": 0.1621939098219933
+    }
+  ],
+  "M2_L0.1": [
+    {
+      "f1_macro": 0.3452308802308802,
+      "f1_micro": 0.45,
+      "auprc_ENANTEMA": 0.3632600490194365,
+      "auprc_P\u00d3LIPO": 0.10524076473434268,
+      "auprc_\u00daLCERA": 0.4991012250154577,
+      "auprc_EROS\u00c3O": 0.5959403639562404,
+      "auprc_MICRONODULARIDADE": 0.10267850570930062
+    },
+    {
+      "f1_macro": 0.4426456555085392,
+      "f1_micro": 0.5581395348837209,
+      "auprc_ENANTEMA": 0.5289829531039325,
+      "auprc_P\u00d3LIPO": 0.5530602240896358,
+      "auprc_\u00daLCERA": 0.6474169443030808,
+      "auprc_EROS\u00c3O": 0.6658030132648727,
+      "auprc_MICRONODULARIDADE": 0.3982318677999741
+    },
+    {
+      "f1_macro": 0.5344761904761904,
+      "f1_micro": 0.5827814569536424,
+      "auprc_ENANTEMA": 0.6247438791673029,
+      "auprc_P\u00d3LIPO": 0.4686929994669933,
+      "auprc_\u00daLCERA": 0.6736264538838068,
+      "auprc_EROS\u00c3O": 0.75968926424929,
+      "auprc_MICRONODULARIDADE": 0.7125258799171843
+    },
+    {
+      "f1_macro": 0.5414851739554962,
+      "f1_micro": 0.5967741935483871,
+      "auprc_ENANTEMA": 0.5692369990061795,
+      "auprc_P\u00d3LIPO": 0.5298626634152949,
+      "auprc_\u00daLCERA": 0.6708234865492929,
+      "auprc_EROS\u00c3O": 0.7202099301364681,
+      "auprc_MICRONODULARIDADE": 0.7408319649698959
+    },
+    {
+      "f1_macro": 0.5405817612644414,
+      "f1_micro": 0.6086956521739131,
+      "auprc_ENANTEMA": 0.6489119274912241,
+      "auprc_P\u00d3LIPO": 0.7170624195624195,
+      "auprc_\u00daLCERA": 0.5413315126275329,
+      "auprc_EROS\u00c3O": 0.7677952435922171,
+      "auprc_MICRONODULARIDADE": 0.3414178325360704
+    }
+  ],
+  "M2_L0.5": [
+    {
+      "f1_macro": 0.5742031686859272,
+      "f1_micro": 0.6353790613718412,
+      "auprc_ENANTEMA": 0.6315928056591228,
+      "auprc_P\u00d3LIPO": 0.5242677707464645,
+      "auprc_\u00daLCERA": 0.5713039274121297,
+      "auprc_EROS\u00c3O": 0.7935503973206869,
+      "auprc_MICRONODULARIDADE": 0.4401279879540749
+    },
+    {
+      "f1_macro": 0.46489724293697304,
+      "f1_micro": 0.4939759036144578,
+      "auprc_ENANTEMA": 0.4954577436586703,
+      "auprc_P\u00d3LIPO": 0.49658364383719356,
+      "auprc_\u00daLCERA": 0.43779291900910927,
+      "auprc_EROS\u00c3O": 0.6023815958847774,
+      "auprc_MICRONODULARIDADE": 0.39086710721612444
+    },
+    {
+      "f1_macro": 0.5936146272855133,
+      "f1_micro": 0.6122448979591837,
+      "auprc_ENANTEMA": 0.6250071482229138,
+      "auprc_P\u00d3LIPO": 0.5680768255482682,
+      "auprc_\u00daLCERA": 0.5005735526023602,
+      "auprc_EROS\u00c3O": 0.7337911960284731,
+      "auprc_MICRONODULARIDADE": 0.766137566137566
+    },
+    {
+      "f1_macro": 0.587805250831998,
+      "f1_micro": 0.5984251968503937,
+      "auprc_ENANTEMA": 0.5819460696725719,
+      "auprc_P\u00d3LIPO": 0.6818679384315843,
+      "auprc_\u00daLCERA": 0.8271805802212474,
+      "auprc_EROS\u00c3O": 0.6904143987927229,
+      "auprc_MICRONODULARIDADE": 0.6540122668029644
+    },
+    {
+      "f1_macro": 0.519627807486631,
+      "f1_micro": 0.56,
+      "auprc_ENANTEMA": 0.5189198209967066,
+      "auprc_P\u00d3LIPO": 0.508304733091967,
+      "auprc_\u00daLCERA": 0.5448492036542528,
+      "auprc_EROS\u00c3O": 0.7333092782717259,
+      "auprc_MICRONODULARIDADE": 0.48406017571893706
+    }
+  ],
+  "M2_L1.0": [
+    {
+      "f1_macro": 0.34132726723298523,
+      "f1_micro": 0.4945652173913043,
+      "auprc_ENANTEMA": 0.3626864686817585,
+      "auprc_P\u00d3LIPO": 0.20529009248773708,
+      "auprc_\u00daLCERA": 0.3925129101959567,
+      "auprc_EROS\u00c3O": 0.6980826878807428,
+      "auprc_MICRONODULARIDADE": 0.31528504152567677
+    },
+    {
+      "f1_macro": 0.5373399014778325,
+      "f1_micro": 0.5653710247349824,
+      "auprc_ENANTEMA": 0.566600395364764,
+      "auprc_P\u00d3LIPO": 0.4717934275333018,
+      "auprc_\u00daLCERA": 0.5365948352960808,
+      "auprc_EROS\u00c3O": 0.6946958048041808,
+      "auprc_MICRONODULARIDADE": 0.40902060719313865
+    },
+    {
+      "f1_macro": 0.5162146914840703,
+      "f1_micro": 0.5078125,
+      "auprc_ENANTEMA": 0.5742920693549171,
+      "auprc_P\u00d3LIPO": 0.3611785577404254,
+      "auprc_\u00daLCERA": 0.6032910683664925,
+      "auprc_EROS\u00c3O": 0.6921980599085269,
+      "auprc_MICRONODULARIDADE": 0.5733560090702947
+    },
+    {
+      "f1_macro": 0.5218050473778028,
+      "f1_micro": 0.5793650793650794,
+      "auprc_ENANTEMA": 0.5789729230802776,
+      "auprc_P\u00d3LIPO": 0.6009837615288436,
+      "auprc_\u00daLCERA": 0.7152614457215337,
+      "auprc_EROS\u00c3O": 0.6963561754499183,
+      "auprc_MICRONODULARIDADE": 0.6336152882205514
+    },
+    {
+      "f1_macro": 0.5292425946756656,
+      "f1_micro": 0.5963636363636363,
+      "auprc_ENANTEMA": 0.6292972037713079,
+      "auprc_P\u00d3LIPO": 0.5566138273491215,
+      "auprc_\u00daLCERA": 0.3741416497599233,
+      "auprc_EROS\u00c3O": 0.7248921801891405,
+      "auprc_MICRONODULARIDADE": 0.6184350918790752
+    }
+  ],
+  "M2_Inhibitory": [
+    {
+      "f1_macro": 0.5656556776556776,
+      "f1_micro": 0.6494464944649446,
+      "auprc_ENANTEMA": 0.621391320192754,
+      "auprc_P\u00d3LIPO": 0.3387757633357969,
+      "auprc_\u00daLCERA": 0.6405108832224758,
+      "auprc_EROS\u00c3O": 0.7903656331819516,
+      "auprc_MICRONODULARIDADE": 0.6514499389499389
+    },
+    {
+      "f1_macro": 0.5249809478447249,
+      "f1_micro": 0.5429553264604811,
+      "auprc_ENANTEMA": 0.4448939604738642,
+      "auprc_P\u00d3LIPO": 0.6488661581037634,
+      "auprc_\u00daLCERA": 0.6861193006495034,
+      "auprc_EROS\u00c3O": 0.6885419892169691,
+      "auprc_MICRONODULARIDADE": 0.3636982938547833
+    },
+    {
+      "f1_macro": 0.5452009562229194,
+      "f1_micro": 0.5679012345679012,
+      "auprc_ENANTEMA": 0.5829951713034367,
+      "auprc_P\u00d3LIPO": 0.2514223255365682,
+      "auprc_\u00daLCERA": 0.6068137607677639,
+      "auprc_EROS\u00c3O": 0.7168547569961623,
+      "auprc_MICRONODULARIDADE": 0.6651931401931401
+    },
+    {
+      "f1_macro": 0.476099251961321,
+      "f1_micro": 0.5482625482625483,
+      "auprc_ENANTEMA": 0.6101549379263084,
+      "auprc_P\u00d3LIPO": 0.43308084136664693,
+      "auprc_\u00daLCERA": 0.7605632874993019,
+      "auprc_EROS\u00c3O": 0.7371907221635302,
+      "auprc_MICRONODULARIDADE": 0.7204570791527313
+    },
+    {
+      "f1_macro": 0.5073071015006498,
+      "f1_micro": 0.5865724381625441,
+      "auprc_ENANTEMA": 0.6159161402851945,
+      "auprc_P\u00d3LIPO": 0.37328919372572766,
+      "auprc_\u00daLCERA": 0.4814308548117652,
+      "auprc_EROS\u00c3O": 0.769490508839806,
+      "auprc_MICRONODULARIDADE": 0.48377097540863306
+    }
+  ],
+  "M3_Semantic": [
+    {
+      "f1_macro": 0.38583830976078226,
+      "f1_micro": 0.5384615384615384,
+      "auprc_ENANTEMA": 0.3339846242731548,
+      "auprc_P\u00d3LIPO": 0.4791350269837474,
+      "auprc_\u00daLCERA": 0.3822162173910798,
+      "auprc_EROS\u00c3O": 0.6762805341209244,
+      "auprc_MICRONODULARIDADE": 0.20286192525790803
+    },
+    {
+      "f1_macro": 0.44470642625982426,
+      "f1_micro": 0.48031496062992124,
+      "auprc_ENANTEMA": 0.48107579905599995,
+      "auprc_P\u00d3LIPO": 0.44574475772717964,
+      "auprc_\u00daLCERA": 0.4846650819768972,
+      "auprc_EROS\u00c3O": 0.6203059372702621,
+      "auprc_MICRONODULARIDADE": 0.40516905817657695
+    },
+    {
+      "f1_macro": 0.5306038610335111,
+      "f1_micro": 0.5865724381625441,
+      "auprc_ENANTEMA": 0.5864214646985006,
+      "auprc_P\u00d3LIPO": 0.3903115232992373,
+      "auprc_\u00daLCERA": 0.49761794448999636,
+      "auprc_EROS\u00c3O": 0.6885355432444557,
+      "auprc_MICRONODULARIDADE": 0.4377280345440723
+    },
+    {
+      "f1_macro": 0.416050657551156,
+      "f1_micro": 0.47058823529411764,
+      "auprc_ENANTEMA": 0.5361745891831635,
+      "auprc_P\u00d3LIPO": 0.35983763227646237,
+      "auprc_\u00daLCERA": 0.576612629327491,
+      "auprc_EROS\u00c3O": 0.5927562293977023,
+      "auprc_MICRONODULARIDADE": 0.35708273208273206
+    },
+    {
+      "f1_macro": 0.5250046077953054,
+      "f1_micro": 0.6159695817490495,
+      "auprc_ENANTEMA": 0.5587846468654241,
+      "auprc_P\u00d3LIPO": 0.2889815011263418,
+      "auprc_\u00daLCERA": 0.5114846685267014,
+      "auprc_EROS\u00c3O": 0.7499712869398016,
+      "auprc_MICRONODULARIDADE": 0.4388564188419926
+    }
+  ]
+}

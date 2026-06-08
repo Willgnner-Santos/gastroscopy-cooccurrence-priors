@@ -1,0 +1,16 @@
+{
+  "labels_pt": [
+    "ENANTEMA",
+    "PÓLIPO",
+    "ÚLCERA",
+    "EROSÃO",
+    "MICRONODULARIDADE"
+  ],
+  "labels_en": [
+    "ENANTHEMA",
+    "POLYP",
+    "ULCER",
+    "EROSION",
+    "MICRONODULARITY"
+  ]
+}

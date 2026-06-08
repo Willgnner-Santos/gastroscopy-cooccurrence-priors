@@ -1,0 +1,12 @@
+{
+    "total_images": 1990,
+    "total_groups": 1990,
+    "similarity_threshold": 0.95,
+    "max_group_size": 1,
+    "mean_max_similarity": 0.8429349064826965,
+    "median_max_similarity": 0.8490306735038757,
+    "pairs_above_threshold": 0,
+    "group_size_distribution": {
+        "1": 1990
+    }
+}

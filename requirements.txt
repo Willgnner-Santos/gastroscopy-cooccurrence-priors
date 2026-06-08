@@ -1,0 +1,30 @@
+# Trilha-3: Modelagem multilabel relacional com co-ocorrência clínica
+# Python >= 3.10
+
+# Core
+numpy>=1.24
+pandas>=2.0
+scipy>=1.11
+
+# Visualization
+matplotlib>=3.7
+seaborn>=0.13
+plotly>=5.15
+
+# ML / Deep Learning
+scikit-learn>=1.3
+scikit-multilearn>=0.2.0
+torch>=2.1
+torchvision>=0.16
+
+# Image handling
+Pillow>=10.0
+opencv-python>=4.8
+
+# Jupyter
+jupyter>=1.0
+ipykernel>=6.25
+ipywidgets>=8.1
+
+# Utilities
+tqdm>=4.66

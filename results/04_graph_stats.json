@@ -1,0 +1,1034 @@
+{
+  "notebook": "04_graph_construction",
+  "description": "Label co-occurrence graphs for relational multilabel modelling ()",
+  "source_split": "fold_0_train.csv",
+  "source_split_sha256": "8cd4a9a4dccf427e8ce07066bf615635754580fe8584bb6ca29a3aede0090a2f",
+  "n_train_images": 1353,
+  "labels_pt": [
+    "ENANTEMA",
+    "PÓLIPO",
+    "ÚLCERA",
+    "EROSÃO",
+    "MICRONODULARIDADE"
+  ],
+  "labels_en": [
+    "ENANTHEMA",
+    "POLYP",
+    "ULCER",
+    "EROSION",
+    "MICRONODULARITY"
+  ],
+  "K": 5,
+  "alpha_laplace": 1.0,
+  "taus_tested": [
+    0.0,
+    0.1,
+    0.3
+  ],
+  "label_prevalence": {
+    "ENANTEMA": {
+      "count": 136,
+      "prevalence": 0.1005
+    },
+    "PÓLIPO": {
+      "count": 34,
+      "prevalence": 0.0251
+    },
+    "ÚLCERA": {
+      "count": 55,
+      "prevalence": 0.0407
+    },
+    "EROSÃO": {
+      "count": 218,
+      "prevalence": 0.1611
+    },
+    "MICRONODULARIDADE": {
+      "count": 23,
+      "prevalence": 0.017
+    }
+  },
+  "coocc_raw_upper": [
+    {
+      "i": 0,
+      "j": 1,
+      "label_i": "ENANTEMA",
+      "label_j": "PÓLIPO",
+      "n_ij": 3
+    },
+    {
+      "i": 0,
+      "j": 2,
+      "label_i": "ENANTEMA",
+      "label_j": "ÚLCERA",
+      "n_ij": 9
+    },
+    {
+      "i": 0,
+      "j": 3,
+      "label_i": "ENANTEMA",
+      "label_j": "EROSÃO",
+      "n_ij": 23
+    },
+    {
+      "i": 0,
+      "j": 4,
+      "label_i": "ENANTEMA",
+      "label_j": "MICRONODULARIDADE",
+      "n_ij": 3
+    },
+    {
+      "i": 1,
+      "j": 2,
+      "label_i": "PÓLIPO",
+      "label_j": "ÚLCERA",
+      "n_ij": 3
+    },
+    {
+      "i": 1,
+      "j": 3,
+      "label_i": "PÓLIPO",
+      "label_j": "EROSÃO",
+      "n_ij": 3
+    },
+    {
+      "i": 1,
+      "j": 4,
+      "label_i": "PÓLIPO",
+      "label_j": "MICRONODULARIDADE",
+      "n_ij": 3
+    },
+    {
+      "i": 2,
+      "j": 3,
+      "label_i": "ÚLCERA",
+      "label_j": "EROSÃO",
+      "n_ij": 14
+    },
+    {
+      "i": 2,
+      "j": 4,
+      "label_i": "ÚLCERA",
+      "label_j": "MICRONODULARIDADE",
+      "n_ij": 3
+    },
+    {
+      "i": 3,
+      "j": 4,
+      "label_i": "EROSÃO",
+      "label_j": "MICRONODULARIDADE",
+      "n_ij": 3
+    }
+  ],
+  "npmi_upper": [
+    {
+      "i": 0,
+      "j": 1,
+      "label_i": "ENANTEMA",
+      "label_j": "PÓLIPO",
+      "pmi": 0.1746,
+      "npmi": 0.0208
+    },
+    {
+      "i": 0,
+      "j": 2,
+      "label_i": "ENANTEMA",
+      "label_j": "ÚLCERA",
+      "pmi": 0.8185,
+      "npmi": 0.1155
+    },
+    {
+      "i": 0,
+      "j": 3,
+      "label_i": "ENANTEMA",
+      "label_j": "EROSÃO",
+      "pmi": 0.1141,
+      "npmi": 0.0196
+    },
+    {
+      "i": 0,
+      "j": 4,
+      "label_i": "ENANTEMA",
+      "label_j": "MICRONODULARIDADE",
+      "pmi": 0.719,
+      "npmi": 0.0855
+    },
+    {
+      "i": 1,
+      "j": 2,
+      "label_i": "PÓLIPO",
+      "label_j": "ÚLCERA",
+      "pmi": 1.4653,
+      "npmi": 0.1743
+    },
+    {
+      "i": 1,
+      "j": 3,
+      "label_i": "PÓLIPO",
+      "label_j": "EROSÃO",
+      "pmi": -0.5021,
+      "npmi": -0.0597
+    },
+    {
+      "i": 1,
+      "j": 4,
+      "label_i": "PÓLIPO",
+      "label_j": "MICRONODULARIDADE",
+      "pmi": 2.6877,
+      "npmi": 0.3197
+    },
+    {
+      "i": 2,
+      "j": 3,
+      "label_i": "ÚLCERA",
+      "label_j": "EROSÃO",
+      "pmi": 0.7267,
+      "npmi": 0.1118
+    },
+    {
+      "i": 2,
+      "j": 4,
+      "label_i": "ÚLCERA",
+      "label_j": "MICRONODULARIDADE",
+      "pmi": 2.0096,
+      "npmi": 0.2391
+    },
+    {
+      "i": 3,
+      "j": 4,
+      "label_i": "EROSÃO",
+      "label_j": "MICRONODULARIDADE",
+      "pmi": 0.0422,
+      "npmi": 0.005
+    }
+  ],
+  "clin_edges": [
+    {
+      "label_i": "ENANTEMA",
+      "label_j": "ÚLCERA",
+      "weight": 1.0,
+      "rationale": "see cell 3.1"
+    },
+    {
+      "label_i": "ÚLCERA",
+      "label_j": "EROSÃO",
+      "weight": 1.0,
+      "rationale": "see cell 3.1"
+    },
+    {
+      "label_i": "ENANTEMA",
+      "label_j": "PÓLIPO",
+      "weight": 0.5,
+      "rationale": "see cell 3.1"
+    },
+    {
+      "label_i": "ENANTEMA",
+      "label_j": "EROSÃO",
+      "weight": 0.5,
+      "rationale": "see cell 3.1"
+    },
+    {
+      "label_i": "ENANTEMA",
+      "label_j": "MICRONODULARIDADE",
+      "weight": 0.5,
+      "rationale": "see cell 3.1"
+    },
+    {
+      "label_i": "PÓLIPO",
+      "label_j": "ÚLCERA",
+      "weight": 0.5,
+      "rationale": "see cell 3.1"
+    },
+    {
+      "label_i": "PÓLIPO",
+      "label_j": "MICRONODULARIDADE",
+      "weight": 0.5,
+      "rationale": "see cell 3.1"
+    },
+    {
+      "label_i": "PÓLIPO",
+      "label_j": "EROSÃO",
+      "weight": 0.0,
+      "rationale": "see cell 3.1"
+    },
+    {
+      "label_i": "ÚLCERA",
+      "label_j": "MICRONODULARIDADE",
+      "weight": 0.0,
+      "rationale": "see cell 3.1"
+    },
+    {
+      "label_i": "EROSÃO",
+      "label_j": "MICRONODULARIDADE",
+      "weight": 0.0,
+      "rationale": "see cell 3.1"
+    }
+  ],
+  "graphs": {
+    "emp": {
+      "tau00": {
+        "tau": 0.0,
+        "n_edges": 10,
+        "density": 1.0,
+        "edges": [
+          {
+            "i": 2,
+            "j": 3,
+            "label_i": "ÚLCERA",
+            "label_j": "EROSÃO",
+            "weight": 0.254545
+          },
+          {
+            "i": 0,
+            "j": 3,
+            "label_i": "ENANTEMA",
+            "label_j": "EROSÃO",
+            "weight": 0.169118
+          },
+          {
+            "i": 1,
+            "j": 2,
+            "label_i": "PÓLIPO",
+            "label_j": "ÚLCERA",
+            "weight": 0.088235
+          },
+          {
+            "i": 1,
+            "j": 3,
+            "label_i": "PÓLIPO",
+            "label_j": "EROSÃO",
+            "weight": 0.088235
+          },
+          {
+            "i": 1,
+            "j": 4,
+            "label_i": "PÓLIPO",
+            "label_j": "MICRONODULARIDADE",
+            "weight": 0.088235
+          },
+          {
+            "i": 0,
+            "j": 2,
+            "label_i": "ENANTEMA",
+            "label_j": "ÚLCERA",
+            "weight": 0.066176
+          },
+          {
+            "i": 2,
+            "j": 4,
+            "label_i": "ÚLCERA",
+            "label_j": "MICRONODULARIDADE",
+            "weight": 0.054545
+          },
+          {
+            "i": 0,
+            "j": 1,
+            "label_i": "ENANTEMA",
+            "label_j": "PÓLIPO",
+            "weight": 0.022059
+          },
+          {
+            "i": 0,
+            "j": 4,
+            "label_i": "ENANTEMA",
+            "label_j": "MICRONODULARIDADE",
+            "weight": 0.022059
+          },
+          {
+            "i": 3,
+            "j": 4,
+            "label_i": "EROSÃO",
+            "label_j": "MICRONODULARIDADE",
+            "weight": 0.013761
+          }
+        ]
+      },
+      "tau01": {
+        "tau": 0.1,
+        "n_edges": 4,
+        "density": 0.4,
+        "edges": [
+          {
+            "i": 2,
+            "j": 3,
+            "label_i": "ÚLCERA",
+            "label_j": "EROSÃO",
+            "weight": 0.254545
+          },
+          {
+            "i": 0,
+            "j": 3,
+            "label_i": "ENANTEMA",
+            "label_j": "EROSÃO",
+            "weight": 0.169118
+          }
+        ]
+      },
+      "tau03": {
+        "tau": 0.3,
+        "n_edges": 0,
+        "density": 0.0,
+        "edges": []
+      }
+    },
+    "pmi": {
+      "tau00": {
+        "tau": 0.0,
+        "n_edges": 9,
+        "density": 0.9,
+        "edges": [
+          {
+            "i": 1,
+            "j": 4,
+            "label_i": "PÓLIPO",
+            "label_j": "MICRONODULARIDADE",
+            "weight": 0.3197
+          },
+          {
+            "i": 2,
+            "j": 4,
+            "label_i": "ÚLCERA",
+            "label_j": "MICRONODULARIDADE",
+            "weight": 0.2391
+          },
+          {
+            "i": 1,
+            "j": 2,
+            "label_i": "PÓLIPO",
+            "label_j": "ÚLCERA",
+            "weight": 0.1743
+          },
+          {
+            "i": 0,
+            "j": 2,
+            "label_i": "ENANTEMA",
+            "label_j": "ÚLCERA",
+            "weight": 0.1155
+          },
+          {
+            "i": 2,
+            "j": 3,
+            "label_i": "ÚLCERA",
+            "label_j": "EROSÃO",
+            "weight": 0.1118
+          },
+          {
+            "i": 0,
+            "j": 4,
+            "label_i": "ENANTEMA",
+            "label_j": "MICRONODULARIDADE",
+            "weight": 0.0855
+          },
+          {
+            "i": 0,
+            "j": 1,
+            "label_i": "ENANTEMA",
+            "label_j": "PÓLIPO",
+            "weight": 0.0208
+          },
+          {
+            "i": 0,
+            "j": 3,
+            "label_i": "ENANTEMA",
+            "label_j": "EROSÃO",
+            "weight": 0.0196
+          },
+          {
+            "i": 3,
+            "j": 4,
+            "label_i": "EROSÃO",
+            "label_j": "MICRONODULARIDADE",
+            "weight": 0.005
+          }
+        ]
+      },
+      "tau01": {
+        "tau": 0.1,
+        "n_edges": 5,
+        "density": 0.5,
+        "edges": [
+          {
+            "i": 1,
+            "j": 4,
+            "label_i": "PÓLIPO",
+            "label_j": "MICRONODULARIDADE",
+            "weight": 0.3197
+          },
+          {
+            "i": 2,
+            "j": 4,
+            "label_i": "ÚLCERA",
+            "label_j": "MICRONODULARIDADE",
+            "weight": 0.2391
+          },
+          {
+            "i": 1,
+            "j": 2,
+            "label_i": "PÓLIPO",
+            "label_j": "ÚLCERA",
+            "weight": 0.1743
+          },
+          {
+            "i": 0,
+            "j": 2,
+            "label_i": "ENANTEMA",
+            "label_j": "ÚLCERA",
+            "weight": 0.1155
+          },
+          {
+            "i": 2,
+            "j": 3,
+            "label_i": "ÚLCERA",
+            "label_j": "EROSÃO",
+            "weight": 0.1118
+          }
+        ]
+      },
+      "tau03": {
+        "tau": 0.3,
+        "n_edges": 1,
+        "density": 0.1,
+        "edges": [
+          {
+            "i": 1,
+            "j": 4,
+            "label_i": "PÓLIPO",
+            "label_j": "MICRONODULARIDADE",
+            "weight": 0.3197
+          }
+        ]
+      }
+    },
+    "clin": {
+      "tau00": {
+        "tau": 0.0,
+        "n_edges": 7,
+        "density": 0.7,
+        "edges": [
+          {
+            "i": 0,
+            "j": 2,
+            "label_i": "ENANTEMA",
+            "label_j": "ÚLCERA",
+            "weight": 1.0
+          },
+          {
+            "i": 2,
+            "j": 3,
+            "label_i": "ÚLCERA",
+            "label_j": "EROSÃO",
+            "weight": 1.0
+          },
+          {
+            "i": 0,
+            "j": 1,
+            "label_i": "ENANTEMA",
+            "label_j": "PÓLIPO",
+            "weight": 0.5
+          },
+          {
+            "i": 0,
+            "j": 3,
+            "label_i": "ENANTEMA",
+            "label_j": "EROSÃO",
+            "weight": 0.5
+          },
+          {
+            "i": 0,
+            "j": 4,
+            "label_i": "ENANTEMA",
+            "label_j": "MICRONODULARIDADE",
+            "weight": 0.5
+          },
+          {
+            "i": 1,
+            "j": 2,
+            "label_i": "PÓLIPO",
+            "label_j": "ÚLCERA",
+            "weight": 0.5
+          },
+          {
+            "i": 1,
+            "j": 4,
+            "label_i": "PÓLIPO",
+            "label_j": "MICRONODULARIDADE",
+            "weight": 0.5
+          }
+        ]
+      },
+      "tau01": {
+        "tau": 0.1,
+        "n_edges": 7,
+        "density": 0.7,
+        "edges": [
+          {
+            "i": 0,
+            "j": 2,
+            "label_i": "ENANTEMA",
+            "label_j": "ÚLCERA",
+            "weight": 1.0
+          },
+          {
+            "i": 2,
+            "j": 3,
+            "label_i": "ÚLCERA",
+            "label_j": "EROSÃO",
+            "weight": 1.0
+          },
+          {
+            "i": 0,
+            "j": 1,
+            "label_i": "ENANTEMA",
+            "label_j": "PÓLIPO",
+            "weight": 0.5
+          },
+          {
+            "i": 0,
+            "j": 3,
+            "label_i": "ENANTEMA",
+            "label_j": "EROSÃO",
+            "weight": 0.5
+          },
+          {
+            "i": 0,
+            "j": 4,
+            "label_i": "ENANTEMA",
+            "label_j": "MICRONODULARIDADE",
+            "weight": 0.5
+          },
+          {
+            "i": 1,
+            "j": 2,
+            "label_i": "PÓLIPO",
+            "label_j": "ÚLCERA",
+            "weight": 0.5
+          },
+          {
+            "i": 1,
+            "j": 4,
+            "label_i": "PÓLIPO",
+            "label_j": "MICRONODULARIDADE",
+            "weight": 0.5
+          }
+        ]
+      },
+      "tau03": {
+        "tau": 0.3,
+        "n_edges": 7,
+        "density": 0.7,
+        "edges": [
+          {
+            "i": 0,
+            "j": 2,
+            "label_i": "ENANTEMA",
+            "label_j": "ÚLCERA",
+            "weight": 1.0
+          },
+          {
+            "i": 2,
+            "j": 3,
+            "label_i": "ÚLCERA",
+            "label_j": "EROSÃO",
+            "weight": 1.0
+          },
+          {
+            "i": 0,
+            "j": 1,
+            "label_i": "ENANTEMA",
+            "label_j": "PÓLIPO",
+            "weight": 0.5
+          },
+          {
+            "i": 0,
+            "j": 3,
+            "label_i": "ENANTEMA",
+            "label_j": "EROSÃO",
+            "weight": 0.5
+          },
+          {
+            "i": 0,
+            "j": 4,
+            "label_i": "ENANTEMA",
+            "label_j": "MICRONODULARIDADE",
+            "weight": 0.5
+          },
+          {
+            "i": 1,
+            "j": 2,
+            "label_i": "PÓLIPO",
+            "label_j": "ÚLCERA",
+            "weight": 0.5
+          },
+          {
+            "i": 1,
+            "j": 4,
+            "label_i": "PÓLIPO",
+            "label_j": "MICRONODULARIDADE",
+            "weight": 0.5
+          }
+        ]
+      }
+    }
+  },
+  "export_log": {
+    "fold0/emp_tau00": {
+      "fold": 0,
+      "variant": "emp",
+      "tau": 0.0,
+      "n_edges": 10,
+      "density": 1.0,
+      "path": "/workspace\\graphs\\fold0\\emp_tau00"
+    },
+    "fold0/emp_tau01": {
+      "fold": 0,
+      "variant": "emp",
+      "tau": 0.1,
+      "n_edges": 4,
+      "density": 0.4,
+      "path": "/workspace\\graphs\\fold0\\emp_tau01"
+    },
+    "fold0/emp_tau03": {
+      "fold": 0,
+      "variant": "emp",
+      "tau": 0.3,
+      "n_edges": 0,
+      "density": 0.0,
+      "path": "/workspace\\graphs\\fold0\\emp_tau03"
+    },
+    "fold0/pmi_tau00": {
+      "fold": 0,
+      "variant": "pmi",
+      "tau": 0.0,
+      "n_edges": 9,
+      "density": 0.9,
+      "path": "/workspace\\graphs\\fold0\\pmi_tau00"
+    },
+    "fold0/pmi_tau01": {
+      "fold": 0,
+      "variant": "pmi",
+      "tau": 0.1,
+      "n_edges": 5,
+      "density": 0.5,
+      "path": "/workspace\\graphs\\fold0\\pmi_tau01"
+    },
+    "fold0/pmi_tau03": {
+      "fold": 0,
+      "variant": "pmi",
+      "tau": 0.3,
+      "n_edges": 1,
+      "density": 0.1,
+      "path": "/workspace\\graphs\\fold0\\pmi_tau03"
+    },
+    "fold0/clin_tau00": {
+      "fold": 0,
+      "variant": "clin",
+      "tau": 0.0,
+      "n_edges": 7,
+      "density": 0.7,
+      "path": "/workspace\\graphs\\fold0\\clin_tau00"
+    },
+    "fold0/clin_tau01": {
+      "fold": 0,
+      "variant": "clin",
+      "tau": 0.1,
+      "n_edges": 7,
+      "density": 0.7,
+      "path": "/workspace\\graphs\\fold0\\clin_tau01"
+    },
+    "fold0/clin_tau03": {
+      "fold": 0,
+      "variant": "clin",
+      "tau": 0.3,
+      "n_edges": 7,
+      "density": 0.7,
+      "path": "/workspace\\graphs\\fold0\\clin_tau03"
+    },
+    "fold1/emp_tau00": {
+      "fold": 1,
+      "variant": "emp",
+      "tau": 0.0,
+      "n_edges": 10,
+      "density": 1.0,
+      "path": "/workspace\\graphs\\fold1\\emp_tau00"
+    },
+    "fold1/emp_tau01": {
+      "fold": 1,
+      "variant": "emp",
+      "tau": 0.1,
+      "n_edges": 4,
+      "density": 0.4,
+      "path": "/workspace\\graphs\\fold1\\emp_tau01"
+    },
+    "fold1/emp_tau03": {
+      "fold": 1,
+      "variant": "emp",
+      "tau": 0.3,
+      "n_edges": 0,
+      "density": 0.0,
+      "path": "/workspace\\graphs\\fold1\\emp_tau03"
+    },
+    "fold1/pmi_tau00": {
+      "fold": 1,
+      "variant": "pmi",
+      "tau": 0.0,
+      "n_edges": 9,
+      "density": 0.9,
+      "path": "/workspace\\graphs\\fold1\\pmi_tau00"
+    },
+    "fold1/pmi_tau01": {
+      "fold": 1,
+      "variant": "pmi",
+      "tau": 0.1,
+      "n_edges": 4,
+      "density": 0.4,
+      "path": "/workspace\\graphs\\fold1\\pmi_tau01"
+    },
+    "fold1/pmi_tau03": {
+      "fold": 1,
+      "variant": "pmi",
+      "tau": 0.3,
+      "n_edges": 1,
+      "density": 0.1,
+      "path": "/workspace\\graphs\\fold1\\pmi_tau03"
+    },
+    "fold1/clin_tau00": {
+      "fold": 1,
+      "variant": "clin",
+      "tau": 0.0,
+      "n_edges": 7,
+      "density": 0.7,
+      "path": "/workspace\\graphs\\fold1\\clin_tau00"
+    },
+    "fold1/clin_tau01": {
+      "fold": 1,
+      "variant": "clin",
+      "tau": 0.1,
+      "n_edges": 7,
+      "density": 0.7,
+      "path": "/workspace\\graphs\\fold1\\clin_tau01"
+    },
+    "fold1/clin_tau03": {
+      "fold": 1,
+      "variant": "clin",
+      "tau": 0.3,
+      "n_edges": 7,
+      "density": 0.7,
+      "path": "/workspace\\graphs\\fold1\\clin_tau03"
+    },
+    "fold2/emp_tau00": {
+      "fold": 2,
+      "variant": "emp",
+      "tau": 0.0,
+      "n_edges": 10,
+      "density": 1.0,
+      "path": "/workspace\\graphs\\fold2\\emp_tau00"
+    },
+    "fold2/emp_tau01": {
+      "fold": 2,
+      "variant": "emp",
+      "tau": 0.1,
+      "n_edges": 4,
+      "density": 0.4,
+      "path": "/workspace\\graphs\\fold2\\emp_tau01"
+    },
+    "fold2/emp_tau03": {
+      "fold": 2,
+      "variant": "emp",
+      "tau": 0.3,
+      "n_edges": 0,
+      "density": 0.0,
+      "path": "/workspace\\graphs\\fold2\\emp_tau03"
+    },
+    "fold2/pmi_tau00": {
+      "fold": 2,
+      "variant": "pmi",
+      "tau": 0.0,
+      "n_edges": 9,
+      "density": 0.9,
+      "path": "/workspace\\graphs\\fold2\\pmi_tau00"
+    },
+    "fold2/pmi_tau01": {
+      "fold": 2,
+      "variant": "pmi",
+      "tau": 0.1,
+      "n_edges": 5,
+      "density": 0.5,
+      "path": "/workspace\\graphs\\fold2\\pmi_tau01"
+    },
+    "fold2/pmi_tau03": {
+      "fold": 2,
+      "variant": "pmi",
+      "tau": 0.3,
+      "n_edges": 1,
+      "density": 0.1,
+      "path": "/workspace\\graphs\\fold2\\pmi_tau03"
+    },
+    "fold2/clin_tau00": {
+      "fold": 2,
+      "variant": "clin",
+      "tau": 0.0,
+      "n_edges": 7,
+      "density": 0.7,
+      "path": "/workspace\\graphs\\fold2\\clin_tau00"
+    },
+    "fold2/clin_tau01": {
+      "fold": 2,
+      "variant": "clin",
+      "tau": 0.1,
+      "n_edges": 7,
+      "density": 0.7,
+      "path": "/workspace\\graphs\\fold2\\clin_tau01"
+    },
+    "fold2/clin_tau03": {
+      "fold": 2,
+      "variant": "clin",
+      "tau": 0.3,
+      "n_edges": 7,
+      "density": 0.7,
+      "path": "/workspace\\graphs\\fold2\\clin_tau03"
+    },
+    "fold3/emp_tau00": {
+      "fold": 3,
+      "variant": "emp",
+      "tau": 0.0,
+      "n_edges": 10,
+      "density": 1.0,
+      "path": "/workspace\\graphs\\fold3\\emp_tau00"
+    },
+    "fold3/emp_tau01": {
+      "fold": 3,
+      "variant": "emp",
+      "tau": 0.1,
+      "n_edges": 2,
+      "density": 0.2,
+      "path": "/workspace\\graphs\\fold3\\emp_tau01"
+    },
+    "fold3/emp_tau03": {
+      "fold": 3,
+      "variant": "emp",
+      "tau": 0.3,
+      "n_edges": 0,
+      "density": 0.0,
+      "path": "/workspace\\graphs\\fold3\\emp_tau03"
+    },
+    "fold3/pmi_tau00": {
+      "fold": 3,
+      "variant": "pmi",
+      "tau": 0.0,
+      "n_edges": 7,
+      "density": 0.7,
+      "path": "/workspace\\graphs\\fold3\\pmi_tau00"
+    },
+    "fold3/pmi_tau01": {
+      "fold": 3,
+      "variant": "pmi",
+      "tau": 0.1,
+      "n_edges": 4,
+      "density": 0.4,
+      "path": "/workspace\\graphs\\fold3\\pmi_tau01"
+    },
+    "fold3/pmi_tau03": {
+      "fold": 3,
+      "variant": "pmi",
+      "tau": 0.3,
+      "n_edges": 0,
+      "density": 0.0,
+      "path": "/workspace\\graphs\\fold3\\pmi_tau03"
+    },
+    "fold3/clin_tau00": {
+      "fold": 3,
+      "variant": "clin",
+      "tau": 0.0,
+      "n_edges": 7,
+      "density": 0.7,
+      "path": "/workspace\\graphs\\fold3\\clin_tau00"
+    },
+    "fold3/clin_tau01": {
+      "fold": 3,
+      "variant": "clin",
+      "tau": 0.1,
+      "n_edges": 7,
+      "density": 0.7,
+      "path": "/workspace\\graphs\\fold3\\clin_tau01"
+    },
+    "fold3/clin_tau03": {
+      "fold": 3,
+      "variant": "clin",
+      "tau": 0.3,
+      "n_edges": 7,
+      "density": 0.7,
+      "path": "/workspace\\graphs\\fold3\\clin_tau03"
+    },
+    "fold4/emp_tau00": {
+      "fold": 4,
+      "variant": "emp",
+      "tau": 0.0,
+      "n_edges": 10,
+      "density": 1.0,
+      "path": "/workspace\\graphs\\fold4\\emp_tau00"
+    },
+    "fold4/emp_tau01": {
+      "fold": 4,
+      "variant": "emp",
+      "tau": 0.1,
+      "n_edges": 4,
+      "density": 0.4,
+      "path": "/workspace\\graphs\\fold4\\emp_tau01"
+    },
+    "fold4/emp_tau03": {
+      "fold": 4,
+      "variant": "emp",
+      "tau": 0.3,
+      "n_edges": 0,
+      "density": 0.0,
+      "path": "/workspace\\graphs\\fold4\\emp_tau03"
+    },
+    "fold4/pmi_tau00": {
+      "fold": 4,
+      "variant": "pmi",
+      "tau": 0.0,
+      "n_edges": 9,
+      "density": 0.9,
+      "path": "/workspace\\graphs\\fold4\\pmi_tau00"
+    },
+    "fold4/pmi_tau01": {
+      "fold": 4,
+      "variant": "pmi",
+      "tau": 0.1,
+      "n_edges": 4,
+      "density": 0.4,
+      "path": "/workspace\\graphs\\fold4\\pmi_tau01"
+    },
+    "fold4/pmi_tau03": {
+      "fold": 4,
+      "variant": "pmi",
+      "tau": 0.3,
+      "n_edges": 1,
+      "density": 0.1,
+      "path": "/workspace\\graphs\\fold4\\pmi_tau03"
+    },
+    "fold4/clin_tau00": {
+      "fold": 4,
+      "variant": "clin",
+      "tau": 0.0,
+      "n_edges": 7,
+      "density": 0.7,
+      "path": "/workspace\\graphs\\fold4\\clin_tau00"
+    },
+    "fold4/clin_tau01": {
+      "fold": 4,
+      "variant": "clin",
+      "tau": 0.1,
+      "n_edges": 7,
+      "density": 0.7,
+      "path": "/workspace\\graphs\\fold4\\clin_tau01"
+    },
+    "fold4/clin_tau03": {
+      "fold": 4,
+      "variant": "clin",
+      "tau": 0.3,
+      "n_edges": 7,
+      "density": 0.7,
+      "path": "/workspace\\graphs\\fold4\\clin_tau03"
+    }
+  }
+}

@@ -1,0 +1,2556 @@
+{
+  "metadata": {
+    "notebook": "05_relational_models",
+    "folds": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "core_labels": [
+      "ENANTEMA",
+      "PÓLIPO",
+      "ÚLCERA",
+      "EROSÃO",
+      "MICRONODULARIDADE"
+    ],
+    "batch_size": 32,
+    "epochs_max": 50,
+    "lr_backbone": 0.0001,
+    "lr_head": 0.001,
+    "early_stopping_patience": 10,
+    "lambda_coo_m2": 0.3,
+    "gcn_hidden": 256,
+    "best_m3_config": "clin_tau01"
+  },
+  "M0_anchor": {
+    "f1_macro": {
+      "mean": 0.5171,
+      "std": 0.0449
+    },
+    "f1_micro": {
+      "mean": 0.5784,
+      "std": 0.0172
+    },
+    "hamming": {
+      "mean": 0.0632,
+      "std": 0.0054
+    },
+    "f1_macro_multilabel": {
+      "mean": 0.4417,
+      "std": 0.1021
+    },
+    "f1_ENANTEMA": {
+      "mean": 0.5378,
+      "std": 0.0375
+    },
+    "f1_PÓLIPO": {
+      "mean": 0.5065,
+      "std": 0.1095
+    },
+    "f1_ÚLCERA": {
+      "mean": 0.52,
+      "std": 0.1009
+    },
+    "f1_EROSÃO": {
+      "mean": 0.6702,
+      "std": 0.0201
+    },
+    "f1_MICRONODULARIDADE": {
+      "mean": 0.3513,
+      "std": 0.1845
+    },
+    "auprc_ENANTEMA": {
+      "mean": 0.5682,
+      "std": 0.0646
+    },
+    "auprc_PÓLIPO": {
+      "mean": 0.5588,
+      "std": 0.0866
+    },
+    "auprc_ÚLCERA": {
+      "mean": 0.5628,
+      "std": 0.0896
+    },
+    "auprc_EROSÃO": {
+      "mean": 0.7348,
+      "std": 0.0308
+    },
+    "auprc_MICRONODULARIDADE": {
+      "mean": 0.4943,
+      "std": 0.1745
+    }
+  },
+  "M1_CC": {
+    "per_seed": {
+      "0": {
+        "test_metrics": {
+          "f1_ENANTEMA": 0.6133,
+          "prec_ENANTEMA": 0.6571,
+          "rec_ENANTEMA": 0.575,
+          "auprc_ENANTEMA": 0.6236,
+          "f1_PÓLIPO": 0.3333,
+          "prec_PÓLIPO": 0.375,
+          "rec_PÓLIPO": 0.3,
+          "auprc_PÓLIPO": 0.3588,
+          "f1_ÚLCERA": 0.5185,
+          "prec_ÚLCERA": 0.6364,
+          "rec_ÚLCERA": 0.4375,
+          "auprc_ÚLCERA": 0.5865,
+          "f1_EROSÃO": 0.6763,
+          "prec_EROSÃO": 0.6267,
+          "rec_EROSÃO": 0.7344,
+          "auprc_EROSÃO": 0.7845,
+          "f1_MICRONODULARIDADE": 0.4,
+          "prec_MICRONODULARIDADE": 0.6667,
+          "rec_MICRONODULARIDADE": 0.2857,
+          "auprc_MICRONODULARIDADE": 0.4527,
+          "f1_macro": 0.5083,
+          "f1_micro": 0.6097,
+          "hamming": 0.0528,
+          "f1_macro_multilabel": 0.3582,
+          "n_multilabel_images": 11
+        },
+        "thresholds": {
+          "ENANTEMA": 0.45,
+          "PÓLIPO": 0.2,
+          "ÚLCERA": 0.45,
+          "EROSÃO": 0.3,
+          "MICRONODULARIDADE": 0.1
+        }
+      },
+      "1": {
+        "test_metrics": {
+          "f1_ENANTEMA": 0.4054,
+          "prec_ENANTEMA": 0.4412,
+          "rec_ENANTEMA": 0.375,
+          "auprc_ENANTEMA": 0.4422,
+          "f1_PÓLIPO": 0.5455,
+          "prec_PÓLIPO": 0.5,
+          "rec_PÓLIPO": 0.6,
+          "auprc_PÓLIPO": 0.5592,
+          "f1_ÚLCERA": 0.6,
+          "prec_ÚLCERA": 0.6429,
+          "rec_ÚLCERA": 0.5625,
+          "auprc_ÚLCERA": 0.475,
+          "f1_EROSÃO": 0.6613,
+          "prec_EROSÃO": 0.6949,
+          "rec_EROSÃO": 0.6308,
+          "auprc_EROSÃO": 0.7155,
+          "f1_MICRONODULARIDADE": 0.3077,
+          "prec_MICRONODULARIDADE": 0.3333,
+          "rec_MICRONODULARIDADE": 0.2857,
+          "auprc_MICRONODULARIDADE": 0.307,
+          "f1_macro": 0.504,
+          "f1_micro": 0.5551,
+          "hamming": 0.0588,
+          "f1_macro_multilabel": 0.3472,
+          "n_multilabel_images": 11
+        },
+        "thresholds": {
+          "ENANTEMA": 0.3,
+          "PÓLIPO": 0.3,
+          "ÚLCERA": 0.1,
+          "EROSÃO": 0.75,
+          "MICRONODULARIDADE": 0.1
+        }
+      },
+      "2": {
+        "test_metrics": {
+          "f1_ENANTEMA": 0.5352,
+          "prec_ENANTEMA": 0.6129,
+          "rec_ENANTEMA": 0.475,
+          "auprc_ENANTEMA": 0.5784,
+          "f1_PÓLIPO": 0.4762,
+          "prec_PÓLIPO": 0.4545,
+          "rec_PÓLIPO": 0.5,
+          "auprc_PÓLIPO": 0.4968,
+          "f1_ÚLCERA": 0.5532,
+          "prec_ÚLCERA": 0.4194,
+          "rec_ÚLCERA": 0.8125,
+          "auprc_ÚLCERA": 0.6741,
+          "f1_EROSÃO": 0.6857,
+          "prec_EROSÃO": 0.6316,
+          "rec_EROSÃO": 0.75,
+          "auprc_EROSÃO": 0.7476,
+          "f1_MICRONODULARIDADE": 0.5455,
+          "prec_MICRONODULARIDADE": 0.75,
+          "rec_MICRONODULARIDADE": 0.4286,
+          "auprc_MICRONODULARIDADE": 0.5436,
+          "f1_macro": 0.5592,
+          "f1_micro": 0.6069,
+          "hamming": 0.0573,
+          "f1_macro_multilabel": 0.4489,
+          "n_multilabel_images": 11
+        },
+        "thresholds": {
+          "ENANTEMA": 0.7,
+          "PÓLIPO": 0.1,
+          "ÚLCERA": 0.15,
+          "EROSÃO": 0.2,
+          "MICRONODULARIDADE": 0.1
+        }
+      },
+      "3": {
+        "test_metrics": {
+          "f1_ENANTEMA": 0.4865,
+          "prec_ENANTEMA": 0.5294,
+          "rec_ENANTEMA": 0.45,
+          "auprc_ENANTEMA": 0.6012,
+          "f1_PÓLIPO": 0.5714,
+          "prec_PÓLIPO": 1.0,
+          "rec_PÓLIPO": 0.4,
+          "auprc_PÓLIPO": 0.5426,
+          "f1_ÚLCERA": 0.5,
+          "prec_ÚLCERA": 0.75,
+          "rec_ÚLCERA": 0.375,
+          "auprc_ÚLCERA": 0.6631,
+          "f1_EROSÃO": 0.6508,
+          "prec_EROSÃO": 0.6613,
+          "rec_EROSÃO": 0.6406,
+          "auprc_EROSÃO": 0.6895,
+          "f1_MICRONODULARIDADE": 0.5,
+          "prec_MICRONODULARIDADE": 1.0,
+          "rec_MICRONODULARIDADE": 0.3333,
+          "auprc_MICRONODULARIDADE": 0.6371,
+          "f1_macro": 0.5417,
+          "f1_micro": 0.5772,
+          "hamming": 0.0523,
+          "f1_macro_multilabel": 0.4031,
+          "n_multilabel_images": 12
+        },
+        "thresholds": {
+          "ENANTEMA": 0.1,
+          "PÓLIPO": 0.4,
+          "ÚLCERA": 0.75,
+          "EROSÃO": 0.6,
+          "MICRONODULARIDADE": 0.5
+        }
+      },
+      "4": {
+        "test_metrics": {
+          "f1_ENANTEMA": 0.4516,
+          "prec_ENANTEMA": 0.6364,
+          "rec_ENANTEMA": 0.35,
+          "auprc_ENANTEMA": 0.5727,
+          "f1_PÓLIPO": 0.75,
+          "prec_PÓLIPO": 1.0,
+          "rec_PÓLIPO": 0.6,
+          "auprc_PÓLIPO": 0.6926,
+          "f1_ÚLCERA": 0.3846,
+          "prec_ÚLCERA": 0.5556,
+          "rec_ÚLCERA": 0.2941,
+          "auprc_ÚLCERA": 0.4363,
+          "f1_EROSÃO": 0.6491,
+          "prec_EROSÃO": 0.74,
+          "rec_EROSÃO": 0.5781,
+          "auprc_EROSÃO": 0.7401,
+          "f1_MICRONODULARIDADE": 0.1667,
+          "prec_MICRONODULARIDADE": 0.2,
+          "rec_MICRONODULARIDADE": 0.1429,
+          "auprc_MICRONODULARIDADE": 0.2816,
+          "f1_macro": 0.4804,
+          "f1_micro": 0.5478,
+          "hamming": 0.0523,
+          "f1_macro_multilabel": 0.2793,
+          "n_multilabel_images": 13
+        },
+        "thresholds": {
+          "ENANTEMA": 0.7,
+          "PÓLIPO": 0.15,
+          "ÚLCERA": 0.75,
+          "EROSÃO": 0.75,
+          "MICRONODULARIDADE": 0.1
+        }
+      }
+    },
+    "aggregated": {
+      "f1_macro": {
+        "mean": 0.5187,
+        "std": 0.0281
+      },
+      "f1_micro": {
+        "mean": 0.5793,
+        "std": 0.0256
+      },
+      "hamming": {
+        "mean": 0.0547,
+        "std": 0.0028
+      },
+      "f1_macro_multilabel": {
+        "mean": 0.3673,
+        "std": 0.0569
+      },
+      "f1_ENANTEMA": {
+        "mean": 0.4984,
+        "std": 0.0715
+      },
+      "f1_PÓLIPO": {
+        "mean": 0.5353,
+        "std": 0.1355
+      },
+      "f1_ÚLCERA": {
+        "mean": 0.5113,
+        "std": 0.0719
+      },
+      "f1_EROSÃO": {
+        "mean": 0.6646,
+        "std": 0.0143
+      },
+      "f1_MICRONODULARIDADE": {
+        "mean": 0.384,
+        "std": 0.1363
+      },
+      "auprc_ENANTEMA": {
+        "mean": 0.5636,
+        "std": 0.0633
+      },
+      "auprc_PÓLIPO": {
+        "mean": 0.53,
+        "std": 0.1076
+      },
+      "auprc_ÚLCERA": {
+        "mean": 0.567,
+        "std": 0.0966
+      },
+      "auprc_EROSÃO": {
+        "mean": 0.7354,
+        "std": 0.0319
+      },
+      "auprc_MICRONODULARIDADE": {
+        "mean": 0.4444,
+        "std": 0.136
+      }
+    }
+  },
+  "M2_coo": {
+    "per_seed": {
+      "0": {
+        "test_metrics": {
+          "f1_ENANTEMA": 0.6098,
+          "prec_ENANTEMA": 0.5952,
+          "rec_ENANTEMA": 0.625,
+          "auprc_ENANTEMA": 0.6634,
+          "f1_PÓLIPO": 0.6667,
+          "prec_PÓLIPO": 0.5714,
+          "rec_PÓLIPO": 0.8,
+          "auprc_PÓLIPO": 0.7793,
+          "f1_ÚLCERA": 0.5926,
+          "prec_ÚLCERA": 0.7273,
+          "rec_ÚLCERA": 0.5,
+          "auprc_ÚLCERA": 0.6709,
+          "f1_EROSÃO": 0.7101,
+          "prec_EROSÃO": 0.6622,
+          "rec_EROSÃO": 0.7656,
+          "auprc_EROSÃO": 0.7799,
+          "f1_MICRONODULARIDADE": 0.4286,
+          "prec_MICRONODULARIDADE": 0.4286,
+          "rec_MICRONODULARIDADE": 0.4286,
+          "auprc_MICRONODULARIDADE": 0.4693,
+          "f1_macro": 0.6015,
+          "f1_micro": 0.6526,
+          "hamming": 0.0497,
+          "f1_macro_multilabel": 0.3405,
+          "n_multilabel_images": 11
+        },
+        "thresholds": {
+          "ENANTEMA": 0.55,
+          "PÓLIPO": 0.7,
+          "ÚLCERA": 0.75,
+          "EROSÃO": 0.75,
+          "MICRONODULARIDADE": 0.7
+        },
+        "best_epoch": 33,
+        "val_f1_macro": 0.489
+      },
+      "1": {
+        "test_metrics": {
+          "f1_ENANTEMA": 0.4368,
+          "prec_ENANTEMA": 0.4043,
+          "rec_ENANTEMA": 0.475,
+          "auprc_ENANTEMA": 0.4858,
+          "f1_PÓLIPO": 0.5926,
+          "prec_PÓLIPO": 0.4706,
+          "rec_PÓLIPO": 0.8,
+          "auprc_PÓLIPO": 0.7788,
+          "f1_ÚLCERA": 0.5,
+          "prec_ÚLCERA": 0.5833,
+          "rec_ÚLCERA": 0.4375,
+          "auprc_ÚLCERA": 0.6111,
+          "f1_EROSÃO": 0.5983,
+          "prec_EROSÃO": 0.6731,
+          "rec_EROSÃO": 0.5385,
+          "auprc_EROSÃO": 0.7043,
+          "f1_MICRONODULARIDADE": 0.2609,
+          "prec_MICRONODULARIDADE": 0.1875,
+          "rec_MICRONODULARIDADE": 0.4286,
+          "auprc_MICRONODULARIDADE": 0.3891,
+          "f1_macro": 0.4777,
+          "f1_micro": 0.5106,
+          "hamming": 0.0693,
+          "f1_macro_multilabel": 0.2456,
+          "n_multilabel_images": 11
+        },
+        "thresholds": {
+          "ENANTEMA": 0.6,
+          "PÓLIPO": 0.6,
+          "ÚLCERA": 0.75,
+          "EROSÃO": 0.9,
+          "MICRONODULARIDADE": 0.25
+        },
+        "best_epoch": 32,
+        "val_f1_macro": 0.5728
+      },
+      "2": {
+        "test_metrics": {
+          "f1_ENANTEMA": 0.487,
+          "prec_ENANTEMA": 0.3733,
+          "rec_ENANTEMA": 0.7,
+          "auprc_ENANTEMA": 0.6007,
+          "f1_PÓLIPO": 0.56,
+          "prec_PÓLIPO": 0.4667,
+          "rec_PÓLIPO": 0.7,
+          "auprc_PÓLIPO": 0.4831,
+          "f1_ÚLCERA": 0.6471,
+          "prec_ÚLCERA": 0.6111,
+          "rec_ÚLCERA": 0.6875,
+          "auprc_ÚLCERA": 0.6731,
+          "f1_EROSÃO": 0.5736,
+          "prec_EROSÃO": 0.5692,
+          "rec_EROSÃO": 0.5781,
+          "auprc_EROSÃO": 0.6146,
+          "f1_MICRONODULARIDADE": 0.5,
+          "prec_MICRONODULARIDADE": 0.6,
+          "rec_MICRONODULARIDADE": 0.4286,
+          "auprc_MICRONODULARIDADE": 0.5889,
+          "f1_macro": 0.5535,
+          "f1_micro": 0.546,
+          "hamming": 0.0719,
+          "f1_macro_multilabel": 0.4288,
+          "n_multilabel_images": 11
+        },
+        "thresholds": {
+          "ENANTEMA": 0.5,
+          "PÓLIPO": 0.9,
+          "ÚLCERA": 0.9,
+          "EROSÃO": 0.9,
+          "MICRONODULARIDADE": 0.8
+        },
+        "best_epoch": 17,
+        "val_f1_macro": 0.4736
+      },
+      "3": {
+        "test_metrics": {
+          "f1_ENANTEMA": 0.4634,
+          "prec_ENANTEMA": 0.4524,
+          "rec_ENANTEMA": 0.475,
+          "auprc_ENANTEMA": 0.5316,
+          "f1_PÓLIPO": 0.6316,
+          "prec_PÓLIPO": 0.6667,
+          "rec_PÓLIPO": 0.6,
+          "auprc_PÓLIPO": 0.6156,
+          "f1_ÚLCERA": 0.6452,
+          "prec_ÚLCERA": 0.6667,
+          "rec_ÚLCERA": 0.625,
+          "auprc_ÚLCERA": 0.683,
+          "f1_EROSÃO": 0.6462,
+          "prec_EROSÃO": 0.6364,
+          "rec_EROSÃO": 0.6562,
+          "auprc_EROSÃO": 0.7032,
+          "f1_MICRONODULARIDADE": 0.25,
+          "prec_MICRONODULARIDADE": 0.1538,
+          "rec_MICRONODULARIDADE": 0.6667,
+          "auprc_MICRONODULARIDADE": 0.6665,
+          "f1_macro": 0.5273,
+          "f1_micro": 0.551,
+          "hamming": 0.0663,
+          "f1_macro_multilabel": 0.3856,
+          "n_multilabel_images": 12
+        },
+        "thresholds": {
+          "ENANTEMA": 0.55,
+          "PÓLIPO": 0.7,
+          "ÚLCERA": 0.7,
+          "EROSÃO": 0.8,
+          "MICRONODULARIDADE": 0.15
+        },
+        "best_epoch": 28,
+        "val_f1_macro": 0.5204
+      },
+      "4": {
+        "test_metrics": {
+          "f1_ENANTEMA": 0.3544,
+          "prec_ENANTEMA": 0.359,
+          "rec_ENANTEMA": 0.35,
+          "auprc_ENANTEMA": 0.3637,
+          "f1_PÓLIPO": 0.6667,
+          "prec_PÓLIPO": 0.6364,
+          "rec_PÓLIPO": 0.7,
+          "auprc_PÓLIPO": 0.7641,
+          "f1_ÚLCERA": 0.3889,
+          "prec_ÚLCERA": 0.3684,
+          "rec_ÚLCERA": 0.4118,
+          "auprc_ÚLCERA": 0.3845,
+          "f1_EROSÃO": 0.6154,
+          "prec_EROSÃO": 0.5217,
+          "rec_EROSÃO": 0.75,
+          "auprc_EROSÃO": 0.7137,
+          "f1_MICRONODULARIDADE": 0.6,
+          "prec_MICRONODULARIDADE": 1.0,
+          "rec_MICRONODULARIDADE": 0.4286,
+          "auprc_MICRONODULARIDADE": 0.5458,
+          "f1_macro": 0.5251,
+          "f1_micro": 0.5232,
+          "hamming": 0.0724,
+          "f1_macro_multilabel": 0.3003,
+          "n_multilabel_images": 13
+        },
+        "thresholds": {
+          "ENANTEMA": 0.9,
+          "PÓLIPO": 0.8,
+          "ÚLCERA": 0.45,
+          "EROSÃO": 0.85,
+          "MICRONODULARIDADE": 0.8
+        },
+        "best_epoch": 13,
+        "val_f1_macro": 0.5121
+      }
+    },
+    "aggregated": {
+      "f1_macro": {
+        "mean": 0.537,
+        "std": 0.0405
+      },
+      "f1_micro": {
+        "mean": 0.5567,
+        "std": 0.0502
+      },
+      "hamming": {
+        "mean": 0.0659,
+        "std": 0.0084
+      },
+      "f1_macro_multilabel": {
+        "mean": 0.3402,
+        "std": 0.064
+      },
+      "f1_ENANTEMA": {
+        "mean": 0.4703,
+        "std": 0.0829
+      },
+      "f1_PÓLIPO": {
+        "mean": 0.6235,
+        "std": 0.0419
+      },
+      "f1_ÚLCERA": {
+        "mean": 0.5548,
+        "std": 0.0986
+      },
+      "f1_EROSÃO": {
+        "mean": 0.6287,
+        "std": 0.0471
+      },
+      "f1_MICRONODULARIDADE": {
+        "mean": 0.4079,
+        "std": 0.1359
+      },
+      "auprc_ENANTEMA": {
+        "mean": 0.529,
+        "std": 0.1024
+      },
+      "auprc_PÓLIPO": {
+        "mean": 0.6842,
+        "std": 0.1179
+      },
+      "auprc_ÚLCERA": {
+        "mean": 0.6045,
+        "std": 0.1129
+      },
+      "auprc_EROSÃO": {
+        "mean": 0.7031,
+        "std": 0.0526
+      },
+      "auprc_MICRONODULARIDADE": {
+        "mean": 0.5319,
+        "std": 0.0958
+      }
+    }
+  },
+  "M3_ablation": {
+    "emp_tau00": {
+      "aggregated": {
+        "f1_macro": {
+          "mean": 0.2874,
+          "std": 0.0565
+        },
+        "f1_micro": {
+          "mean": 0.3245,
+          "std": 0.0568
+        },
+        "hamming": {
+          "mean": 0.1726,
+          "std": 0.0513
+        },
+        "f1_macro_multilabel": {
+          "mean": 0.3929,
+          "std": 0.0469
+        },
+        "f1_ENANTEMA": {
+          "mean": 0.2529,
+          "std": 0.0427
+        },
+        "f1_PÓLIPO": {
+          "mean": 0.2705,
+          "std": 0.0936
+        },
+        "f1_ÚLCERA": {
+          "mean": 0.2868,
+          "std": 0.117
+        },
+        "f1_EROSÃO": {
+          "mean": 0.4339,
+          "std": 0.0807
+        },
+        "f1_MICRONODULARIDADE": {
+          "mean": 0.1931,
+          "std": 0.0618
+        },
+        "auprc_ENANTEMA": {
+          "mean": 0.1768,
+          "std": 0.0435
+        },
+        "auprc_PÓLIPO": {
+          "mean": 0.1805,
+          "std": 0.0489
+        },
+        "auprc_ÚLCERA": {
+          "mean": 0.2625,
+          "std": 0.103
+        },
+        "auprc_EROSÃO": {
+          "mean": 0.2943,
+          "std": 0.0767
+        },
+        "auprc_MICRONODULARIDADE": {
+          "mean": 0.256,
+          "std": 0.1588
+        }
+      },
+      "per_seed": {
+        "0": {
+          "test_metrics": {
+            "f1_ENANTEMA": 0.1833,
+            "prec_ENANTEMA": 0.109,
+            "rec_ENANTEMA": 0.575,
+            "auprc_ENANTEMA": 0.1048,
+            "f1_PÓLIPO": 0.2143,
+            "prec_PÓLIPO": 0.1304,
+            "rec_PÓLIPO": 0.6,
+            "auprc_PÓLIPO": 0.1781,
+            "f1_ÚLCERA": 0.0625,
+            "prec_ÚLCERA": 0.0625,
+            "rec_ÚLCERA": 0.0625,
+            "auprc_ÚLCERA": 0.0839,
+            "f1_EROSÃO": 0.3067,
+            "prec_EROSÃO": 0.1908,
+            "rec_EROSÃO": 0.7812,
+            "auprc_EROSÃO": 0.1615,
+            "f1_MICRONODULARIDADE": 0.1818,
+            "prec_MICRONODULARIDADE": 0.25,
+            "rec_MICRONODULARIDADE": 0.1429,
+            "auprc_MICRONODULARIDADE": 0.1448,
+            "f1_macro": 0.1897,
+            "f1_micro": 0.2396,
+            "hamming": 0.2583,
+            "f1_macro_multilabel": 0.3133,
+            "n_multilabel_images": 11
+          },
+          "best_epoch": 4,
+          "val_f1_macro": 0.2552
+        },
+        "1": {
+          "test_metrics": {
+            "f1_ENANTEMA": 0.3101,
+            "prec_ENANTEMA": 0.2247,
+            "rec_ENANTEMA": 0.5,
+            "auprc_ENANTEMA": 0.1867,
+            "f1_PÓLIPO": 0.2727,
+            "prec_PÓLIPO": 0.25,
+            "rec_PÓLIPO": 0.3,
+            "auprc_PÓLIPO": 0.1689,
+            "f1_ÚLCERA": 0.3396,
+            "prec_ÚLCERA": 0.2432,
+            "rec_ÚLCERA": 0.5625,
+            "auprc_ÚLCERA": 0.3906,
+            "f1_EROSÃO": 0.4545,
+            "prec_EROSÃO": 0.3933,
+            "rec_EROSÃO": 0.5385,
+            "auprc_EROSÃO": 0.3563,
+            "f1_MICRONODULARIDADE": 0.0822,
+            "prec_MICRONODULARIDADE": 0.0432,
+            "rec_MICRONODULARIDADE": 0.8571,
+            "auprc_MICRONODULARIDADE": 0.1169,
+            "f1_macro": 0.2918,
+            "f1_micro": 0.2897,
+            "hamming": 0.1799,
+            "f1_macro_multilabel": 0.4403,
+            "n_multilabel_images": 11
+          },
+          "best_epoch": 24,
+          "val_f1_macro": 0.3743
+        },
+        "2": {
+          "test_metrics": {
+            "f1_ENANTEMA": 0.2628,
+            "prec_ENANTEMA": 0.1856,
+            "rec_ENANTEMA": 0.45,
+            "auprc_ENANTEMA": 0.1734,
+            "f1_PÓLIPO": 0.1379,
+            "prec_PÓLIPO": 0.1053,
+            "rec_PÓLIPO": 0.2,
+            "auprc_PÓLIPO": 0.0995,
+            "f1_ÚLCERA": 0.3571,
+            "prec_ÚLCERA": 0.25,
+            "rec_ÚLCERA": 0.625,
+            "auprc_ÚLCERA": 0.236,
+            "f1_EROSÃO": 0.382,
+            "prec_EROSÃO": 0.2512,
+            "rec_EROSÃO": 0.7969,
+            "auprc_EROSÃO": 0.2724,
+            "f1_MICRONODULARIDADE": 0.2128,
+            "prec_MICRONODULARIDADE": 0.125,
+            "rec_MICRONODULARIDADE": 0.7143,
+            "auprc_MICRONODULARIDADE": 0.5394,
+            "f1_macro": 0.2705,
+            "f1_micro": 0.3209,
+            "hamming": 0.1829,
+            "f1_macro_multilabel": 0.42,
+            "n_multilabel_images": 11
+          },
+          "best_epoch": 10,
+          "val_f1_macro": 0.3316
+        },
+        "3": {
+          "test_metrics": {
+            "f1_ENANTEMA": 0.2754,
+            "prec_ENANTEMA": 0.1939,
+            "rec_ENANTEMA": 0.475,
+            "auprc_ENANTEMA": 0.2412,
+            "f1_PÓLIPO": 0.4167,
+            "prec_PÓLIPO": 0.3571,
+            "rec_PÓLIPO": 0.5,
+            "auprc_PÓLIPO": 0.2086,
+            "f1_ÚLCERA": 0.2857,
+            "prec_ÚLCERA": 0.2,
+            "rec_ÚLCERA": 0.5,
+            "auprc_ÚLCERA": 0.3237,
+            "f1_EROSÃO": 0.4947,
+            "prec_EROSÃO": 0.373,
+            "rec_EROSÃO": 0.7344,
+            "auprc_EROSÃO": 0.301,
+            "f1_MICRONODULARIDADE": 0.2222,
+            "prec_MICRONODULARIDADE": 0.1667,
+            "rec_MICRONODULARIDADE": 0.3333,
+            "auprc_MICRONODULARIDADE": 0.1574,
+            "f1_macro": 0.3389,
+            "f1_micro": 0.3803,
+            "hamming": 0.1327,
+            "f1_macro_multilabel": 0.4242,
+            "n_multilabel_images": 12
+          },
+          "best_epoch": 34,
+          "val_f1_macro": 0.3806
+        },
+        "4": {
+          "test_metrics": {
+            "f1_ENANTEMA": 0.233,
+            "prec_ENANTEMA": 0.1905,
+            "rec_ENANTEMA": 0.3,
+            "auprc_ENANTEMA": 0.1779,
+            "f1_PÓLIPO": 0.3111,
+            "prec_PÓLIPO": 0.2,
+            "rec_PÓLIPO": 0.7,
+            "auprc_PÓLIPO": 0.2475,
+            "f1_ÚLCERA": 0.3889,
+            "prec_ÚLCERA": 0.3684,
+            "rec_ÚLCERA": 0.4118,
+            "auprc_ÚLCERA": 0.2781,
+            "f1_EROSÃO": 0.5316,
+            "prec_EROSÃO": 0.4468,
+            "rec_EROSÃO": 0.6562,
+            "auprc_EROSÃO": 0.3802,
+            "f1_MICRONODULARIDADE": 0.2667,
+            "prec_MICRONODULARIDADE": 0.25,
+            "rec_MICRONODULARIDADE": 0.2857,
+            "auprc_MICRONODULARIDADE": 0.3213,
+            "f1_macro": 0.3463,
+            "f1_micro": 0.3922,
+            "hamming": 0.109,
+            "f1_macro_multilabel": 0.3665,
+            "n_multilabel_images": 13
+          },
+          "best_epoch": 18,
+          "val_f1_macro": 0.3206
+        }
+      }
+    },
+    "emp_tau01": {
+      "aggregated": {
+        "f1_macro": {
+          "mean": 0.2915,
+          "std": 0.0355
+        },
+        "f1_micro": {
+          "mean": 0.3346,
+          "std": 0.0367
+        },
+        "hamming": {
+          "mean": 0.181,
+          "std": 0.0502
+        },
+        "f1_macro_multilabel": {
+          "mean": 0.4365,
+          "std": 0.0236
+        },
+        "f1_ENANTEMA": {
+          "mean": 0.275,
+          "std": 0.0526
+        },
+        "f1_PÓLIPO": {
+          "mean": 0.2322,
+          "std": 0.0684
+        },
+        "f1_ÚLCERA": {
+          "mean": 0.2954,
+          "std": 0.094
+        },
+        "f1_EROSÃO": {
+          "mean": 0.4559,
+          "std": 0.0548
+        },
+        "f1_MICRONODULARIDADE": {
+          "mean": 0.1991,
+          "std": 0.1012
+        },
+        "auprc_ENANTEMA": {
+          "mean": 0.1928,
+          "std": 0.0507
+        },
+        "auprc_PÓLIPO": {
+          "mean": 0.1823,
+          "std": 0.0332
+        },
+        "auprc_ÚLCERA": {
+          "mean": 0.2656,
+          "std": 0.0905
+        },
+        "auprc_EROSÃO": {
+          "mean": 0.3134,
+          "std": 0.0549
+        },
+        "auprc_MICRONODULARIDADE": {
+          "mean": 0.2378,
+          "std": 0.0656
+        }
+      },
+      "per_seed": {
+        "0": {
+          "test_metrics": {
+            "f1_ENANTEMA": 0.2432,
+            "prec_ENANTEMA": 0.1406,
+            "rec_ENANTEMA": 0.9,
+            "auprc_ENANTEMA": 0.1386,
+            "f1_PÓLIPO": 0.125,
+            "prec_PÓLIPO": 0.0789,
+            "rec_PÓLIPO": 0.3,
+            "auprc_PÓLIPO": 0.1282,
+            "f1_ÚLCERA": 0.1905,
+            "prec_ÚLCERA": 0.1176,
+            "rec_ÚLCERA": 0.5,
+            "auprc_ÚLCERA": 0.1134,
+            "f1_EROSÃO": 0.3682,
+            "prec_EROSÃO": 0.2394,
+            "rec_EROSÃO": 0.7969,
+            "auprc_EROSÃO": 0.2132,
+            "f1_MICRONODULARIDADE": 0.2222,
+            "prec_MICRONODULARIDADE": 0.5,
+            "rec_MICRONODULARIDADE": 0.1429,
+            "auprc_MICRONODULARIDADE": 0.2814,
+            "f1_macro": 0.2298,
+            "f1_micro": 0.2773,
+            "hamming": 0.2593,
+            "f1_macro_multilabel": 0.4578,
+            "n_multilabel_images": 11
+          },
+          "best_epoch": 6,
+          "val_f1_macro": 0.2677
+        },
+        "1": {
+          "test_metrics": {
+            "f1_ENANTEMA": 0.3636,
+            "prec_ENANTEMA": 0.24,
+            "rec_ENANTEMA": 0.75,
+            "auprc_ENANTEMA": 0.2295,
+            "f1_PÓLIPO": 0.2609,
+            "prec_PÓLIPO": 0.2308,
+            "rec_PÓLIPO": 0.3,
+            "auprc_PÓLIPO": 0.1683,
+            "f1_ÚLCERA": 0.3636,
+            "prec_ÚLCERA": 0.2564,
+            "rec_ÚLCERA": 0.625,
+            "auprc_ÚLCERA": 0.3789,
+            "f1_EROSÃO": 0.5053,
+            "prec_EROSÃO": 0.384,
+            "rec_EROSÃO": 0.7385,
+            "auprc_EROSÃO": 0.3438,
+            "f1_MICRONODULARIDADE": 0.0672,
+            "prec_MICRONODULARIDADE": 0.0357,
+            "rec_MICRONODULARIDADE": 0.5714,
+            "auprc_MICRONODULARIDADE": 0.1197,
+            "f1_macro": 0.3121,
+            "f1_micro": 0.3442,
+            "hamming": 0.1819,
+            "f1_macro_multilabel": 0.4694,
+            "n_multilabel_images": 11
+          },
+          "best_epoch": 34,
+          "val_f1_macro": 0.37
+        },
+        "2": {
+          "test_metrics": {
+            "f1_ENANTEMA": 0.2551,
+            "prec_ENANTEMA": 0.1603,
+            "rec_ENANTEMA": 0.625,
+            "auprc_ENANTEMA": 0.1675,
+            "f1_PÓLIPO": 0.1818,
+            "prec_PÓLIPO": 0.1304,
+            "rec_PÓLIPO": 0.3,
+            "auprc_PÓLIPO": 0.2284,
+            "f1_ÚLCERA": 0.4242,
+            "prec_ÚLCERA": 0.28,
+            "rec_ÚLCERA": 0.875,
+            "auprc_ÚLCERA": 0.332,
+            "f1_EROSÃO": 0.4182,
+            "prec_EROSÃO": 0.2949,
+            "rec_EROSÃO": 0.7188,
+            "auprc_EROSÃO": 0.3351,
+            "f1_MICRONODULARIDADE": 0.1,
+            "prec_MICRONODULARIDADE": 0.0548,
+            "rec_MICRONODULARIDADE": 0.5714,
+            "auprc_MICRONODULARIDADE": 0.2322,
+            "f1_macro": 0.2759,
+            "f1_micro": 0.3092,
+            "hamming": 0.2065,
+            "f1_macro_multilabel": 0.426,
+            "n_multilabel_images": 11
+          },
+          "best_epoch": 25,
+          "val_f1_macro": 0.3417
+        },
+        "3": {
+          "test_metrics": {
+            "f1_ENANTEMA": 0.3009,
+            "prec_ENANTEMA": 0.2329,
+            "rec_ENANTEMA": 0.425,
+            "auprc_ENANTEMA": 0.2734,
+            "f1_PÓLIPO": 0.3077,
+            "prec_PÓLIPO": 0.25,
+            "rec_PÓLIPO": 0.4,
+            "auprc_PÓLIPO": 0.1898,
+            "f1_ÚLCERA": 0.1875,
+            "prec_ÚLCERA": 0.1875,
+            "rec_ÚLCERA": 0.1875,
+            "auprc_ÚLCERA": 0.2439,
+            "f1_EROSÃO": 0.4773,
+            "prec_EROSÃO": 0.375,
+            "rec_EROSÃO": 0.6562,
+            "auprc_EROSÃO": 0.3024,
+            "f1_MICRONODULARIDADE": 0.2727,
+            "prec_MICRONODULARIDADE": 0.1875,
+            "rec_MICRONODULARIDADE": 0.5,
+            "auprc_MICRONODULARIDADE": 0.2426,
+            "f1_macro": 0.3092,
+            "f1_micro": 0.374,
+            "hamming": 0.1161,
+            "f1_macro_multilabel": 0.4048,
+            "n_multilabel_images": 12
+          },
+          "best_epoch": 27,
+          "val_f1_macro": 0.3443
+        },
+        "4": {
+          "test_metrics": {
+            "f1_ENANTEMA": 0.2124,
+            "prec_ENANTEMA": 0.1644,
+            "rec_ENANTEMA": 0.3,
+            "auprc_ENANTEMA": 0.155,
+            "f1_PÓLIPO": 0.2857,
+            "prec_PÓLIPO": 0.1875,
+            "rec_PÓLIPO": 0.6,
+            "auprc_PÓLIPO": 0.197,
+            "f1_ÚLCERA": 0.3111,
+            "prec_ÚLCERA": 0.1918,
+            "rec_ÚLCERA": 0.8235,
+            "auprc_ÚLCERA": 0.2599,
+            "f1_EROSÃO": 0.5106,
+            "prec_EROSÃO": 0.3871,
+            "rec_EROSÃO": 0.75,
+            "auprc_EROSÃO": 0.3726,
+            "f1_MICRONODULARIDADE": 0.3333,
+            "prec_MICRONODULARIDADE": 0.4,
+            "rec_MICRONODULARIDADE": 0.2857,
+            "auprc_MICRONODULARIDADE": 0.3129,
+            "f1_macro": 0.3306,
+            "f1_micro": 0.3685,
+            "hamming": 0.1412,
+            "f1_macro_multilabel": 0.4247,
+            "n_multilabel_images": 13
+          },
+          "best_epoch": 21,
+          "val_f1_macro": 0.2996
+        }
+      }
+    },
+    "emp_tau03": {
+      "aggregated": {
+        "f1_macro": {
+          "mean": 0.2837,
+          "std": 0.0499
+        },
+        "f1_micro": {
+          "mean": 0.3343,
+          "std": 0.0633
+        },
+        "hamming": {
+          "mean": 0.1785,
+          "std": 0.0559
+        },
+        "f1_macro_multilabel": {
+          "mean": 0.4368,
+          "std": 0.0248
+        },
+        "f1_ENANTEMA": {
+          "mean": 0.2946,
+          "std": 0.062
+        },
+        "f1_PÓLIPO": {
+          "mean": 0.245,
+          "std": 0.152
+        },
+        "f1_ÚLCERA": {
+          "mean": 0.2844,
+          "std": 0.0735
+        },
+        "f1_EROSÃO": {
+          "mean": 0.4397,
+          "std": 0.0942
+        },
+        "f1_MICRONODULARIDADE": {
+          "mean": 0.1547,
+          "std": 0.1152
+        },
+        "auprc_ENANTEMA": {
+          "mean": 0.1879,
+          "std": 0.0601
+        },
+        "auprc_PÓLIPO": {
+          "mean": 0.2045,
+          "std": 0.0554
+        },
+        "auprc_ÚLCERA": {
+          "mean": 0.2444,
+          "std": 0.0856
+        },
+        "auprc_EROSÃO": {
+          "mean": 0.2995,
+          "std": 0.0747
+        },
+        "auprc_MICRONODULARIDADE": {
+          "mean": 0.2227,
+          "std": 0.1079
+        }
+      },
+      "per_seed": {
+        "0": {
+          "test_metrics": {
+            "f1_ENANTEMA": 0.2048,
+            "prec_ENANTEMA": 0.1186,
+            "rec_ENANTEMA": 0.75,
+            "auprc_ENANTEMA": 0.1086,
+            "f1_PÓLIPO": 0.24,
+            "prec_PÓLIPO": 0.2,
+            "rec_PÓLIPO": 0.3,
+            "auprc_PÓLIPO": 0.1765,
+            "f1_ÚLCERA": 0.1519,
+            "prec_ÚLCERA": 0.0952,
+            "rec_ÚLCERA": 0.375,
+            "auprc_ÚLCERA": 0.0888,
+            "f1_EROSÃO": 0.2713,
+            "prec_EROSÃO": 0.17,
+            "rec_EROSÃO": 0.6719,
+            "auprc_EROSÃO": 0.1649,
+            "f1_MICRONODULARIDADE": 0.2222,
+            "prec_MICRONODULARIDADE": 0.5,
+            "rec_MICRONODULARIDADE": 0.1429,
+            "auprc_MICRONODULARIDADE": 0.2258,
+            "f1_macro": 0.218,
+            "f1_micro": 0.2296,
+            "hamming": 0.2799,
+            "f1_macro_multilabel": 0.4198,
+            "n_multilabel_images": 11
+          },
+          "best_epoch": 4,
+          "val_f1_macro": 0.2887
+        },
+        "1": {
+          "test_metrics": {
+            "f1_ENANTEMA": 0.3537,
+            "prec_ENANTEMA": 0.243,
+            "rec_ENANTEMA": 0.65,
+            "auprc_ENANTEMA": 0.2258,
+            "f1_PÓLIPO": 0.2609,
+            "prec_PÓLIPO": 0.2308,
+            "rec_PÓLIPO": 0.3,
+            "auprc_PÓLIPO": 0.2378,
+            "f1_ÚLCERA": 0.3529,
+            "prec_ÚLCERA": 0.2571,
+            "rec_ÚLCERA": 0.5625,
+            "auprc_ÚLCERA": 0.3039,
+            "f1_EROSÃO": 0.4681,
+            "prec_EROSÃO": 0.3577,
+            "rec_EROSÃO": 0.6769,
+            "auprc_EROSÃO": 0.3314,
+            "f1_MICRONODULARIDADE": 0.0792,
+            "prec_MICRONODULARIDADE": 0.0426,
+            "rec_MICRONODULARIDADE": 0.5714,
+            "auprc_MICRONODULARIDADE": 0.2222,
+            "f1_macro": 0.303,
+            "f1_micro": 0.3373,
+            "hamming": 0.1698,
+            "f1_macro_multilabel": 0.4294,
+            "n_multilabel_images": 11
+          },
+          "best_epoch": 33,
+          "val_f1_macro": 0.3777
+        },
+        "2": {
+          "test_metrics": {
+            "f1_ENANTEMA": 0.2793,
+            "prec_ENANTEMA": 0.1799,
+            "rec_ENANTEMA": 0.625,
+            "auprc_ENANTEMA": 0.168,
+            "f1_PÓLIPO": 0.0,
+            "prec_PÓLIPO": 0.0,
+            "rec_PÓLIPO": 0.0,
+            "auprc_PÓLIPO": 0.1391,
+            "f1_ÚLCERA": 0.3256,
+            "prec_ÚLCERA": 0.2593,
+            "rec_ÚLCERA": 0.4375,
+            "auprc_ÚLCERA": 0.2641,
+            "f1_EROSÃO": 0.4147,
+            "prec_EROSÃO": 0.2941,
+            "rec_EROSÃO": 0.7031,
+            "auprc_EROSÃO": 0.2883,
+            "f1_MICRONODULARIDADE": 0.1389,
+            "prec_MICRONODULARIDADE": 0.0769,
+            "rec_MICRONODULARIDADE": 0.7143,
+            "auprc_MICRONODULARIDADE": 0.2869,
+            "f1_macro": 0.2317,
+            "f1_micro": 0.3112,
+            "hamming": 0.1824,
+            "f1_macro_multilabel": 0.4783,
+            "n_multilabel_images": 11
+          },
+          "best_epoch": 13,
+          "val_f1_macro": 0.3738
+        },
+        "3": {
+          "test_metrics": {
+            "f1_ENANTEMA": 0.3741,
+            "prec_ENANTEMA": 0.2626,
+            "rec_ENANTEMA": 0.65,
+            "auprc_ENANTEMA": 0.2821,
+            "f1_PÓLIPO": 0.48,
+            "prec_PÓLIPO": 0.4,
+            "rec_PÓLIPO": 0.6,
+            "auprc_PÓLIPO": 0.2952,
+            "f1_ÚLCERA": 0.2581,
+            "prec_ÚLCERA": 0.2667,
+            "rec_ÚLCERA": 0.25,
+            "auprc_ÚLCERA": 0.3354,
+            "f1_EROSÃO": 0.5,
+            "prec_EROSÃO": 0.3929,
+            "rec_EROSÃO": 0.6875,
+            "auprc_EROSÃO": 0.3236,
+            "f1_MICRONODULARIDADE": 0.0,
+            "prec_MICRONODULARIDADE": 0.0,
+            "rec_MICRONODULARIDADE": 0.0,
+            "auprc_MICRONODULARIDADE": 0.0282,
+            "f1_macro": 0.3224,
+            "f1_micro": 0.4156,
+            "hamming": 0.1131,
+            "f1_macro_multilabel": 0.4074,
+            "n_multilabel_images": 12
+          },
+          "best_epoch": 36,
+          "val_f1_macro": 0.378
+        },
+        "4": {
+          "test_metrics": {
+            "f1_ENANTEMA": 0.2609,
+            "prec_ENANTEMA": 0.1667,
+            "rec_ENANTEMA": 0.6,
+            "auprc_ENANTEMA": 0.1552,
+            "f1_PÓLIPO": 0.2439,
+            "prec_PÓLIPO": 0.1613,
+            "rec_PÓLIPO": 0.5,
+            "auprc_PÓLIPO": 0.1738,
+            "f1_ÚLCERA": 0.3333,
+            "prec_ÚLCERA": 0.2581,
+            "rec_ÚLCERA": 0.4706,
+            "auprc_ÚLCERA": 0.2297,
+            "f1_EROSÃO": 0.5444,
+            "prec_EROSÃO": 0.4224,
+            "rec_EROSÃO": 0.7656,
+            "auprc_EROSÃO": 0.3891,
+            "f1_MICRONODULARIDADE": 0.3333,
+            "prec_MICRONODULARIDADE": 0.2727,
+            "rec_MICRONODULARIDADE": 0.4286,
+            "auprc_MICRONODULARIDADE": 0.3502,
+            "f1_macro": 0.3432,
+            "f1_micro": 0.3779,
+            "hamming": 0.1472,
+            "f1_macro_multilabel": 0.4491,
+            "n_multilabel_images": 13
+          },
+          "best_epoch": 24,
+          "val_f1_macro": 0.3321
+        }
+      }
+    },
+    "pmi_tau00": {
+      "aggregated": {
+        "f1_macro": {
+          "mean": 0.2657,
+          "std": 0.0543
+        },
+        "f1_micro": {
+          "mean": 0.3178,
+          "std": 0.0657
+        },
+        "hamming": {
+          "mean": 0.1861,
+          "std": 0.0522
+        },
+        "f1_macro_multilabel": {
+          "mean": 0.3939,
+          "std": 0.0454
+        },
+        "f1_ENANTEMA": {
+          "mean": 0.3071,
+          "std": 0.076
+        },
+        "f1_PÓLIPO": {
+          "mean": 0.2036,
+          "std": 0.0469
+        },
+        "f1_ÚLCERA": {
+          "mean": 0.2849,
+          "std": 0.168
+        },
+        "f1_EROSÃO": {
+          "mean": 0.4445,
+          "std": 0.1062
+        },
+        "f1_MICRONODULARIDADE": {
+          "mean": 0.0884,
+          "std": 0.0619
+        },
+        "auprc_ENANTEMA": {
+          "mean": 0.1844,
+          "std": 0.0438
+        },
+        "auprc_PÓLIPO": {
+          "mean": 0.2052,
+          "std": 0.0958
+        },
+        "auprc_ÚLCERA": {
+          "mean": 0.257,
+          "std": 0.0701
+        },
+        "auprc_EROSÃO": {
+          "mean": 0.3109,
+          "std": 0.0793
+        },
+        "auprc_MICRONODULARIDADE": {
+          "mean": 0.181,
+          "std": 0.1099
+        }
+      },
+      "per_seed": {
+        "0": {
+          "test_metrics": {
+            "f1_ENANTEMA": 0.3333,
+            "prec_ENANTEMA": 0.2742,
+            "rec_ENANTEMA": 0.425,
+            "auprc_ENANTEMA": 0.2184,
+            "f1_PÓLIPO": 0.2381,
+            "prec_PÓLIPO": 0.1562,
+            "rec_PÓLIPO": 0.5,
+            "auprc_PÓLIPO": 0.372,
+            "f1_ÚLCERA": 0.3333,
+            "prec_ÚLCERA": 0.25,
+            "rec_ÚLCERA": 0.5,
+            "auprc_ÚLCERA": 0.2223,
+            "f1_EROSÃO": 0.5783,
+            "prec_EROSÃO": 0.4706,
+            "rec_EROSÃO": 0.75,
+            "auprc_EROSÃO": 0.397,
+            "f1_MICRONODULARIDADE": 0.0,
+            "prec_MICRONODULARIDADE": 0.0,
+            "rec_MICRONODULARIDADE": 0.0,
+            "auprc_MICRONODULARIDADE": 0.0587,
+            "f1_macro": 0.2966,
+            "f1_micro": 0.4205,
+            "hamming": 0.108,
+            "f1_macro_multilabel": 0.3889,
+            "n_multilabel_images": 11
+          },
+          "best_epoch": 43,
+          "val_f1_macro": 0.3598
+        },
+        "1": {
+          "test_metrics": {
+            "f1_ENANTEMA": 0.4174,
+            "prec_ENANTEMA": 0.32,
+            "rec_ENANTEMA": 0.6,
+            "auprc_ENANTEMA": 0.2385,
+            "f1_PÓLIPO": 0.1429,
+            "prec_PÓLIPO": 0.1111,
+            "rec_PÓLIPO": 0.2,
+            "auprc_PÓLIPO": 0.2347,
+            "f1_ÚLCERA": 0.4681,
+            "prec_ÚLCERA": 0.3548,
+            "rec_ÚLCERA": 0.6875,
+            "auprc_ÚLCERA": 0.3631,
+            "f1_EROSÃO": 0.5291,
+            "prec_EROSÃO": 0.4032,
+            "rec_EROSÃO": 0.7692,
+            "auprc_EROSÃO": 0.3688,
+            "f1_MICRONODULARIDADE": 0.0452,
+            "prec_MICRONODULARIDADE": 0.0235,
+            "rec_MICRONODULARIDADE": 0.5714,
+            "auprc_MICRONODULARIDADE": 0.0732,
+            "f1_macro": 0.3205,
+            "f1_micro": 0.3273,
+            "hamming": 0.1879,
+            "f1_macro_multilabel": 0.4786,
+            "n_multilabel_images": 11
+          },
+          "best_epoch": 39,
+          "val_f1_macro": 0.3843
+        },
+        "2": {
+          "test_metrics": {
+            "f1_ENANTEMA": 0.3308,
+            "prec_ENANTEMA": 0.2366,
+            "rec_ENANTEMA": 0.55,
+            "auprc_ENANTEMA": 0.1922,
+            "f1_PÓLIPO": 0.2222,
+            "prec_PÓLIPO": 0.1765,
+            "rec_PÓLIPO": 0.3,
+            "auprc_PÓLIPO": 0.1321,
+            "f1_ÚLCERA": 0.4179,
+            "prec_ÚLCERA": 0.2745,
+            "rec_ÚLCERA": 0.875,
+            "auprc_ÚLCERA": 0.3061,
+            "f1_EROSÃO": 0.473,
+            "prec_EROSÃO": 0.4167,
+            "rec_EROSÃO": 0.5469,
+            "auprc_EROSÃO": 0.3523,
+            "f1_MICRONODULARIDADE": 0.1099,
+            "prec_MICRONODULARIDADE": 0.0595,
+            "rec_MICRONODULARIDADE": 0.7143,
+            "auprc_MICRONODULARIDADE": 0.3534,
+            "f1_macro": 0.3108,
+            "f1_micro": 0.3391,
+            "hamming": 0.1548,
+            "f1_macro_multilabel": 0.3812,
+            "n_multilabel_images": 11
+          },
+          "best_epoch": 45,
+          "val_f1_macro": 0.3961
+        },
+        "3": {
+          "test_metrics": {
+            "f1_ENANTEMA": 0.2634,
+            "prec_ENANTEMA": 0.1576,
+            "rec_ENANTEMA": 0.8,
+            "auprc_ENANTEMA": 0.1571,
+            "f1_PÓLIPO": 0.2609,
+            "prec_PÓLIPO": 0.2308,
+            "rec_PÓLIPO": 0.3,
+            "auprc_PÓLIPO": 0.1898,
+            "f1_ÚLCERA": 0.0,
+            "prec_ÚLCERA": 0.0,
+            "rec_ÚLCERA": 0.0,
+            "auprc_ÚLCERA": 0.2313,
+            "f1_EROSÃO": 0.3203,
+            "prec_EROSÃO": 0.2025,
+            "rec_EROSÃO": 0.7656,
+            "auprc_EROSÃO": 0.1885,
+            "f1_MICRONODULARIDADE": 0.1053,
+            "prec_MICRONODULARIDADE": 0.0769,
+            "rec_MICRONODULARIDADE": 0.1667,
+            "auprc_MICRONODULARIDADE": 0.1752,
+            "f1_macro": 0.19,
+            "f1_micro": 0.2791,
+            "hamming": 0.2206,
+            "f1_macro_multilabel": 0.3418,
+            "n_multilabel_images": 12
+          },
+          "best_epoch": 10,
+          "val_f1_macro": 0.336
+        },
+        "4": {
+          "test_metrics": {
+            "f1_ENANTEMA": 0.1907,
+            "prec_ENANTEMA": 0.1063,
+            "rec_ENANTEMA": 0.925,
+            "auprc_ENANTEMA": 0.1157,
+            "f1_PÓLIPO": 0.1538,
+            "prec_PÓLIPO": 0.0952,
+            "rec_PÓLIPO": 0.4,
+            "auprc_PÓLIPO": 0.0975,
+            "f1_ÚLCERA": 0.2051,
+            "prec_ÚLCERA": 0.1818,
+            "rec_ÚLCERA": 0.2353,
+            "auprc_ÚLCERA": 0.1621,
+            "f1_EROSÃO": 0.3218,
+            "prec_EROSÃO": 0.2545,
+            "rec_EROSÃO": 0.4375,
+            "auprc_EROSÃO": 0.248,
+            "f1_MICRONODULARIDADE": 0.1818,
+            "prec_MICRONODULARIDADE": 0.25,
+            "rec_MICRONODULARIDADE": 0.1429,
+            "auprc_MICRONODULARIDADE": 0.2443,
+            "f1_macro": 0.2107,
+            "f1_micro": 0.2229,
+            "hamming": 0.2593,
+            "f1_macro_multilabel": 0.3788,
+            "n_multilabel_images": 13
+          },
+          "best_epoch": 4,
+          "val_f1_macro": 0.2972
+        }
+      }
+    },
+    "pmi_tau01": {
+      "aggregated": {
+        "f1_macro": {
+          "mean": 0.3013,
+          "std": 0.0211
+        },
+        "f1_micro": {
+          "mean": 0.3383,
+          "std": 0.0287
+        },
+        "hamming": {
+          "mean": 0.157,
+          "std": 0.01
+        },
+        "f1_macro_multilabel": {
+          "mean": 0.445,
+          "std": 0.0216
+        },
+        "f1_ENANTEMA": {
+          "mean": 0.3221,
+          "std": 0.0492
+        },
+        "f1_PÓLIPO": {
+          "mean": 0.236,
+          "std": 0.0662
+        },
+        "f1_ÚLCERA": {
+          "mean": 0.3495,
+          "std": 0.0859
+        },
+        "f1_EROSÃO": {
+          "mean": 0.46,
+          "std": 0.0804
+        },
+        "f1_MICRONODULARIDADE": {
+          "mean": 0.1391,
+          "std": 0.0801
+        },
+        "auprc_ENANTEMA": {
+          "mean": 0.2094,
+          "std": 0.0213
+        },
+        "auprc_PÓLIPO": {
+          "mean": 0.2034,
+          "std": 0.0849
+        },
+        "auprc_ÚLCERA": {
+          "mean": 0.2846,
+          "std": 0.0738
+        },
+        "auprc_EROSÃO": {
+          "mean": 0.3453,
+          "std": 0.047
+        },
+        "auprc_MICRONODULARIDADE": {
+          "mean": 0.1576,
+          "std": 0.0662
+        }
+      },
+      "per_seed": {
+        "0": {
+          "test_metrics": {
+            "f1_ENANTEMA": 0.2752,
+            "prec_ENANTEMA": 0.1685,
+            "rec_ENANTEMA": 0.75,
+            "auprc_ENANTEMA": 0.1911,
+            "f1_PÓLIPO": 0.3077,
+            "prec_PÓLIPO": 0.6667,
+            "rec_PÓLIPO": 0.2,
+            "auprc_PÓLIPO": 0.3331,
+            "f1_ÚLCERA": 0.2791,
+            "prec_ÚLCERA": 0.2222,
+            "rec_ÚLCERA": 0.375,
+            "auprc_ÚLCERA": 0.1908,
+            "f1_EROSÃO": 0.3226,
+            "prec_EROSÃO": 0.2747,
+            "rec_EROSÃO": 0.3906,
+            "auprc_EROSÃO": 0.2882,
+            "f1_MICRONODULARIDADE": 0.2,
+            "prec_MICRONODULARIDADE": 0.3333,
+            "rec_MICRONODULARIDADE": 0.1429,
+            "auprc_MICRONODULARIDADE": 0.0957,
+            "f1_macro": 0.2769,
+            "f1_micro": 0.2916,
+            "hamming": 0.1563,
+            "f1_macro_multilabel": 0.404,
+            "n_multilabel_images": 11
+          },
+          "best_epoch": 14,
+          "val_f1_macro": 0.3484
+        },
+        "1": {
+          "test_metrics": {
+            "f1_ENANTEMA": 0.3893,
+            "prec_ENANTEMA": 0.2661,
+            "rec_ENANTEMA": 0.725,
+            "auprc_ENANTEMA": 0.228,
+            "f1_PÓLIPO": 0.1667,
+            "prec_PÓLIPO": 0.1429,
+            "rec_PÓLIPO": 0.2,
+            "auprc_PÓLIPO": 0.1562,
+            "f1_ÚLCERA": 0.2667,
+            "prec_ÚLCERA": 0.2069,
+            "rec_ÚLCERA": 0.375,
+            "auprc_ÚLCERA": 0.2637,
+            "f1_EROSÃO": 0.4852,
+            "prec_EROSÃO": 0.3942,
+            "rec_EROSÃO": 0.6308,
+            "auprc_EROSÃO": 0.3592,
+            "f1_MICRONODULARIDADE": 0.0714,
+            "prec_MICRONODULARIDADE": 0.0408,
+            "rec_MICRONODULARIDADE": 0.2857,
+            "auprc_MICRONODULARIDADE": 0.1105,
+            "f1_macro": 0.2758,
+            "f1_micro": 0.3612,
+            "hamming": 0.1422,
+            "f1_macro_multilabel": 0.444,
+            "n_multilabel_images": 11
+          },
+          "best_epoch": 45,
+          "val_f1_macro": 0.3783
+        },
+        "2": {
+          "test_metrics": {
+            "f1_ENANTEMA": 0.3566,
+            "prec_ENANTEMA": 0.2584,
+            "rec_ENANTEMA": 0.575,
+            "auprc_ENANTEMA": 0.2057,
+            "f1_PÓLIPO": 0.1579,
+            "prec_PÓLIPO": 0.1071,
+            "rec_PÓLIPO": 0.3,
+            "auprc_PÓLIPO": 0.0863,
+            "f1_ÚLCERA": 0.5,
+            "prec_ÚLCERA": 0.3929,
+            "rec_ÚLCERA": 0.6875,
+            "auprc_ÚLCERA": 0.4111,
+            "f1_EROSÃO": 0.459,
+            "prec_EROSÃO": 0.3529,
+            "rec_EROSÃO": 0.6562,
+            "auprc_EROSÃO": 0.3679,
+            "f1_MICRONODULARIDADE": 0.069,
+            "prec_MICRONODULARIDADE": 0.0367,
+            "rec_MICRONODULARIDADE": 0.5714,
+            "auprc_MICRONODULARIDADE": 0.2085,
+            "f1_macro": 0.3085,
+            "f1_micro": 0.3255,
+            "hamming": 0.1729,
+            "f1_macro_multilabel": 0.4583,
+            "n_multilabel_images": 11
+          },
+          "best_epoch": 18,
+          "val_f1_macro": 0.34
+        },
+        "3": {
+          "test_metrics": {
+            "f1_ENANTEMA": 0.3311,
+            "prec_ENANTEMA": 0.2252,
+            "rec_ENANTEMA": 0.625,
+            "auprc_ENANTEMA": 0.2391,
+            "f1_PÓLIPO": 0.2353,
+            "prec_PÓLIPO": 0.1463,
+            "rec_PÓLIPO": 0.6,
+            "auprc_PÓLIPO": 0.1845,
+            "f1_ÚLCERA": 0.3158,
+            "prec_ÚLCERA": 0.2195,
+            "rec_ÚLCERA": 0.5625,
+            "auprc_ÚLCERA": 0.3099,
+            "f1_EROSÃO": 0.4601,
+            "prec_EROSÃO": 0.3289,
+            "rec_EROSÃO": 0.7656,
+            "auprc_EROSÃO": 0.2969,
+            "f1_MICRONODULARIDADE": 0.2667,
+            "prec_MICRONODULARIDADE": 0.2222,
+            "rec_MICRONODULARIDADE": 0.3333,
+            "auprc_MICRONODULARIDADE": 0.1107,
+            "f1_macro": 0.3218,
+            "f1_micro": 0.3737,
+            "hamming": 0.1533,
+            "f1_macro_multilabel": 0.4648,
+            "n_multilabel_images": 12
+          },
+          "best_epoch": 32,
+          "val_f1_macro": 0.3578
+        },
+        "4": {
+          "test_metrics": {
+            "f1_ENANTEMA": 0.2581,
+            "prec_ENANTEMA": 0.1905,
+            "rec_ENANTEMA": 0.4,
+            "auprc_ENANTEMA": 0.1829,
+            "f1_PÓLIPO": 0.3125,
+            "prec_PÓLIPO": 0.2273,
+            "rec_PÓLIPO": 0.5,
+            "auprc_PÓLIPO": 0.2571,
+            "f1_ÚLCERA": 0.386,
+            "prec_ÚLCERA": 0.275,
+            "rec_ÚLCERA": 0.6471,
+            "auprc_ÚLCERA": 0.2474,
+            "f1_EROSÃO": 0.5732,
+            "prec_EROSÃO": 0.4839,
+            "rec_EROSÃO": 0.7031,
+            "auprc_EROSÃO": 0.4143,
+            "f1_MICRONODULARIDADE": 0.0885,
+            "prec_MICRONODULARIDADE": 0.0472,
+            "rec_MICRONODULARIDADE": 0.7143,
+            "auprc_MICRONODULARIDADE": 0.2627,
+            "f1_macro": 0.3237,
+            "f1_micro": 0.3395,
+            "hamming": 0.1603,
+            "f1_macro_multilabel": 0.4541,
+            "n_multilabel_images": 13
+          },
+          "best_epoch": 38,
+          "val_f1_macro": 0.3571
+        }
+      }
+    },
+    "pmi_tau03": {
+      "aggregated": {
+        "f1_macro": {
+          "mean": 0.29,
+          "std": 0.0447
+        },
+        "f1_micro": {
+          "mean": 0.3451,
+          "std": 0.0439
+        },
+        "hamming": {
+          "mean": 0.1487,
+          "std": 0.0326
+        },
+        "f1_macro_multilabel": {
+          "mean": 0.3794,
+          "std": 0.0453
+        },
+        "f1_ENANTEMA": {
+          "mean": 0.3085,
+          "std": 0.022
+        },
+        "f1_PÓLIPO": {
+          "mean": 0.1795,
+          "std": 0.124
+        },
+        "f1_ÚLCERA": {
+          "mean": 0.3278,
+          "std": 0.0486
+        },
+        "f1_EROSÃO": {
+          "mean": 0.4441,
+          "std": 0.0806
+        },
+        "f1_MICRONODULARIDADE": {
+          "mean": 0.1899,
+          "std": 0.081
+        },
+        "auprc_ENANTEMA": {
+          "mean": 0.1988,
+          "std": 0.0159
+        },
+        "auprc_PÓLIPO": {
+          "mean": 0.1741,
+          "std": 0.0519
+        },
+        "auprc_ÚLCERA": {
+          "mean": 0.3149,
+          "std": 0.0897
+        },
+        "auprc_EROSÃO": {
+          "mean": 0.3274,
+          "std": 0.0449
+        },
+        "auprc_MICRONODULARIDADE": {
+          "mean": 0.1839,
+          "std": 0.1061
+        }
+      },
+      "per_seed": {
+        "0": {
+          "test_metrics": {
+            "f1_ENANTEMA": 0.3165,
+            "prec_ENANTEMA": 0.2222,
+            "rec_ENANTEMA": 0.55,
+            "auprc_ENANTEMA": 0.191,
+            "f1_PÓLIPO": 0.1111,
+            "prec_PÓLIPO": 0.125,
+            "rec_PÓLIPO": 0.1,
+            "auprc_PÓLIPO": 0.1804,
+            "f1_ÚLCERA": 0.3158,
+            "prec_ÚLCERA": 0.2727,
+            "rec_ÚLCERA": 0.375,
+            "auprc_ÚLCERA": 0.297,
+            "f1_EROSÃO": 0.3313,
+            "prec_EROSÃO": 0.2727,
+            "rec_EROSÃO": 0.4219,
+            "auprc_EROSÃO": 0.2889,
+            "f1_MICRONODULARIDADE": 0.1379,
+            "prec_MICRONODULARIDADE": 0.0909,
+            "rec_MICRONODULARIDADE": 0.2857,
+            "auprc_MICRONODULARIDADE": 0.1027,
+            "f1_macro": 0.2425,
+            "f1_micro": 0.2997,
+            "hamming": 0.1362,
+            "f1_macro_multilabel": 0.306,
+            "n_multilabel_images": 11
+          },
+          "best_epoch": 10,
+          "val_f1_macro": 0.318
+        },
+        "1": {
+          "test_metrics": {
+            "f1_ENANTEMA": 0.2938,
+            "prec_ENANTEMA": 0.1813,
+            "rec_ENANTEMA": 0.775,
+            "auprc_ENANTEMA": 0.1905,
+            "f1_PÓLIPO": 0.16,
+            "prec_PÓLIPO": 0.1333,
+            "rec_PÓLIPO": 0.2,
+            "auprc_PÓLIPO": 0.1413,
+            "f1_ÚLCERA": 0.3478,
+            "prec_ÚLCERA": 0.2667,
+            "rec_ÚLCERA": 0.5,
+            "auprc_ÚLCERA": 0.2478,
+            "f1_EROSÃO": 0.4286,
+            "prec_EROSÃO": 0.3495,
+            "rec_EROSÃO": 0.5538,
+            "auprc_EROSÃO": 0.3175,
+            "f1_MICRONODULARIDADE": 0.1818,
+            "prec_MICRONODULARIDADE": 0.1333,
+            "rec_MICRONODULARIDADE": 0.2857,
+            "auprc_MICRONODULARIDADE": 0.1087,
+            "f1_macro": 0.2824,
+            "f1_micro": 0.3347,
+            "hamming": 0.1578,
+            "f1_macro_multilabel": 0.4311,
+            "n_multilabel_images": 11
+          },
+          "best_epoch": 27,
+          "val_f1_macro": 0.3978
+        },
+        "2": {
+          "test_metrics": {
+            "f1_ENANTEMA": 0.3185,
+            "prec_ENANTEMA": 0.2137,
+            "rec_ENANTEMA": 0.625,
+            "auprc_ENANTEMA": 0.2141,
+            "f1_PÓLIPO": 0.0,
+            "prec_PÓLIPO": 0.0,
+            "rec_PÓLIPO": 0.0,
+            "auprc_PÓLIPO": 0.0932,
+            "f1_ÚLCERA": 0.4,
+            "prec_ÚLCERA": 0.2593,
+            "rec_ÚLCERA": 0.875,
+            "auprc_ÚLCERA": 0.4914,
+            "f1_EROSÃO": 0.419,
+            "prec_EROSÃO": 0.3014,
+            "rec_EROSÃO": 0.6875,
+            "auprc_EROSÃO": 0.3198,
+            "f1_MICRONODULARIDADE": 0.0714,
+            "prec_MICRONODULARIDADE": 0.0376,
+            "rec_MICRONODULARIDADE": 0.7143,
+            "auprc_MICRONODULARIDADE": 0.2168,
+            "f1_macro": 0.2418,
+            "f1_micro": 0.2983,
+            "hamming": 0.208,
+            "f1_macro_multilabel": 0.4139,
+            "n_multilabel_images": 11
+          },
+          "best_epoch": 19,
+          "val_f1_macro": 0.3507
+        },
+        "3": {
+          "test_metrics": {
+            "f1_ENANTEMA": 0.3387,
+            "prec_ENANTEMA": 0.25,
+            "rec_ENANTEMA": 0.525,
+            "auprc_ENANTEMA": 0.2204,
+            "f1_PÓLIPO": 0.3571,
+            "prec_PÓLIPO": 0.2778,
+            "rec_PÓLIPO": 0.5,
+            "auprc_PÓLIPO": 0.2335,
+            "f1_ÚLCERA": 0.25,
+            "prec_ÚLCERA": 0.375,
+            "rec_ÚLCERA": 0.1875,
+            "auprc_ÚLCERA": 0.2731,
+            "f1_EROSÃO": 0.4608,
+            "prec_EROSÃO": 0.3357,
+            "rec_EROSÃO": 0.7344,
+            "auprc_EROSÃO": 0.2967,
+            "f1_MICRONODULARIDADE": 0.2857,
+            "prec_MICRONODULARIDADE": 0.25,
+            "rec_MICRONODULARIDADE": 0.3333,
+            "auprc_MICRONODULARIDADE": 0.3786,
+            "f1_macro": 0.3385,
+            "f1_micro": 0.3959,
+            "hamming": 0.1196,
+            "f1_macro_multilabel": 0.3945,
+            "n_multilabel_images": 12
+          },
+          "best_epoch": 27,
+          "val_f1_macro": 0.3408
+        },
+        "4": {
+          "test_metrics": {
+            "f1_ENANTEMA": 0.2748,
+            "prec_ENANTEMA": 0.1978,
+            "rec_ENANTEMA": 0.45,
+            "auprc_ENANTEMA": 0.1781,
+            "f1_PÓLIPO": 0.2692,
+            "prec_PÓLIPO": 0.1667,
+            "rec_PÓLIPO": 0.7,
+            "auprc_PÓLIPO": 0.2219,
+            "f1_ÚLCERA": 0.3256,
+            "prec_ÚLCERA": 0.2692,
+            "rec_ÚLCERA": 0.4118,
+            "auprc_ÚLCERA": 0.2651,
+            "f1_EROSÃO": 0.5806,
+            "prec_EROSÃO": 0.4945,
+            "rec_EROSÃO": 0.7031,
+            "auprc_EROSÃO": 0.4141,
+            "f1_MICRONODULARIDADE": 0.2727,
+            "prec_MICRONODULARIDADE": 0.2,
+            "rec_MICRONODULARIDADE": 0.4286,
+            "auprc_MICRONODULARIDADE": 0.1126,
+            "f1_macro": 0.3446,
+            "f1_micro": 0.397,
+            "hamming": 0.1221,
+            "f1_macro_multilabel": 0.3514,
+            "n_multilabel_images": 13
+          },
+          "best_epoch": 37,
+          "val_f1_macro": 0.341
+        }
+      }
+    },
+    "clin_tau00": {
+      "aggregated": {
+        "f1_macro": {
+          "mean": 0.2601,
+          "std": 0.0414
+        },
+        "f1_micro": {
+          "mean": 0.3204,
+          "std": 0.0408
+        },
+        "hamming": {
+          "mean": 0.1837,
+          "std": 0.0503
+        },
+        "f1_macro_multilabel": {
+          "mean": 0.4012,
+          "std": 0.0178
+        },
+        "f1_ENANTEMA": {
+          "mean": 0.2955,
+          "std": 0.0504
+        },
+        "f1_PÓLIPO": {
+          "mean": 0.1708,
+          "std": 0.1118
+        },
+        "f1_ÚLCERA": {
+          "mean": 0.2412,
+          "std": 0.0664
+        },
+        "f1_EROSÃO": {
+          "mean": 0.425,
+          "std": 0.0691
+        },
+        "f1_MICRONODULARIDADE": {
+          "mean": 0.1683,
+          "std": 0.0685
+        },
+        "auprc_ENANTEMA": {
+          "mean": 0.1815,
+          "std": 0.0322
+        },
+        "auprc_PÓLIPO": {
+          "mean": 0.2029,
+          "std": 0.0785
+        },
+        "auprc_ÚLCERA": {
+          "mean": 0.2249,
+          "std": 0.0507
+        },
+        "auprc_EROSÃO": {
+          "mean": 0.3037,
+          "std": 0.0685
+        },
+        "auprc_MICRONODULARIDADE": {
+          "mean": 0.2032,
+          "std": 0.0669
+        }
+      },
+      "per_seed": {
+        "0": {
+          "test_metrics": {
+            "f1_ENANTEMA": 0.3294,
+            "prec_ENANTEMA": 0.2154,
+            "rec_ENANTEMA": 0.7,
+            "auprc_ENANTEMA": 0.2106,
+            "f1_PÓLIPO": 0.3529,
+            "prec_PÓLIPO": 0.4286,
+            "rec_PÓLIPO": 0.3,
+            "auprc_PÓLIPO": 0.3389,
+            "f1_ÚLCERA": 0.3137,
+            "prec_ÚLCERA": 0.2286,
+            "rec_ÚLCERA": 0.5,
+            "auprc_ÚLCERA": 0.1932,
+            "f1_EROSÃO": 0.5062,
+            "prec_EROSÃO": 0.4184,
+            "rec_EROSÃO": 0.6406,
+            "auprc_EROSÃO": 0.3554,
+            "f1_MICRONODULARIDADE": 0.1429,
+            "prec_MICRONODULARIDADE": 0.0816,
+            "rec_MICRONODULARIDADE": 0.5714,
+            "auprc_MICRONODULARIDADE": 0.1353,
+            "f1_macro": 0.329,
+            "f1_micro": 0.3684,
+            "hamming": 0.1447,
+            "f1_macro_multilabel": 0.4123,
+            "n_multilabel_images": 11
+          },
+          "best_epoch": 27,
+          "val_f1_macro": 0.3905
+        },
+        "1": {
+          "test_metrics": {
+            "f1_ENANTEMA": 0.3613,
+            "prec_ENANTEMA": 0.2435,
+            "rec_ENANTEMA": 0.7,
+            "auprc_ENANTEMA": 0.2089,
+            "f1_PÓLIPO": 0.1667,
+            "prec_PÓLIPO": 0.1429,
+            "rec_PÓLIPO": 0.2,
+            "auprc_PÓLIPO": 0.2305,
+            "f1_ÚLCERA": 0.2105,
+            "prec_ÚLCERA": 0.1463,
+            "rec_ÚLCERA": 0.375,
+            "auprc_ÚLCERA": 0.2428,
+            "f1_EROSÃO": 0.4444,
+            "prec_EROSÃO": 0.3308,
+            "rec_EROSÃO": 0.6769,
+            "auprc_EROSÃO": 0.3379,
+            "f1_MICRONODULARIDADE": 0.1905,
+            "prec_MICRONODULARIDADE": 0.1429,
+            "rec_MICRONODULARIDADE": 0.2857,
+            "auprc_MICRONODULARIDADE": 0.203,
+            "f1_macro": 0.2747,
+            "f1_micro": 0.3604,
+            "hamming": 0.1462,
+            "f1_macro_multilabel": 0.393,
+            "n_multilabel_images": 11
+          },
+          "best_epoch": 33,
+          "val_f1_macro": 0.3861
+        },
+        "2": {
+          "test_metrics": {
+            "f1_ENANTEMA": 0.3128,
+            "prec_ENANTEMA": 0.2014,
+            "rec_ENANTEMA": 0.7,
+            "auprc_ENANTEMA": 0.2035,
+            "f1_PÓLIPO": 0.1765,
+            "prec_PÓLIPO": 0.125,
+            "rec_PÓLIPO": 0.3,
+            "auprc_PÓLIPO": 0.1887,
+            "f1_ÚLCERA": 0.2963,
+            "prec_ÚLCERA": 0.3636,
+            "rec_ÚLCERA": 0.25,
+            "auprc_ÚLCERA": 0.3137,
+            "f1_EROSÃO": 0.4433,
+            "prec_EROSÃO": 0.3237,
+            "rec_EROSÃO": 0.7031,
+            "auprc_EROSÃO": 0.3349,
+            "f1_MICRONODULARIDADE": 0.0794,
+            "prec_MICRONODULARIDADE": 0.042,
+            "rec_MICRONODULARIDADE": 0.7143,
+            "auprc_MICRONODULARIDADE": 0.2647,
+            "f1_macro": 0.2617,
+            "f1_micro": 0.2988,
+            "hamming": 0.2005,
+            "f1_macro_multilabel": 0.4306,
+            "n_multilabel_images": 11
+          },
+          "best_epoch": 27,
+          "val_f1_macro": 0.3582
+        },
+        "3": {
+          "test_metrics": {
+            "f1_ENANTEMA": 0.2324,
+            "prec_ENANTEMA": 0.1352,
+            "rec_ENANTEMA": 0.825,
+            "auprc_ENANTEMA": 0.1443,
+            "f1_PÓLIPO": 0.1579,
+            "prec_PÓLIPO": 0.1071,
+            "rec_PÓLIPO": 0.3,
+            "auprc_PÓLIPO": 0.1376,
+            "f1_ÚLCERA": 0.129,
+            "prec_ÚLCERA": 0.1333,
+            "rec_ÚLCERA": 0.125,
+            "auprc_ÚLCERA": 0.1673,
+            "f1_EROSÃO": 0.2967,
+            "prec_EROSÃO": 0.18,
+            "rec_EROSÃO": 0.8438,
+            "auprc_EROSÃO": 0.1683,
+            "f1_MICRONODULARIDADE": 0.2857,
+            "prec_MICRONODULARIDADE": 0.2,
+            "rec_MICRONODULARIDADE": 0.5,
+            "auprc_MICRONODULARIDADE": 0.2901,
+            "f1_macro": 0.2203,
+            "f1_micro": 0.2575,
+            "hamming": 0.2754,
+            "f1_macro_multilabel": 0.3863,
+            "n_multilabel_images": 12
+          },
+          "best_epoch": 8,
+          "val_f1_macro": 0.3045
+        },
+        "4": {
+          "test_metrics": {
+            "f1_ENANTEMA": 0.2414,
+            "prec_ENANTEMA": 0.1567,
+            "rec_ENANTEMA": 0.525,
+            "auprc_ENANTEMA": 0.1401,
+            "f1_PÓLIPO": 0.0,
+            "prec_PÓLIPO": 0.0,
+            "rec_PÓLIPO": 0.0,
+            "auprc_PÓLIPO": 0.1188,
+            "f1_ÚLCERA": 0.2564,
+            "prec_ÚLCERA": 0.2273,
+            "rec_ÚLCERA": 0.2941,
+            "auprc_ÚLCERA": 0.2075,
+            "f1_EROSÃO": 0.4343,
+            "prec_EROSÃO": 0.3209,
+            "rec_EROSÃO": 0.6719,
+            "auprc_EROSÃO": 0.3222,
+            "f1_MICRONODULARIDADE": 0.1429,
+            "prec_MICRONODULARIDADE": 0.1429,
+            "rec_MICRONODULARIDADE": 0.1429,
+            "auprc_MICRONODULARIDADE": 0.1229,
+            "f1_macro": 0.215,
+            "f1_micro": 0.3167,
+            "hamming": 0.1518,
+            "f1_macro_multilabel": 0.3836,
+            "n_multilabel_images": 13
+          },
+          "best_epoch": 8,
+          "val_f1_macro": 0.3306
+        }
+      }
+    },
+    "clin_tau01": {
+      "aggregated": {
+        "f1_macro": {
+          "mean": 0.3226,
+          "std": 0.0228
+        },
+        "f1_micro": {
+          "mean": 0.3485,
+          "std": 0.045
+        },
+        "hamming": {
+          "mean": 0.1619,
+          "std": 0.0314
+        },
+        "f1_macro_multilabel": {
+          "mean": 0.4095,
+          "std": 0.0287
+        },
+        "f1_ENANTEMA": {
+          "mean": 0.2959,
+          "std": 0.0447
+        },
+        "f1_PÓLIPO": {
+          "mean": 0.3066,
+          "std": 0.0814
+        },
+        "f1_ÚLCERA": {
+          "mean": 0.2983,
+          "std": 0.0693
+        },
+        "f1_EROSÃO": {
+          "mean": 0.4739,
+          "std": 0.0661
+        },
+        "f1_MICRONODULARIDADE": {
+          "mean": 0.2381,
+          "std": 0.1256
+        },
+        "auprc_ENANTEMA": {
+          "mean": 0.2034,
+          "std": 0.0371
+        },
+        "auprc_PÓLIPO": {
+          "mean": 0.2364,
+          "std": 0.0829
+        },
+        "auprc_ÚLCERA": {
+          "mean": 0.2481,
+          "std": 0.0676
+        },
+        "auprc_EROSÃO": {
+          "mean": 0.3132,
+          "std": 0.0432
+        },
+        "auprc_MICRONODULARIDADE": {
+          "mean": 0.2129,
+          "std": 0.0903
+        }
+      },
+      "per_seed": {
+        "0": {
+          "test_metrics": {
+            "f1_ENANTEMA": 0.3311,
+            "prec_ENANTEMA": 0.2252,
+            "rec_ENANTEMA": 0.625,
+            "auprc_ENANTEMA": 0.2267,
+            "f1_PÓLIPO": 0.4286,
+            "prec_PÓLIPO": 0.75,
+            "rec_PÓLIPO": 0.3,
+            "auprc_PÓLIPO": 0.3916,
+            "f1_ÚLCERA": 0.3636,
+            "prec_ÚLCERA": 0.3529,
+            "rec_ÚLCERA": 0.375,
+            "auprc_ÚLCERA": 0.2497,
+            "f1_EROSÃO": 0.5744,
+            "prec_EROSÃO": 0.4275,
+            "rec_EROSÃO": 0.875,
+            "auprc_EROSÃO": 0.3366,
+            "f1_MICRONODULARIDADE": 0.1053,
+            "prec_MICRONODULARIDADE": 0.06,
+            "rec_MICRONODULARIDADE": 0.4286,
+            "auprc_MICRONODULARIDADE": 0.0858,
+            "f1_macro": 0.3606,
+            "f1_micro": 0.4133,
+            "hamming": 0.1327,
+            "f1_macro_multilabel": 0.3871,
+            "n_multilabel_images": 11
+          },
+          "best_epoch": 37,
+          "val_f1_macro": 0.3428
+        },
+        "1": {
+          "test_metrics": {
+            "f1_ENANTEMA": 0.3066,
+            "prec_ENANTEMA": 0.2165,
+            "rec_ENANTEMA": 0.525,
+            "auprc_ENANTEMA": 0.2007,
+            "f1_PÓLIPO": 0.3529,
+            "prec_PÓLIPO": 0.4286,
+            "rec_PÓLIPO": 0.3,
+            "auprc_PÓLIPO": 0.2507,
+            "f1_ÚLCERA": 0.2899,
+            "prec_ÚLCERA": 0.1887,
+            "rec_ÚLCERA": 0.625,
+            "auprc_ÚLCERA": 0.1718,
+            "f1_EROSÃO": 0.398,
+            "prec_EROSÃO": 0.2977,
+            "rec_EROSÃO": 0.6,
+            "auprc_EROSÃO": 0.261,
+            "f1_MICRONODULARIDADE": 0.2857,
+            "prec_MICRONODULARIDADE": 0.2857,
+            "rec_MICRONODULARIDADE": 0.2857,
+            "auprc_MICRONODULARIDADE": 0.1451,
+            "f1_macro": 0.3266,
+            "f1_micro": 0.3464,
+            "hamming": 0.1422,
+            "f1_macro_multilabel": 0.418,
+            "n_multilabel_images": 11
+          },
+          "best_epoch": 20,
+          "val_f1_macro": 0.405
+        },
+        "2": {
+          "test_metrics": {
+            "f1_ENANTEMA": 0.3256,
+            "prec_ENANTEMA": 0.236,
+            "rec_ENANTEMA": 0.525,
+            "auprc_ENANTEMA": 0.2077,
+            "f1_PÓLIPO": 0.3158,
+            "prec_PÓLIPO": 0.3333,
+            "rec_PÓLIPO": 0.3,
+            "auprc_PÓLIPO": 0.1953,
+            "f1_ÚLCERA": 0.3889,
+            "prec_ÚLCERA": 0.25,
+            "rec_ÚLCERA": 0.875,
+            "auprc_ÚLCERA": 0.3641,
+            "f1_EROSÃO": 0.5238,
+            "prec_EROSÃO": 0.3767,
+            "rec_EROSÃO": 0.8594,
+            "auprc_EROSÃO": 0.3849,
+            "f1_MICRONODULARIDADE": 0.0725,
+            "prec_MICRONODULARIDADE": 0.0382,
+            "rec_MICRONODULARIDADE": 0.7143,
+            "auprc_MICRONODULARIDADE": 0.2232,
+            "f1_macro": 0.3253,
+            "f1_micro": 0.3451,
+            "hamming": 0.1869,
+            "f1_macro_multilabel": 0.4389,
+            "n_multilabel_images": 11
+          },
+          "best_epoch": 37,
+          "val_f1_macro": 0.3836
+        },
+        "3": {
+          "test_metrics": {
+            "f1_ENANTEMA": 0.3077,
+            "prec_ENANTEMA": 0.2136,
+            "rec_ENANTEMA": 0.55,
+            "auprc_ENANTEMA": 0.2456,
+            "f1_PÓLIPO": 0.2051,
+            "prec_PÓLIPO": 0.1379,
+            "rec_PÓLIPO": 0.4,
+            "auprc_PÓLIPO": 0.179,
+            "f1_ÚLCERA": 0.2069,
+            "prec_ÚLCERA": 0.2308,
+            "rec_ÚLCERA": 0.1875,
+            "auprc_ÚLCERA": 0.2645,
+            "f1_EROSÃO": 0.4563,
+            "prec_EROSÃO": 0.331,
+            "rec_EROSÃO": 0.7344,
+            "auprc_EROSÃO": 0.29,
+            "f1_MICRONODULARIDADE": 0.3636,
+            "prec_MICRONODULARIDADE": 0.4,
+            "rec_MICRONODULARIDADE": 0.3333,
+            "auprc_MICRONODULARIDADE": 0.267,
+            "f1_macro": 0.3079,
+            "f1_micro": 0.3645,
+            "hamming": 0.1367,
+            "f1_macro_multilabel": 0.4374,
+            "n_multilabel_images": 12
+          },
+          "best_epoch": 38,
+          "val_f1_macro": 0.3688
+        },
+        "4": {
+          "test_metrics": {
+            "f1_ENANTEMA": 0.2087,
+            "prec_ENANTEMA": 0.118,
+            "rec_ENANTEMA": 0.9,
+            "auprc_ENANTEMA": 0.1361,
+            "f1_PÓLIPO": 0.2308,
+            "prec_PÓLIPO": 0.1875,
+            "rec_PÓLIPO": 0.3,
+            "auprc_PÓLIPO": 0.1652,
+            "f1_ÚLCERA": 0.2424,
+            "prec_ÚLCERA": 0.25,
+            "rec_ÚLCERA": 0.2353,
+            "auprc_ÚLCERA": 0.1904,
+            "f1_EROSÃO": 0.4172,
+            "prec_EROSÃO": 0.3434,
+            "rec_EROSÃO": 0.5312,
+            "auprc_EROSÃO": 0.2933,
+            "f1_MICRONODULARIDADE": 0.3636,
+            "prec_MICRONODULARIDADE": 0.5,
+            "rec_MICRONODULARIDADE": 0.2857,
+            "auprc_MICRONODULARIDADE": 0.3432,
+            "f1_macro": 0.2925,
+            "f1_micro": 0.2734,
+            "hamming": 0.2111,
+            "f1_macro_multilabel": 0.366,
+            "n_multilabel_images": 13
+          },
+          "best_epoch": 7,
+          "val_f1_macro": 0.3582
+        }
+      }
+    },
+    "clin_tau03": {
+      "aggregated": {
+        "f1_macro": {
+          "mean": 0.3167,
+          "std": 0.0406
+        },
+        "f1_micro": {
+          "mean": 0.3804,
+          "std": 0.0527
+        },
+        "hamming": {
+          "mean": 0.1421,
+          "std": 0.0402
+        },
+        "f1_macro_multilabel": {
+          "mean": 0.4172,
+          "std": 0.0303
+        },
+        "f1_ENANTEMA": {
+          "mean": 0.3329,
+          "std": 0.0296
+        },
+        "f1_PÓLIPO": {
+          "mean": 0.2783,
+          "std": 0.0583
+        },
+        "f1_ÚLCERA": {
+          "mean": 0.3436,
+          "std": 0.022
+        },
+        "f1_EROSÃO": {
+          "mean": 0.4822,
+          "std": 0.0532
+        },
+        "f1_MICRONODULARIDADE": {
+          "mean": 0.1465,
+          "std": 0.1078
+        },
+        "auprc_ENANTEMA": {
+          "mean": 0.2193,
+          "std": 0.0264
+        },
+        "auprc_PÓLIPO": {
+          "mean": 0.2261,
+          "std": 0.0743
+        },
+        "auprc_ÚLCERA": {
+          "mean": 0.3145,
+          "std": 0.071
+        },
+        "auprc_EROSÃO": {
+          "mean": 0.3491,
+          "std": 0.0432
+        },
+        "auprc_MICRONODULARIDADE": {
+          "mean": 0.1821,
+          "std": 0.1189
+        }
+      },
+      "per_seed": {
+        "0": {
+          "test_metrics": {
+            "f1_ENANTEMA": 0.3273,
+            "prec_ENANTEMA": 0.2571,
+            "rec_ENANTEMA": 0.45,
+            "auprc_ENANTEMA": 0.2172,
+            "f1_PÓLIPO": 0.3529,
+            "prec_PÓLIPO": 0.4286,
+            "rec_PÓLIPO": 0.3,
+            "auprc_PÓLIPO": 0.3487,
+            "f1_ÚLCERA": 0.3243,
+            "prec_ÚLCERA": 0.2857,
+            "rec_ÚLCERA": 0.375,
+            "auprc_ÚLCERA": 0.2152,
+            "f1_EROSÃO": 0.4706,
+            "prec_EROSÃO": 0.3774,
+            "rec_EROSÃO": 0.625,
+            "auprc_EROSÃO": 0.3512,
+            "f1_MICRONODULARIDADE": 0.2857,
+            "prec_MICRONODULARIDADE": 0.2857,
+            "rec_MICRONODULARIDADE": 0.2857,
+            "auprc_MICRONODULARIDADE": 0.1388,
+            "f1_macro": 0.3522,
+            "f1_micro": 0.3966,
+            "hamming": 0.1055,
+            "f1_macro_multilabel": 0.3698,
+            "n_multilabel_images": 11
+          },
+          "best_epoch": 26,
+          "val_f1_macro": 0.3691
+        },
+        "1": {
+          "test_metrics": {
+            "f1_ENANTEMA": 0.3796,
+            "prec_ENANTEMA": 0.268,
+            "rec_ENANTEMA": 0.65,
+            "auprc_ENANTEMA": 0.2462,
+            "f1_PÓLIPO": 0.2353,
+            "prec_PÓLIPO": 0.2857,
+            "rec_PÓLIPO": 0.2,
+            "auprc_PÓLIPO": 0.2735,
+            "f1_ÚLCERA": 0.35,
+            "prec_ÚLCERA": 0.2917,
+            "rec_ÚLCERA": 0.4375,
+            "auprc_ÚLCERA": 0.3244,
+            "f1_EROSÃO": 0.4952,
+            "prec_EROSÃO": 0.3586,
+            "rec_EROSÃO": 0.8,
+            "auprc_EROSÃO": 0.3537,
+            "f1_MICRONODULARIDADE": 0.129,
+            "prec_MICRONODULARIDADE": 0.0833,
+            "rec_MICRONODULARIDADE": 0.2857,
+            "auprc_MICRONODULARIDADE": 0.0628,
+            "f1_macro": 0.3178,
+            "f1_micro": 0.4092,
+            "hamming": 0.1291,
+            "f1_macro_multilabel": 0.444,
+            "n_multilabel_images": 11
+          },
+          "best_epoch": 40,
+          "val_f1_macro": 0.4203
+        },
+        "2": {
+          "test_metrics": {
+            "f1_ENANTEMA": 0.2976,
+            "prec_ENANTEMA": 0.1953,
+            "rec_ENANTEMA": 0.625,
+            "auprc_ENANTEMA": 0.1982,
+            "f1_PÓLIPO": 0.2105,
+            "prec_PÓLIPO": 0.2222,
+            "rec_PÓLIPO": 0.2,
+            "auprc_PÓLIPO": 0.177,
+            "f1_ÚLCERA": 0.3438,
+            "prec_ÚLCERA": 0.2292,
+            "rec_ÚLCERA": 0.6875,
+            "auprc_ÚLCERA": 0.2976,
+            "f1_EROSÃO": 0.4,
+            "prec_EROSÃO": 0.2908,
+            "rec_EROSÃO": 0.6406,
+            "auprc_EROSÃO": 0.3161,
+            "f1_MICRONODULARIDADE": 0.0676,
+            "prec_MICRONODULARIDADE": 0.0355,
+            "rec_MICRONODULARIDADE": 0.7143,
+            "auprc_MICRONODULARIDADE": 0.3725,
+            "f1_macro": 0.2639,
+            "f1_micro": 0.2781,
+            "hamming": 0.2191,
+            "f1_macro_multilabel": 0.3956,
+            "n_multilabel_images": 11
+          },
+          "best_epoch": 20,
+          "val_f1_macro": 0.3457
+        },
+        "3": {
+          "test_metrics": {
+            "f1_ENANTEMA": 0.3511,
+            "prec_ENANTEMA": 0.2527,
+            "rec_ENANTEMA": 0.575,
+            "auprc_ENANTEMA": 0.2514,
+            "f1_PÓLIPO": 0.25,
+            "prec_PÓLIPO": 0.1818,
+            "rec_PÓLIPO": 0.4,
+            "auprc_PÓLIPO": 0.1477,
+            "f1_ÚLCERA": 0.3188,
+            "prec_ÚLCERA": 0.2075,
+            "rec_ÚLCERA": 0.6875,
+            "auprc_ÚLCERA": 0.436,
+            "f1_EROSÃO": 0.4789,
+            "prec_EROSÃO": 0.3423,
+            "rec_EROSÃO": 0.7969,
+            "auprc_EROSÃO": 0.2996,
+            "f1_MICRONODULARIDADE": 0.0,
+            "prec_MICRONODULARIDADE": 0.0,
+            "rec_MICRONODULARIDADE": 0.0,
+            "auprc_MICRONODULARIDADE": 0.0734,
+            "f1_macro": 0.2798,
+            "f1_micro": 0.3904,
+            "hamming": 0.1397,
+            "f1_macro_multilabel": 0.4501,
+            "n_multilabel_images": 12
+          },
+          "best_epoch": 30,
+          "val_f1_macro": 0.3598
+        },
+        "4": {
+          "test_metrics": {
+            "f1_ENANTEMA": 0.3087,
+            "prec_ENANTEMA": 0.211,
+            "rec_ENANTEMA": 0.575,
+            "auprc_ENANTEMA": 0.1834,
+            "f1_PÓLIPO": 0.3429,
+            "prec_PÓLIPO": 0.24,
+            "rec_PÓLIPO": 0.6,
+            "auprc_PÓLIPO": 0.1838,
+            "f1_ÚLCERA": 0.381,
+            "prec_ÚLCERA": 0.32,
+            "rec_ÚLCERA": 0.4706,
+            "auprc_ÚLCERA": 0.2995,
+            "f1_EROSÃO": 0.5665,
+            "prec_EROSÃO": 0.4495,
+            "rec_EROSÃO": 0.7656,
+            "auprc_EROSÃO": 0.4251,
+            "f1_MICRONODULARIDADE": 0.25,
+            "prec_MICRONODULARIDADE": 1.0,
+            "rec_MICRONODULARIDADE": 0.1429,
+            "auprc_MICRONODULARIDADE": 0.263,
+            "f1_macro": 0.3698,
+            "f1_micro": 0.4275,
+            "hamming": 0.1171,
+            "f1_macro_multilabel": 0.4263,
+            "n_multilabel_images": 13
+          },
+          "best_epoch": 40,
+          "val_f1_macro": 0.4526
+        }
+      }
+    }
+  },
+  "statistical_tests": [
+    {
+      "model": "M0",
+      "F1-macro pooled": 0.5144,
+      "95% CI": "[0.4736, 0.5543]"
+    },
+    {
+      "model": "M1_CC",
+      "F1-macro pooled": 0.5148,
+      "95% CI": "[0.4639, 0.5621]"
+    },
+    {
+      "model": "M2_coo",
+      "F1-macro pooled": 0.524,
+      "95% CI": "[0.4821, 0.5665]"
+    },
+    {
+      "model": "M3_clin_tau01",
+      "F1-macro pooled": 0.292,
+      "95% CI": "[0.2663, 0.3181]"
+    }
+  ]
+}

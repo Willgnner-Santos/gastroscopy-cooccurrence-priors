@@ -1,0 +1,36 @@
+# ── large binary / model checkpoints ──────────────────────────────────────────
+models/
+*.pth
+*.pt
+*.pkl
+
+# ── virtual environment ────────────────────────────────────────────────────────
+venv/
+.venv/
+env/
+__pycache__/
+*.pyc
+*.pyo
+.ipynb_checkpoints/
+
+# ── clinical validation material (patient images / expert spreadsheet) ─────────
+clinical_validation/amostras/
+clinical_validation/validacao_clinica.xlsx
+clinical_validation/imagens_referencia.pdf
+
+# ── raw image data (not redistributable) ──────────────────────────────────────
+Dev/
+
+# ── internal methodology notes ────────────────────────────────────────────────
+metodologia_T3.md
+
+# ── sanitization helper (not for reviewers) ───────────────────────────────────
+sanitize_for_review.py
+
+# ── OS / IDE noise ─────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
