@@ -1,0 +1,649 @@
+\documentclass[12pt]{article}
+
+\usepackage{sbc-template}
+\usepackage{graphicx,url}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{adjustbox}
+\usepackage{makecell}
+\usepackage{float}
+\usepackage{placeins}
+\usepackage{subcaption}
+\usepackage{url}
+\usepackage{booktabs}
+\usepackage{array}
+
+\sloppy
+\raggedbottom
+
+\setlength{\textfloatsep}{8pt plus 2pt minus 2pt}
+\setlength{\floatsep}{8pt plus 2pt minus 2pt}
+\setlength{\intextsep}{8pt plus 2pt minus 2pt}
+\setlength{\abovecaptionskip}{4pt}
+\setlength{\belowcaptionskip}{0pt}
+
+\title{Clinical Co-occurrence Priors for Multilabel Classification in Brazilian Gastroscopy Images}
+
+\author{Anonymous Author(s)}
+
+\address{
+  Anonymous
+}
+
+\begin{document} 
+
+\maketitle
+
+\begin{abstract}
+This work investigates relational formulations for multilabel gastroscopy classification, motivated by the clinical co-occurrence of findings in upper gastrointestinal endoscopy. Using a Brazilian dataset of 1,990 anonymized images with up to 11 binary labels, we evaluate five core clinical labels through multilabel stratified five-fold cross-validation. With ResNet50, we compare BCE, ASL, \textit{Classifier Chains}, co-occurrence regularization (M2), and ML-GCN (M3) over label graphs. M2 achieved the best mean macro-F1 ($0.537 \pm 0.041$), with gains in POLYP and MICRONODULARITY, while M3 did not outperform the baseline. Results suggest that simple relational priors coupled to the loss are more effective than complex relational architectures in limited-data settings.
+\end{abstract}
+
+\section{Introduction}
+\label{sec:Introduction}
+
+% A Endoscopia Digestiva Alta (EDA) é o exame padrão para a investigação de doenças do esôfago, estômago e duodeno, e a quantidade crescente de imagens produzidas em rotina clínica tem motivado o desenvolvimento de sistemas de visão computacional baseados em aprendizado profundo para auxiliar o diagnóstico \cite{Klang2023}. Trabalhos recentes reportam ganhos em tarefas como classificação de lesões gástricas, detecção precoce de câncer e identificação de achados associados a gastrite e metaplasia intestinal \cite{10078850,Yang20237}. No entanto, a literatura formula o problema como classificação binária ou multiclasse mutuamente exclusiva, em que cada imagem é associada a um único rótulo. Essa formulação não reflete o cenário clínico real, no qual múltiplos achados, por exemplo, enantema, erosão e úlcera, podem coexistir em uma mesma imagem e apresentar relações semânticas estáveis entre si.
+
+Upper Gastrointestinal Endoscopy (UGE) is the standard examination for investigating diseases of the esophagus, stomach, and duodenum, and the growing volume of images produced in clinical routine has motivated the development of deep learning-based computer vision systems to assist diagnosis \cite{Klang2023}. Recent work reports gains in tasks such as gastric lesion classification, early cancer detection, and identification of findings associated with gastritis and intestinal metaplasia \cite{10078850,Yang20237}. However, the literature formulates the problem as binary or mutually exclusive multiclass classification, in which each image is associated with a single label. This formulation does not reflect the actual clinical scenario, in which multiple findings, for example, erythema, erosion, and ulcer, may coexist in the same image and exhibit stable semantic relationships among themselves.
+
+% Apesar do volume de publicações na área, a modelagem multilabel em EDA ainda é raríssima: em uma revisão sistemática conduzida sobre 717 artigos de IEEE Xplore, Scopus e Web of Science, apenas um trabalho utiliza o termo \textit{multilabel} no título e nenhum incorpora a co-ocorrência clínica entre rótulos como prior arquitetônico em gastroscopia. As poucas iniciativas multilabel existentes concentram-se em reconhecimento anatômico de regiões, e não em co-ocorrência de achados patológicos \cite{WOS:000780549400001}. Como consequência, classificadores baseados em cabeças independentes treinados com \textit{Binary Cross-Entropy} (BCE) tratam pares clinicamente densos, como enantema com erosão e úlcera com erosão, como mero acidente estatístico, ignorando uma estrutura relacional que poderia ser explorada como sinal de aprendizado em cenários de desbalanceamento alto \cite{Krenzer2026276}.
+
+Despite the volume of publications in the area, multilabel modeling in UGE remains extremely rare: in a systematic review conducted over 717 articles from IEEE Xplore, Scopus, and Web of Science, only one study uses the term multilabel in the title and none incorporates clinical co-occurrence between labels as an architectural prior in gastroscopy. The few existing multilabel initiatives focus on anatomical region recognition rather than co-occurrence of pathological findings \cite{WOS:000780549400001}. As a consequence, classifiers based on independent heads trained with Binary Cross-Entropy (BCE) treat clinically dense pairs, such as erythema with erosion and ulcer with erosion, as a mere statistical coincidence, ignoring a relational structure that could be exploited as a learning signal in high-imbalance scenarios \cite{Krenzer2026276}.
+
+% A relevância deste trabalho está em endereçar essa lacuna a partir de um dataset brasileiro real de EDA, com aproximadamente 1.990 imagens e 11 rótulos binários, em que cerca de 53\% das imagens apresentam dois ou mais rótulos positivos simultaneamente. Esse cenário contrasta com o predomínio de bases asiáticas e públicas no estado da arte e amplia o conjunto de evidências geográficas necessárias para validação clínica de sistemas de Inteligência Artificial (IA) em endoscopia, em consonância com iniciativas brasileiras pioneiras na área \cite{9926791,10373486}. As decisões de curadoria, anonimização e governança são detalhadas na seção de metodologia. A contribuição metodológica, contudo, é independente do compartilhamento da base: trata-se de avaliar como diferentes formas de incorporar a co-ocorrência clínica entre rótulos afetam a classificação multilabel de achados gástricos.
+
+The relevance of this work lies in addressing this gap using a real-world Brazilian UGE dataset, with approximately 1,990 images and 11 binary labels, in which about 53\% of the images present two or more positive labels simultaneously. This scenario contrasts with the predominance of Asian and public datasets in the state of the art and broadens the body of geographic evidence required for clinical validation of Artificial Intelligence (AI) systems in endoscopy, in line with pioneering Brazilian initiatives in the area \cite{9926791,10373486}. Curation, anonymization, and governance decisions are detailed in the methodology section. The methodological contribution, however, is independent of dataset sharing: it consists of evaluating how different ways of incorporating clinical co-occurrence between labels affect the multilabel classification of gastric findings.
+
+% O objetivo geral deste artigo é investigar formulações relacionais para classificação multilabel em imagens de gastroscopia, comparando uma baseline com cabeças independentes a estratégias que incorporam a co-ocorrência clínica como prior. São avaliadas quatro formulações: cabeças independentes com (BCE, M0), \textit{Classifier Chains} (M1), regularização explícita de co-ocorrência adicionada à perda (M2) e \textit{Multi-Label Graph Convolutional Network} (ML-GCN, M3) sobre grafos empírico, baseado em \textit{Pointwise Mutual Information} (PMI) e curado clinicamente. Os experimentos foram conduzidos em validação cruzada com cinco \textit{folds} sobre cinco rótulos clínicos do núcleo. Os resultados indicam que a regularização de co-ocorrência produz o melhor macro-F1 médio, enquanto o ML-GCN não supera a baseline neste regime de dados.
+
+The general objective of this article is to investigate relational formulations for multilabel classification in gastroscopy images, comparing a baseline with independent heads to strategies that incorporate clinical co-occurrence as a prior. Four formulations are evaluated: independent heads with Binary Cross-Entropy (BCE, M0), Classifier Chains (M1), explicit co-occurrence regularization added to the loss (M2), and Multi-Label Graph Convolutional Network (ML-GCN, M3), using empirical, Pointwise Mutual Information (PMI), and clinically curated graphs. The experiments were conducted with five-fold cross-validation over five core clinical labels. The results indicate that co-occurrence regularization produces the best mean macro-F1, while ML-GCN does not outperform the baseline in this data regime.
+
+% \section{Trabalhos Relacionados}
+% \label{sec:trabalhos-relacionados}
+
+% A aplicação de aprendizado profundo à classificação de imagens de EDA avançou rapidamente nos últimos anos, com forte ênfase em detecção de câncer gástrico, classificação de lesões pré-malignas e avaliação de qualidade do exame. Em geral, os trabalhos podem ser organizados em três grandes grupos: (i) classificadores binários ou multiclasse baseados em redes convolucionais para diferenciar tecido normal, lesões e câncer precoce \cite{10078850}; (ii) abordagens baseadas em \textit{Vision Transformer} (ViT) e arquiteturas híbridas acompanhadas de estratégias de aumento de dados e \textit{transfer learning} \cite{Chae202329391}; e (iii) pipelines voltados ao reconhecimento de regiões anatômicas e ao monitoramento de qualidade durante o exame, com modelos espaço-temporais sobre vídeos de gastroscopia \cite{Bravo2023}. Esses três eixos consolidam o estado da arte em classificação de achados gástricos, mas tratam, na maioria dos casos, cada categoria de forma isolada, sem explorar dependências entre os rótulos.
+
+\section{Related Work}
+\label{sec:Related-Work}
+
+The application of deep learning to UGE image classification has advanced rapidly in recent years, with a strong emphasis on gastric cancer detection, pre-malignant lesion classification, and examination quality assessment. In general, prior studies can be organized into three broad groups: (i) binary or multiclass classifiers based on convolutional networks to differentiate normal tissue, lesions, and early cancer \cite{10078850}; (ii) approaches based on Vision Transformer (ViT) and hybrid architectures combined with data augmentation and transfer learning strategies \cite{10078850}; and (iii) pipelines aimed at anatomical region recognition and quality monitoring during the examination, with spatio-temporal models over gastroscopy videos \cite{Bravo2023}. These three axes consolidate the state of the art in gastric findings classification but, in most cases, treat each category in isolation, without exploring dependencies between labels.
+
+% Os trabalhos mais próximos do problema investigado neste artigo são aqueles que adotam formulações com mais de uma saída por imagem. Liu et al.~\cite{Liu2024} propõem uma abordagem de reconhecimento de manifestações gastroscópicas baseada no \textit{Kyoto Gastritis Score}, treinando cinco modelos GAM-EfficientNet em paralelo para quantificar atrofia, vermelhidão difusa, pregas alargadas, metaplasia intestinal e nodularidade, uma formulação multilabel implícita, em que cada rótulo é estimado por um classificador independente, sem prior relacional entre eles. Wei et al.~\cite{Wei2025} apresentam a \textit{Multi-Granularity Collaborative Network} (MGCN), que explora correlações entre níveis hierárquicos de rótulos em endoscopia do trato gastrointestinal superior, mostrando que a colaboração entre granularidades melhora a classificação. Cao et al.~\cite{Cao2025} formulam o diagnóstico de gastrite autoimune como uma rede multitarefa, com cabeças separadas para localização anatômica e identificação de lesão. No campo das estratégias para dados limitados, Lopes et al.~\cite{10782717} avaliam aprendizado autossupervisionado para detecção de atrofia gástrica e metaplasia intestinal, indicando ganhos relevantes em regimes de pouca anotação, enquanto Hossain et al.~\cite{10235970} comparam arquiteturas convolucionais e baseadas em \textit{Transformer} em tarefas de classificação e segmentação de pólipos.
+
+The studies closest to the problem investigated in this article are those that adopt formulations with more than one output per image. Liu et al.~\cite{Liu2024} propose an approach for recognizing gastroscopic manifestations based on the Kyoto Gastritis Score, training five GAM-EfficientNet models in parallel to quantify atrophy, diffuse redness, enlarged folds, intestinal metaplasia, and nodularity, an implicit multilabel formulation in which each label is estimated by an independent classifier, without a relational prior among them. Wei et al.~\cite{Wei2025} present the Multi-Granularity Collaborative Network (MGCN), which explores correlations between hierarchical label levels in upper gastrointestinal tract endoscopy, showing that collaboration between granularities improves classification. Cao et al.~\cite{Cao2025} formulate the diagnosis of autoimmune gastritis as a multitask network, with separate heads for anatomical localization and lesion identification. In the field of strategies for limited data, Lopes et al.~\cite{10782717} evaluate self-supervised learning for the detection of gastric atrophy and intestinal metaplasia, indicating relevant gains in low-annotation regimes, while Hossain et al.~\cite{10235970} compare convolutional and Transformer-based architectures in polyp classification and segmentation tasks.
+
+% Apesar desses avanços, a maioria dos estudos ainda trata os rótulos de forma independente, hierárquica ou multitarefa, sem modelar explicitamente a co-ocorrência clínica entre achados patológicos distintos em uma mesma imagem de gastroscopia. Além disso, muitos resultados são obtidos em bases públicas asiáticas, o que limita sua transferibilidade para dados brasileiros reais. Este trabalho aborda essa lacuna ao comparar, sob validação cruzada, cabeças independentes, cadeias de classificadores, regularização de co-ocorrência e ML-GCN sobre grafos empírico, PMI e clínico.
+
+Despite these advances, most studies still treat labels independently, hierarchically, or in a multitask fashion, without explicitly modeling clinical co-occurrence between distinct pathological findings in the same gastroscopy image. Furthermore, many results are obtained on Asian public datasets, which limits their transferability to real Brazilian data. This work addresses this gap by comparing, under cross-validation, independent heads, classifier chains, co-occurrence regularization, and ML-GCN over empirical, PMI, and clinical graphs.
+
+% \section{Metodologia}
+
+% A metodologia está organizada em seis etapas: coleta e caracterização dos dados, inspeção inicial, pré-processamento e divisão em \textit{folds}, construção dos grafos de rótulos, modelos avaliados e análise estatística.
+
+% \subsection{Coleta e Caracterização dos Dados}
+
+% O conjunto de dados utilizado neste trabalho é composto por 1.990 imagens de gastroscopia provenientes de bancos previamente anonymizeds do Hospital \textless{}anonymized\textgreater{} e do Instituto do \textless{}anonymized\textgreater{}, ambos em \textless{}anonymized\textgreater{}, \textless{}anonymized\textgreater{}. As imagens foram obtidas em ambiente clínico, possuem resolução variável e foram anotadas manualmente por endoscopistas, com até 11 rótulos binários por imagem: NORMAL, ALTERADO, SALIVA, LUZ, ENANTEMA, PÓLIPO, ÚLCERA, EROSÃO, MICRONODULARIDADE, ECTASIA VASCULAR e NEOPLASIA.
+
+% O dataset não é disponibilizado publicamente neste artigo; sua disponibilização está prevista em um estudo futuro específico. Pesquisadores interessados podem contatar os autores para discutir possibilidades de acesso supervisionado aos dados.
+
+% A tarefa é formulada como classificação multilabel: para cada imagem $x_n$ deseja-se predizer um vetor binário $y_n \in \{0,1\}^K$, em que cada componente $y_{n,i}=1$ indica a presença do $i$-ésimo rótulo. Neste artigo, o núcleo experimental considera $K=5$ rótulos clínicos: ENANTEMA, PÓLIPO, ÚLCERA, EROSÃO e MICRONODULARIDADE. Os rótulos NEOPLASIA e ECTASIA VASCULAR, com apenas quatro exemplos cada, foram excluídos do cálculo do macro-F1 principal por instabilidade estatística; SALIVA e LUZ foram tratados como artefatos auxiliares; NORMAL e ALTERADO, como meta-rótulos.
+
+\section{Methodology}
+\label{sec:Methodology}
+
+The methodology is organized into six stages: data collection and characterization, initial inspection, preprocessing and split into \textit{folds}, construction of label graphs, evaluated models, and statistical analysis.
+
+\subsection{Data Collection and Characterization}
+
+The dataset used in this work is composed of 1,990 gastroscopy images from previously anonymized databases of the Hospital \textless{}anonymized\textgreater{} and the Instituto do \textless{}anonymized\textgreater{}, both in \textless{}anonymized\textgreater{}, \textless{}anonymized\textgreater{}. The images were obtained in a clinical setting, have variable resolution, and were manually annotated by endoscopists, with up to 11 binary labels per image: NORMAL, ALTERED, SALIVA, LIGHT, ERYTHEMA, POLYP, ULCER, EROSION, MICRONODULARITY, VASCULAR ECTASIA, and NEOPLASIA.
+
+The dataset is not publicly released in this article; its release is planned in a specific future study. Interested researchers may contact the authors to discuss possibilities of controlled access to the data.
+
+The task is formulated as multilabel classification: for each image $x_n$, the goal is to predict a binary vector $y_n \in \{0,1\}^K$, where each component $y_{n,i}=1$ indicates the presence of the $i$-th label. In this article, the experimental core considers $K=5$ clinical labels: ERYTHEMA, POLYP, ULCER, EROSION, and MICRONODULARITY. The labels NEOPLASIA and VASCULAR ECTASIA, with only four examples each, were excluded from the main macro-F1 computation due to statistical instability; SALIVA and LIGHT were treated as auxiliary artifacts; NORMAL and ALTERED, as meta-labels.
+
+% \subsection{Inspeção Inicial e Análise Exploratória}
+
+% Antes da modelagem, foi conduzida uma auditoria de integridade do CSV de rotulagem versus os arquivos em disco, identificando 12 nomes de imagem duplicados, 17 imagens órfãs sem rótulo e 1.140 valores ausentes na coluna ECTASIA VASCULAR. Após limpeza determinística (remoção de duplicatas mantendo a linha com mais rótulos positivos e descarte de órfãs), restaram 1.980 imagens efetivamente utilizáveis. Para mitigar o risco de \textit{leakage} entre \textit{folds}, foi calculada a similaridade visual entre todas as imagens com \textit{embeddings} pré-treinados; nenhum par excedeu o limiar $0{,}95$ de similaridade do cosseno, indicando ausência de duplicatas visuais que justificassem agrupamento.
+
+% A análise exploratória quantificou a distribuição de rótulos por imagem, a co-ocorrência entre patologias e a interação entre artefatos e patologias. Aproximadamente 53\% das imagens apresentam dois ou mais rótulos positivos simultâneos, com pares clinicamente densos (ENANTEMA+EROSÃO, ÚLCERA+EROSÃO) e forte interação entre LUZ e EROSÃO (86 imagens). 
+
+\subsection{Initial Inspection and Exploratory Analysis}
+
+Before modeling, an integrity audit was conducted between the labeling CSV and the files on disk, identifying 12 duplicate image names, 17 orphan images without labels, and 1,140 missing values in the VASCULAR ECTASIA column. After deterministic cleaning (removal of duplicates while keeping the row with more positive labels and discarding orphans), 1,990 effectively usable images remained. To mitigate the risk of leakage between \textit{folds}, visual similarity was computed between all images using pre-trained embeddings; no pair exceeded the cosine similarity threshold of $0.95$, indicating the absence of visual duplicates that would justify grouping.
+
+The exploratory analysis quantified the distribution of labels per image, the co-occurrence between pathologies, and the interaction between artifacts and pathologies. Approximately 52\% of the images present two or more simultaneous positive labels, with clinically dense pairs (ERYTHEMA+EROSION, ULCER+EROSION) and a strong interaction between LIGHT and EROSION (87 images).
+
+% \subsection{Pré-processamento e Divisão dos Dados}
+
+% As imagens foram redimensionadas para $224\times 224$ pixels e normalizadas com as estatísticas do ImageNet ($\mu=[0{,}485;\,0{,}456;\,0{,}406]$, $\sigma=[0{,}229;\,0{,}224;\,0{,}225]$). No conjunto de treino, foi aplicada apenas inversão horizontal aleatória, evitando aumentos agressivos (\textit{CutOut}, \textit{MixUp}) que pudessem interferir na estrutura de co-ocorrência entre rótulos.
+
+% A divisão dos dados utilizou validação cruzada estratificada multilabel com $K=5$ \textit{folds}, implementada por meio de \textit{Iterative Stratification} de segunda ordem~\cite{Sechidis2011}, que preserva a distribuição conjunta dos rótulos. Em cada \textit{fold}, foram alocadas 1.353 imagens para treino, 239 para validação e 398 para teste. A versão do \textit{split} foi congelada por hash SHA-256, e uma auditoria programática confirmou, em cada dobra, intersecção nula de imagens entre treino, validação e teste, mitigando risco de \textit{data leakage}.
+
+\subsection{Data Preprocessing and Splitting}
+
+The images were resized to $224\times 224$ pixels and normalized using ImageNet statistics ($\mu=[0.485,0.456,0.406]$, $\sigma=[0.229,0.224,0.225]$). In the training set, only random horizontal flipping was applied, avoiding aggressive augmentations (\textit{CutOut}, \textit{MixUp}) that could interfere with the co-occurrence structure between labels.
+
+The data split used multilabel stratified cross-validation with $K=5$ \textit{folds}, implemented through second-order Iterative Stratification~\cite{Sechidis2011}, which preserves the joint distribution of labels. In each \textit{fold}, 1,353 images were allocated for training, 239 for validation, and 398 for testing. The split version was frozen using a SHA-256 hash, and a programmatic audit confirmed, in each fold, null image intersection between training, validation, and test, mitigating the risk of data leakage.
+
+% \subsection{Construção do Grafo de Rótulos}
+
+% A estrutura relacional entre rótulos foi modelada por meio de um grafo $G = (V, E, A)$, em que $V$ corresponde aos $K=5$ rótulos clínicos e $A \in \mathbb{R}^{K\times K}$ é a matriz de adjacência ponderada. Foram avaliadas três variantes de $A$. As variantes empírica e PMI foram estimadas separadamente em cada dobra, utilizando exclusivamente o conjunto de treino correspondente, enquanto o grafo clínico foi mantido fixo por depender de conhecimento especialista e não de estatísticas dos dados:
+
+% \begin{itemize}
+%     \item \textbf{$G_{\text{emp}}$ (empírico):} $A_{ij}$ recebe a contagem absoluta de co-ocorrências $n_{ij}$ entre os rótulos $i$ e $j$, normalizada para $[0,1]$.
+%     \item \textbf{$G_{\text{pmi}}$ (PMI normalizado):} a aresta é ponderada pela \textit{Pointwise Mutual Information} (PMI) com suavização de Laplace ($\alpha = 1$),
+%     \begin{equation}
+%         \text{PMI}(i,j) = \log \frac{P(y_i=1, y_j=1)}{P(y_i=1)\,P(y_j=1)},
+%     \end{equation}
+%     em seguida normalizada por $\text{nPMI}(i,j) = \text{PMI}(i,j) / [-\log P(y_i=1, y_j=1)]$.
+%     \item \textbf{$G_{\text{clin}}$ (clínico curado):} pesos atribuídos manualmente em $\{0;\,0{,}5;\,1\}$ segundo plausibilidade clínica entre achados.
+% \end{itemize}
+
+% Sobre cada matriz aplicou-se um limiar de esparsificação $\tau \in \{0;\,0{,}1;\,0{,}3\}$, mantendo apenas arestas com peso $\geq \tau$. Os grafos foram simetrizados, somou-se a matriz identidade ($A \leftarrow A + I$) e aplicou-se a renormalização simétrica $\hat{A} = D^{-1/2}(A+I)D^{-1/2}$, padrão em redes convolucionais sobre grafos~\cite{Kipf2017}. A Figura~\ref{fig:graphs} compara as três variantes do grafo de rótulos.
+
+\subsection{Label Graph Construction}
+
+The relational structure between labels was modeled through a graph $G = (V, E, A)$, where $V$ corresponds to the $K=5$ clinical labels and $A \in \mathbb{R}^{K\times K}$ is the weighted adjacency matrix. Three variants of $A$ were evaluated. The empirical and PMI variants were estimated separately in each fold, using exclusively the corresponding training set, while the clinical graph was kept fixed since it relies on expert knowledge rather than data statistics:
+
+\begin{itemize}
+\item \textbf{$G_{\text{emp}}$ (empirical):} $A_{ij}$ receives the absolute count of co-occurrences $n_{ij}$ between labels $i$ and $j$, normalized to $[0,1]$.
+\item \textbf{$G_{\text{pmi}}$ (normalized PMI):} the edge is weighted by Pointwise Mutual Information (PMI) with Laplace smoothing ($\alpha = 1$),
+\begin{equation}
+\text{PMI}(i,j) = \log \frac{P(y_i=1, y_j=1)}{P(y_i=1)\,P(y_j=1)}.
+\end{equation}
+then normalized by $\text{nPMI}(i,j) = \text{PMI}(i,j) / [-\log P(y_i=1, y_j=1)]$.
+\item \textbf{$G_{\text{clin}}$ (curated clinical):} weights manually assigned in $\{0,\,0.5,\,1\}$ according to clinical plausibility between findings.
+\end{itemize}
+
+A sparsification threshold $\tau \in \{0,\,0.1,\,0.3\}$ was applied to each matrix, keeping only edges with weight $\geq \tau$. The graphs were symmetrized, the identity matrix was added ($A \leftarrow A + I$), and symmetric renormalization $\hat{A} = D^{-1/2}(A+I)D^{-1/2}$ was applied, standard in graph convolutional networks~\cite{Kipf2017}. Figure~\ref{fig:graphs} compares the three variants of the label graph.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.99\columnwidth]{Template_SBC/template-latex/Imagens/16_adjacency_comparison_EN.png}
+\caption{Comparison of the adjacency matrices $G_{\text{emp}}$, $G_{\text{pmi}}$, and $G_{\text{clin}}$ used as relational priors among the five core clinical labels.}
+\label{fig:graphs}
+\end{figure}
+
+% \subsection{Modelos e Configuração Experimental}
+
+% Foram comparadas quatro famílias de modelos, incluindo duas variantes da baseline M0, todas com \textit{backbone} ResNet50~\cite{He2016} pré-treinado em ImageNet-1k (pesos \texttt{IMAGENET1K\_V2}). A Tabela~\ref{tab:modelos} resume as formulações.
+
+% \begin{table}[H]
+% \centering
+% \caption{Resumo das formulações de classificação multilabel avaliadas neste estudo.}
+% \label{tab:modelos}
+% \small
+% \begin{tabular}{lll}
+% \hline
+% \textbf{ID} & \textbf{Formulação} & \textbf{Função de perda / prior} \\
+% \hline
+% M0\_BCE & Cabeças independentes & BCEWithLogitsLoss + \textit{pos\_weight} \\
+% M0\_ASL & Cabeças independentes & \textit{Asymmetric Loss}~\cite{Ridnik2021} \\
+% M1     & \textit{Classifier Chains}~\cite{Read2011} & BCE em cadeia binária \\
+% M2     & BCE + regularização de co-ocorrência & $\mathcal{L}_{\text{BCE}} + \lambda\,\mathcal{L}_{\text{coo}}$ \\
+% M3     & ML-GCN~\cite{Chen2019} & GCN sobre $G \in \{G_{\text{emp}}, G_{\text{pmi}}, G_{\text{clin}}\}$ \\
+% \hline
+% \end{tabular}
+% \end{table}
+
+\subsection{Models and Experimental Configuration}
+
+Four model families were compared, including two variants of the M0 baseline, all using a ResNet50~\cite{He2016} backbone pre-trained on ImageNet-1k (weights \texttt{IMAGENET1K\_V2}). Table~\ref{tab:modelos} summarizes the formulations.
+
+\begin{table}[H]
+\centering
+\caption{Summary of the multilabel classification formulations evaluated in this study.}
+\label{tab:modelos}
+{\small
+\begin{tabular}{lll}
+\hline
+\textbf{ID} & \textbf{Formulation} & \textbf{Loss function / prior} \\
+\hline
+M0\_BCE & Independent heads & BCEWithLogitsLoss + \textit{pos\_weight} \\
+M0\_ASL & Independent heads & Asymmetric Loss~\cite{Ridnik2021} \\
+M1 & Classifier Chains~\cite{Read2011} & Binary chained BCE \\
+M2 & BCE + co-occurrence regularization & $\mathcal{L}_{\text{BCE}} + \lambda\,\mathcal{L}_{\text{coo}}$ \\
+M3 & ML-GCN~\cite{Chen2019} & GCN over $G \in \{G_{\text{emp}}, G_{\text{pmi}}, G_{\text{clin}}\}$ \\
+\hline
+\end{tabular}
+}
+\end{table}
+
+\normalsize
+
+% \textbf{M0} treina cabeças lineares independentes sobre o vetor de \textit{features} do \textit{backbone}, usando \textit{BCEWithLogitsLoss} com \textit{pos\_weight} por classe ($w_i = N_{\text{neg},i}/N_{\text{pos},i}$). A variante \textbf{M0\_ASL} utiliza \textit{Asymmetric Loss}~\cite{Ridnik2021}, mantendo a mesma arquitetura. \textbf{M1} implementa \textit{Classifier Chains}~\cite{Read2011}, em que o $k$-ésimo classificador binário recebe, como entrada adicional, as probabilidades preditas pelos $k-1$ rótulos anteriores. \textbf{M2} mantém cabeças independentes e adiciona à BCE uma regularização explícita de co-ocorrência:
+
+% \begin{equation}
+%     \mathcal{L}_{\text{coo}} = \sum_{(i,j) \in E} A_{ij}^{\text{clin}} \cdot \text{BCE}\!\left(\sigma(z_i)\,\sigma(z_j),\, \pi_{ij}\right),
+% \end{equation}
+
+% em que $\pi_{ij} = P(y_i=1, y_j=1)$ é estimado no treino e $A^{\text{clin}}$ corresponde ao grafo $G_{\text{clin}}$. Aqui, $\pi_{ij}$ é estimado exclusivamente sobre o conjunto de treino da dobra corrente, evitando vazamento. A formulação atua como um prior heurístico de co-ocorrência, e não como uma log-verossimilhança completa da distribuição conjunta dos rótulos. Como $A^{\text{clin}}$ codifica apenas relações facilitadoras entre achados, relações inibitórias ou negativas não foram modeladas neste estudo. A perda total é $\mathcal{L} = \mathcal{L}_{\text{BCE}} + \lambda\,\mathcal{L}_{\text{coo}}$, com $\lambda = 0{,}3$. \textbf{M3} segue a formulação ML-GCN~\cite{Chen2019}, adaptada ao cenário deste estudo. \textit{Embeddings} de rótulo de dimensão 300, inicializados aleatoriamente, são processados por duas camadas GCN com 256 unidades ocultas e ativação LeakyReLU. 
+
+% A saída produz uma matriz de pesos $W_{\text{rel}} \in \mathbb{R}^{K\times d_{\text{feat}}}$ aplicada às \textit{features} visuais da ResNet50, resultando em $\hat{z} = \phi(x)\,W_{\text{rel}}^{\top}$. Diferentemente da formulação original, este estudo opera com apenas cinco rótulos clínicos e \textit{embeddings} aprendidos do zero, o que limita a transferência direta dos ganhos observados em grandes \textit{datasets} multilabel. M3 foi avaliado de forma combinatória sobre as três variantes de grafo $\{G_{\text{emp}}, G_{\text{pmi}}, G_{\text{clin}}\}$ e três limiares de esparsificação $\tau \in \{0;\,0{,}1;\,0{,}3\}$. Além dos modelos principais, foram conduzidas análises complementares com inicialização semântica do M3 (\textit{GloVe 300D}), suavização pós-logit (M0\_post) e ablação de $\lambda$, reportadas como estudos exploratórios de sensibilidade.
+
+% A configuração de treino foi mantida idêntica entre os modelos para isolar o efeito da formulação relacional: otimizador AdamW, taxa de aprendizado $10^{-4}$ para o \textit{backbone} e $10^{-3}$ para a cabeça (e GCN), \textit{weight decay} $10^{-4}$, \textit{batch size} de 32, no máximo 50 épocas, \textit{early stopping} por macro-F1 de validação com paciência de 10 épocas e escalonador \textit{ReduceLROnPlateau} (paciência 4, fator $0{,}5$). Os limiares de decisão por classe foram otimizados em validação para maximizar o F1 individual, e todos os experimentos foram executados utilizando uma GPU NVIDIA A100 em cinco \textit{folds} com sementes distintas (42--46).
+
+\textbf{M0} trains independent linear heads on the feature vector of the backbone, using BCEWithLogitsLoss with per-class pos\_weight ($w_i = N_{\text{neg},i}/N_{\text{pos},i}$). The \textbf{M0\_ASL} variant uses Asymmetric Loss~\cite{Ridnik2021}, keeping the same architecture. \textbf{M1} implements Classifier Chains~\cite{Read2011}, in which the $k$-th binary classifier receives, as additional input, the probabilities predicted for the $k-1$ preceding labels. \textbf{M2} keeps independent heads and adds an explicit co-occurrence regularization term to the BCE:
+
+\begin{equation}
+\mathcal{L}_{\text{coo}} = \sum_{(i,j) \in E} A_{ij}^{\text{clin}} \cdot \text{BCE}\!\left(\sigma(z_i)\,\sigma(z_j),\, \pi_{ij}\right).
+\end{equation}
+
+where $\pi_{ij} = P(y_i=1, y_j=1)$ is estimated on the training set and $A^{\text{clin}}$ corresponds to the graph $G_{\text{clin}}$. Here, $\pi_{ij}$ is estimated exclusively on the training set of the current fold, avoiding leakage. The formulation acts as a heuristic co-occurrence prior, and not as a complete log-likelihood of the joint label distribution. Since $A^{\text{clin}}$ encodes only facilitatory relations between findings, inhibitory or negative relations were not modeled in this study. The total loss is $\mathcal{L} = \mathcal{L}_{\text{BCE}} + \lambda\,\mathcal{L}_{\text{coo}}$, with $\lambda = 0.3$. \textbf{M3} follows the ML-GCN formulation~\cite{Chen2019}, adapted to the scenario of this study. Label embeddings of dimension 300, randomly initialized, are processed by two GCN layers with 256 hidden units and LeakyReLU activation.
+
+The output produces a weight matrix $W_{\text{rel}} \in \mathbb{R}^{K\times d_{\text{feat}}}$ applied to the visual features of ResNet50, resulting in $\hat{z} = \phi(x)\,W_{\text{rel}}^{\top}$. Unlike the original formulation, this study operates with only five clinical labels and embeddings learned from scratch, which limits the direct transfer of the gains observed in large multilabel datasets. M3 was evaluated combinatorially over the three graph variants $\{G_{\text{emp}}, G_{\text{pmi}}, G_{\text{clin}}\}$ and three sparsification thresholds $\tau \in \{0,\,0.1,\,0.3\}$. In addition to the main models, complementary analyses were conducted with semantic initialization of M3 (GloVe 300D), post-logit smoothing (M0\_post), and $\lambda$ ablation, reported as exploratory sensitivity studies.
+
+The training configuration was kept identical across models to isolate the effect of the relational formulation: AdamW optimizer, learning rate $10^{-4}$ for the backbone and $10^{-3}$ for the head and GCN, weight decay $10^{-4}$, batch size of 32, at most 50 epochs, early stopping based on validation macro-F1 with patience of 10 epochs, and a ReduceLROnPlateau scheduler with patience 4 and factor $0.5$. Per-class decision thresholds were optimized on validation to maximize individual F1, and all experiments were run on five folds with distinct seeds (42--46) using an NVIDIA A100 GPU.
+
+% \subsection{Métricas de Avaliação}
+
+% A métrica principal é o macro-F1 sobre os cinco rótulos clínicos do núcleo,
+% \begin{equation}
+%     \text{macro-F1} = \frac{1}{K}\sum_{i=1}^{K} \frac{2\,\text{prec}_i\,\text{rec}_i}{\text{prec}_i + \text{rec}_i}.
+% \end{equation}
+% São reportadas, ainda, F1-micro, F1 por classe, macro-F1 restrito ao subconjunto de imagens com $\geq 2$ rótulos positivos (avaliação multilabel estrita), \textit{Hamming loss} e área sob a curva precisão-revocação por classe (PR-AUC). Todas as métricas são calculadas com os limiares otimizados em validação e agregadas como média $\pm$ desvio-padrão entre os cinco \textit{folds}.
+
+% \subsection{Análise Estatística}
+
+% Para comparar os modelos, o macro-F1 foi reamostrado por \textit{bootstrap} estratificado com 2.000 reamostragens \textit{pooled} sobre os cinco \textit{folds}, gerando intervalos de confiança de 95\% e a diferença pareada $\Delta\text{F1} = \text{F1}_{\text{modelo}} - \text{F1}_{\text{M0\_BCE}}$ com seu respectivo \textit{p}-valor empírico. A configuração de M3 reportada nas comparações é a que maximiza o macro-F1 médio entre as combinações de variante de grafo e limiar de esparsificação.
+
+% \subsection*{Disponibilidade de Código}
+
+% Todo o código-fonte, scripts de pré-processamento, configuração dos experimentos, construção dos grafos, treinamento dos modelos e rotinas de avaliação estatística utilizados neste trabalho estão disponíveis em repositório público no GitHub\footnote{\url{https://github.com/usuario/vai-alterar}}.
+
+\subsection{Evaluation Metrics}
+
+The primary metric is macro-F1 over the five core clinical labels,
+\begin{equation}
+\text{macro-F1} = \frac{1}{K}\sum_{i=1}^{K} \frac{2\,\text{prec}_i\,\text{rec}_i}{\text{prec}_i + \text{rec}_i}.
+\end{equation}
+F1-micro, per-class F1, macro-F1 restricted to the subset of images with $\geq 2$ positive labels (strict multilabel evaluation), Hamming loss, and per-class area under the precision-recall curve (PR-AUC) are also reported. All metrics are computed with the thresholds optimized on validation and aggregated as mean $\pm$ standard deviation across the five \textit{folds}.
+
+\subsection{Statistical Analysis}
+
+To compare the models, macro-F1 was resampled using stratified bootstrap with 2,000 pooled resamples over the five folds, producing 95\% confidence intervals and the paired difference $\Delta\text{F1} = \text{F1}_{\text{model}} - \text{F1}_{\text{M0\_BCE}}$ with its empirical $p$-value. The M3 configuration reported in the comparisons is the one that maximizes mean macro-F1 across the combinations of graph variant and sparsification threshold.
+
+\subsection*{Code Availability}
+
+All source code, preprocessing scripts, experiment configuration, graph construction, model training, and statistical evaluation routines used in this work are available in a public GitHub repository\footnote{\url{https://anonymous.4open.science/r/gastroscopy-cooccurrence-priors-DF2F}}.
+
+% \section{Resultados e Discussão}
+
+% Esta seção apresenta os resultados da validação cruzada com cinco \textit{folds} sobre os cinco rótulos clínicos do núcleo, comparando os modelos avaliados e os efeitos das estratégias relacionais.
+
+% \subsection{Desempenho geral dos modelos}
+
+% A Tabela~\ref{tab:resumo-modelos} resume as principais métricas agregadas para a baseline M0\_BCE, a variante M0\_ASL, M1, M2 e a configuração de M3 com maior macro-F1 entre as variantes testadas, obtida com grafo clínico e $\tau=0{,}1$.
+
+% A regularização explícita de M2 obteve o \textbf{melhor macro-F1 médio} ($0{,}537$) e a \textbf{melhor PR-AUC} ($0{,}611$). Ela superou a baseline M0\_BCE em aproximadamente $2{,}0$ pontos percentuais (pp) no macro-F1 e a cadeia M1 em $1{,}8$ pp. Esse resultado sugere que o prior topológico melhora não apenas o ponto de operação otimizado por limiar, mas também a capacidade global de ranqueamento das patologias, embora a diferença em macro-F1 não tenha alcançado significância estatística no \textit{bootstrap}.
+
+% A baseline com \textit{Asymmetric Loss} (M0\_ASL), voltada a cenários de desbalanceamento, apresentou macro-F1 ($0{,}499$) e PR-AUC ($0{,}501$) inferiores à M0\_BCE. Isso sugere que, neste conjunto de dados, tratar o problema apenas como desbalanceamento de frequência é insuficiente; a estrutura clínica de co-ocorrência parece fornecer sinal complementar relevante.
+
+% A cadeia M1 produziu o menor \textit{Hamming loss} ($0{,}055$), indicando refinamento pontual das predições por classe. O ML-GCN (M3), mesmo em sua melhor configuração (grafo clínico, $\tau=0{,}1$), ficou abaixo da baseline em macro-F1 ($0{,}323$). A Figura~\ref{fig:cmp-f1macro} resume a comparação.
+
+% \begin{table}[htbp]
+% \centering
+% \caption{Métricas agregadas dos modelos no conjunto de teste, reportadas como média $\pm$ desvio-padrão em 5 \textit{folds}. O modelo M2\_coo obteve os maiores valores médios de macro-F1 e PR-AUC.}
+% \label{tab:resumo-modelos}
+% \small
+
+\section{Results and Discussion}
+\label{sec:Results-and-Discussion}
+
+This section presents the results of the five-fold cross-validation over the five core clinical labels, comparing the evaluated models and the effects of the relational strategies.
+
+\subsection{Overall model performance}
+
+Table~\ref{tab:resumo-modelos} summarizes the main aggregated metrics for the M0\_BCE baseline, the M0\_ASL variant, M1, M2, and the M3 configuration with the highest macro-F1 among the tested variants, obtained with the clinical graph and $\tau=0.1$.
+
+The explicit co-occurrence regularization in M2 obtained the \textbf{best mean macro-F1} ($0.537$) and the \textbf{best PR-AUC} ($0.611$). It outperformed the M0\_BCE baseline by approximately $2.0$ percentage points (pp) in macro-F1 and the M1 chain by $1.8$ pp. This result suggests that the topological prior improves not only the operating point optimized by threshold, but also the overall ranking capacity for the pathologies, although the difference in macro-F1 did not reach statistical significance in the bootstrap.
+
+The baseline with Asymmetric Loss (M0\_ASL), aimed at imbalance scenarios, presented lower macro-F1 ($0.499$) and PR-AUC ($0.501$) than M0\_BCE. This suggests that, in this dataset, treating the problem solely as frequency imbalance is insufficient; the clinical co-occurrence structure appears to provide relevant complementary signal.
+
+The M1 chain produced the lowest Hamming loss ($0.055$), indicating pointwise refinement of per-class predictions. ML-GCN (M3), even in its best configuration (clinical graph, $\tau=0.1$), remained below the baseline in macro-F1 ($0.323$). Figure~\ref{fig:cmp-f1macro} summarizes the comparison.
+
+% \begin{table}[htbp]
+% \centering
+% \caption{Aggregated metrics of the models on the test set, reported as mean $\pm$ standard deviation across 5 \textit{folds}. The M2\_coo model obtained the highest mean values of macro-F1 and PR-AUC.}
+% \label{tab:resumo-modelos}
+% \small
+
+% \begin{adjustbox}{max width=\textwidth}
+% \begin{tabular}{lccccc}
+% \toprule
+% \textbf{Modelo} 
+% & \textbf{macro-F1} 
+% & \textbf{PR-AUC (mAP)} 
+% & \textbf{F1-micro} 
+% & \textbf{Hamming} 
+% & \textbf{F1$_{\geq 2}$} \\
+% \midrule
+
+% M0\_BCE 
+% & $0{,}517 \pm 0{,}045$ 
+% & $0{,}584 \pm 0{,}031$ 
+% & $0{,}578 \pm 0{,}017$ 
+% & $0{,}063 \pm 0{,}005$ 
+% & $\mathbf{0{,}442 \pm 0{,}102}$ \\
+
+% M0\_ASL 
+% & $0{,}499 \pm 0{,}032$ 
+% & $0{,}501 \pm 0{,}048$ 
+% & $0{,}541 \pm 0{,}022$ 
+% & $0{,}070 \pm 0{,}006$ 
+% & $0{,}381 \pm 0{,}074$ \\
+
+% M1\_CC 
+% & $0{,}519 \pm 0{,}028$ 
+% & $0{,}568 \pm 0{,}039$ 
+% & $\mathbf{0{,}579 \pm 0{,}026}$ 
+% & $\mathbf{0{,}055 \pm 0{,}003}$ 
+% & $0{,}367 \pm 0{,}057$ \\
+
+% M2\_coo 
+% & $\mathbf{0{,}537 \pm 0{,}041}$ 
+% & $\mathbf{0{,}611 \pm 0{,}042}$ 
+% & $0{,}557 \pm 0{,}050$ 
+% & $0{,}066 \pm 0{,}008$ 
+% & $0{,}340 \pm 0{,}064$ \\
+
+% M3\_clin-$\tau=0{,}1$ 
+% & $0{,}323 \pm 0{,}023$ 
+% & $0{,}243 \pm 0{,}019$ 
+% & $0{,}349 \pm 0{,}045$ 
+% & $0{,}162 \pm 0{,}031$ 
+% & $0{,}410 \pm 0{,}029$ \\
+
+% \bottomrule
+% \end{tabular}
+% \end{adjustbox}
+% \end{table}
+
+% \begin{figure}[h]
+% \centering
+% \includegraphics[width=.85\columnwidth]{Template_SBC/template-latex/Imagens/18_model_comparison_f1macro_EN.png}
+% \caption{Comparação de macro-F1 entre os modelos avaliados (média e desvio-padrão sobre 5 \textit{folds}).}
+% \label{fig:cmp-f1macro}
+% \end{figure}
+
+\begin{table}[htbp]
+\centering
+\caption{Aggregated metrics of the models on the test set, reported as mean $\pm$ standard deviation across 5 folds. The M2\_coo model obtained the highest mean values of macro-F1 and PR-AUC.}
+\label{tab:resumo-modelos}
+\small
+
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{lccccc}
+\toprule
+\textbf{Model} 
+& \textbf{Macro-F1} 
+& \textbf{PR-AUC (mAP)} 
+& \textbf{Micro-F1} 
+& \textbf{Hamming} 
+& \textbf{F1$_{\geq 2}$} \\
+\midrule
+
+M0\_BCE 
+& $0.517 \pm 0.045$ 
+& $0.584 \pm 0.031$ 
+& $0.578 \pm 0.017$ 
+& $0.063 \pm 0.005$ 
+& $\mathbf{0.442 \pm 0.102}$ \\
+
+M0\_ASL 
+& $0.499 \pm 0.032$ 
+& $0.501 \pm 0.048$ 
+& $0.541 \pm 0.022$ 
+& $0.070 \pm 0.006$ 
+& $0.381 \pm 0.074$ \\
+
+M1\_CC 
+& $0.519 \pm 0.028$ 
+& $0.568 \pm 0.039$ 
+& $\mathbf{0.579 \pm 0.026}$ 
+& $\mathbf{0.055 \pm 0.003}$ 
+& $0.367 \pm 0.057$ \\
+
+M2\_coo 
+& $\mathbf{0.537 \pm 0.041}$ 
+& $\mathbf{0.611 \pm 0.042}$ 
+& $0.557 \pm 0.050$ 
+& $0.066 \pm 0.008$ 
+& $0.340 \pm 0.064$ \\
+
+M3\_clin-$\tau=0.1$ 
+& $0.323 \pm 0.023$ 
+& $0.243 \pm 0.019$ 
+& $0.349 \pm 0.045$ 
+& $0.162 \pm 0.031$ 
+& $0.410 \pm 0.029$ \\
+
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\end{table}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=.85\columnwidth]{Template_SBC/template-latex/Imagens/18_model_comparison_f1macro_EN.png}
+\caption{Macro-F1 comparison among the evaluated models (mean and standard deviation across 5 folds).}
+\label{fig:cmp-f1macro}
+\end{figure}
+
+% \subsection{Análise por métricas e curvas de avaliação}
+
+% A análise por classe revela trade-offs importantes não capturados pela métrica agregada. A Figura~\ref{fig:f1-heatmap} mostra o F1 por rótulo e por modelo. Em relação a M0\_BCE, o modelo M2 ganhou \textbf{$+11{,}7$ pp em PÓLIPO} (de $0{,}506$ para $0{,}624$) e $+5{,}7$ pp em MICRONODULARIDADE (de $0{,}351$ para $0{,}408$), as duas classes de menor prevalência ($2{,}5\%$ e $1{,}7\%$, respectivamente). Em contrapartida, M2 perdeu $-4{,}2$ pp em EROSÃO ($0{,}670 \to 0{,}629$) e $-6{,}8$ pp em ENANTEMA ($0{,}538 \to 0{,}470$), os rótulos mais prevalentes do núcleo. O ganho médio em macro-F1 decorre, portanto, de uma realocação de \textit{capacity} para classes raras, induzida pela regularização de co-ocorrência, e não de uma melhora uniforme.
+
+% \begin{figure}[htbp]
+% \centering
+% \includegraphics[width=.85\columnwidth]{Template_SBC/template-latex/Imagens/19_f1_heatmap_models_EN.png}
+% \caption{F1 por rótulo e por modelo. As células destacam as classes em que cada formulação apresenta melhor desempenho.}
+% \label{fig:f1-heatmap}
+% \end{figure}
+
+% A inclusão da PR-AUC macro na Tabela~\ref{tab:resumo-modelos} mostra que o ganho de M2 não depende apenas da escolha de limiar: o modelo também obteve a melhor capacidade média de ranqueamento entre os métodos avaliados. Ainda assim, a análise por classe mostra que esse ganho não é uniforme, pois M0\_BCE permanece mais forte em alguns rótulos prevalentes, enquanto M2 favorece principalmente classes raras. A Figura~\ref{fig:pr-m0} ilustra as curvas precisão-revocação da baseline M0\_BCE por classe, evidenciando a heterogeneidade do sinal de aprendizado entre os rótulos.
+
+% \begin{figure}[t]
+% \centering
+% \includegraphics[width=.65\columnwidth]{Template_SBC/template-latex/Imagens/03_pr_curve_M0_BCE_EN.png}
+% \caption{Curvas precisão-revocação por classe da baseline M0\_BCE, evidenciando o sinal de aprendizado heterogêneo entre rótulos.}
+% \label{fig:pr-m0}
+% \end{figure}
+
+\subsection{Analysis by metrics and evaluation curves}
+
+The per-class analysis reveals important trade-offs not captured by the aggregated metric. Figure~\ref{fig:f1-heatmap} shows the F1 per label and per model. Compared to M0\_BCE, the M2 model gained \textbf{$+11.7$ pp in POLYP} (from $0.506$ to $0.624$) and $+5.7$ pp in MICRONODULARITY (from $0.351$ to $0.408$), the two lowest-prevalence classes ($2.5\%$ and $1.7\%$, respectively). Conversely, M2 lost $-4.2$ pp in EROSION ($0.670 \to 0.629$) and $-6.8$ pp in ERYTHEMA ($0.538 \to 0.470$), the most prevalent labels in the core. The average gain in macro-F1 therefore stems from a reallocation of capacity toward rare classes, induced by the co-occurrence regularization, rather than from a uniform improvement.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.85\columnwidth]{Template_SBC/template-latex/Imagens/19_f1_heatmap_models_EN.png}
+\caption{F1 per label and per model. The cells highlight the classes in which each formulation presents the best performance.}
+\label{fig:f1-heatmap}
+\end{figure}
+
+The inclusion of macro PR-AUC in Table~\ref{tab:resumo-modelos} shows that the gain of M2 does not depend solely on threshold selection: the model also obtained the best mean ranking capacity among the evaluated methods. Even so, the per-class analysis shows that this gain is not uniform, since M0\_BCE remains stronger on some prevalent labels, while M2 mainly favors rare classes. Figure~\ref{fig:pr-m0} illustrates the per-class precision-recall curves of the M0\_BCE baseline, showing the heterogeneity of the learning signal across labels.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=.65\columnwidth]{Template_SBC/template-latex/Imagens/03_pr_curve_M0_BCE_EN.png}
+\caption{Per-class precision-recall curves of the M0\_BCE baseline, showing the heterogeneous learning signal across labels.}
+\label{fig:pr-m0}
+\end{figure}
+
+% \subsection{Efeito das estratégias avaliadas}
+
+% \textbf{Regularização de co-ocorrência (M2).} A introdução do termo $\lambda \cdot \mathcal{L}_{\text{coo}}$ sobre o grafo clínico teve o efeito mais consistente, melhorando a sensibilidade para PÓLIPO. Uma análise exploratória em validação do coeficiente $\lambda \in \{0{,}1;\,0{,}3;\,0{,}5;\,1{,}0\}$ revelou uma curva em U invertido, com pico em $0{,}548$ para $\lambda=0{,}5$, sugerindo que penalidades extremas degradam o aprendizado, enquanto valores moderados otimizam a representação topológica. Contudo, para manter o protocolo comparável, os resultados da Tabela~\ref{tab:resumo-modelos} reportam a configuração pré-fixada $\lambda=0{,}3$. Adicionalmente, a inclusão de arestas inibitórias reduziu o macro-F1 para $0{,}524$, indicando que o prior positivo é o principal motor de ganho.
+
+% \textbf{Suavização Pós-Logit (M0\_post).} Para isolar o efeito da representação visual aprendida, avaliou-se uma baseline heurística de acoplamento leve ($\hat{Z} = Z + Z A_{\text{clin}}$) sobre as probabilidades da M0. Essa abordagem reduziu o macro-F1 para $0{,}491$, indicando que a regularização relacional precisa atuar dinamicamente durante o treinamento para moldar o espaço de características, e não apenas como um filtro probabilístico tardio.
+
+% \textbf{Cadeia de classificadores (M1).} Apesar de o macro-F1 de M1 ser estatisticamente equivalente ao da baseline ($0{,}519$ vs.\ $0{,}517$), a cadeia reduziu o \textit{Hamming loss} em $\approx 13\%$ relativo. Isso sugere que predições anteriores como \textit{features} refinam predições binárias, mesmo sem deslocar a fronteira de decisão significativamente.
+
+% \textbf{ML-GCN (M3).} Nenhuma configuração superou a baseline (a melhor variante, com $\tau=0{,}1$, obteve macro-F1 $0{,}323$, conforme a ablação resumida na Figura~\ref{fig:m3-ablation}). Para testar a hipótese de viés de inicialização, a rede foi fortalecida com \textit{embeddings} semânticos textuais (\textit{GloVe 300D}) no lugar de vetores aleatórios. Embora a semântica tenha elevado substancialmente o macro-F1 para $0{,}460$, o modelo continuou inferior à baseline M0 simples. Esse resultado evidencia que, em cenários com prevalências raras e jargão endoscópico específico, a cabeça relacional aprendida via GCN adiciona capacidade paramétrica e ruído, falhando em superar perdas independentes.
+
+% \begin{figure}[htbp]
+% \centering
+% \includegraphics[width=.75\columnwidth]{Template_SBC/template-latex/Imagens/20_m3_ablation_heatmap_EN.png}
+% \caption{Ablação do M3 (ML-GCN) sobre os três grafos de rótulos ($G_{\text{emp}}$, $G_{\text{pmi}}$, $G_{\text{clin}}$) e três limiares de esparsificação $\tau$.}
+% \label{fig:m3-ablation}
+% \end{figure}
+
+% \subsection{Análise estatística}
+
+% Para verificar a relevância das diferenças observadas, foi aplicado \textit{bootstrap} pareado com 2.000 reamostragens \textit{pooled} sobre os cinco \textit{folds}. A Tabela~\ref{tab:bootstrap} reporta o macro-F1 pareado e o intervalo de confiança (IC) de 95\%.
+
+% \begin{table}[htbp]
+% \centering
+% \caption{macro-F1 pareado e IC 95\% (\textit{bootstrap}, $B=2.000$).}
+% \label{tab:bootstrap}
+% \small
+% \begin{tabular}{lcc}
+% \hline
+% \textbf{Modelo} & \textbf{macro-F1 \textit{pooled}} & \textbf{IC 95\%} \\
+% \hline
+% M0\_BCE          & $0{,}514$ & $[0{,}474;\ 0{,}554]$ \\
+% M1\_CC           & $0{,}515$ & $[0{,}464;\ 0{,}562]$ \\
+% M2\_coo          & $0{,}524$ & $[0{,}482;\ 0{,}567]$ \\
+% M3\_clin\_$\tau=0{,}1$ & $0{,}292$ & $[0{,}266;\ 0{,}318]$ \\
+% \hline
+% \end{tabular}
+% \end{table}
+
+% Os intervalos de confiança de M0, M1 e M2 \textbf{se sobrepõem amplamente}, indicando que, embora M2 tenha a maior média, sua superioridade sobre a baseline não é estatisticamente significativa ao nível de $5\%$ neste regime de dados. Em contraste, o IC de M3\_clin\_$\tau=0{,}1$ é \textbf{disjunto} dos demais, confirmando que sua deterioração em macro-F1 é consistente entre \textit{folds} e não atribuível a variabilidade aleatória.
+
+\subsection{Effect of the evaluated strategies}
+
+\textbf{Co-occurrence regularization (M2).} The introduction of the $\lambda \cdot \mathcal{L}_{\text{coo}}$ term over the clinical graph had the most consistent effect, improving sensitivity for POLYP. An exploratory validation analysis of the coefficient $\lambda \in \{0.1,\,0.3,\,0.5,\,1.0\}$ revealed an inverted-U curve, with a peak at $0.548$ for $\lambda=0.5$, suggesting that extreme penalties degrade learning, while moderate values optimize the topological representation. However, to keep the protocol comparable, the results in Table~\ref{tab:resumo-modelos} report the pre-fixed configuration $\lambda=0.3$. Additionally, the inclusion of inhibitory edges reduced the macro-F1 to $0.524$, indicating that the positive prior is the main driver of the gain.
+
+\textbf{Post-Logit Smoothing (M0\_post).} To isolate the effect of the learned visual representation, a lightweight heuristic coupling baseline ($\hat{Z} = Z + Z A_{\text{clin}}$) was evaluated on the M0 probabilities. This approach reduced macro-F1 to $0.491$, indicating that relational regularization needs to act during training to shape the feature space, rather than only as a late probabilistic filter.
+
+\textbf{Classifier chain (M1).} Although the macro-F1 of M1 is statistically equivalent to that of the baseline ($0.519$ vs.\ $0.517$), the chain reduced the Hamming loss by $\approx 13\%$ relative. This suggests that previous predictions as features refine binary predictions, even without significantly shifting the decision boundary.
+
+\textbf{ML-GCN (M3).} No configuration outperformed the baseline. The best variant, with $\tau=0.1$, obtained a macro-F1 of $0.323$, as shown in the ablation summarized in Figure~\ref{fig:m3-ablation}. To test the hypothesis of initialization bias, the network was also evaluated with textual semantic embeddings (GloVe 300D) instead of random vectors. Although this initialization increased macro-F1 to $0.460$, the model remained below the simple M0 baseline. This result suggests that, in scenarios with low-prevalence labels and domain-specific endoscopic terminology, the relational head learned via GCN adds parametric capacity and noise, failing to outperform independent losses.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.75\columnwidth]{Template_SBC/template-latex/Imagens/20_m3_ablation_heatmap_EN.png}
+\caption{Ablation of M3 (ML-GCN) over the three label graphs ($G_{\text{emp}}$, $G_{\text{pmi}}$, $G_{\text{clin}}$) and three sparsification thresholds $\tau$.}
+\label{fig:m3-ablation}
+\end{figure}
+
+\subsection{Statistical analysis}
+
+To verify the relevance of the observed differences, paired bootstrap with 2,000 pooled resamplings over the five \textit{folds} was applied. Table~\ref{tab:bootstrap} reports the paired macro-F1 and the 95\% confidence interval (CI).
+
+\begin{table}[htbp]
+\centering
+\caption{Paired macro-F1 and 95\% CI (bootstrap, $B=2{,}000$).}
+\label{tab:bootstrap}
+\small
+\begin{tabular}{lcc}
+\hline
+\textbf{Model} & \textbf{Pooled macro-F1} & \textbf{95\% CI} \\
+\hline
+M0\_BCE & $0.514$ & $[0.474,\ 0.554]$ \\
+M1\_CC & $0.515$ & $[0.464,\ 0.562]$ \\
+M2\_coo & $0.524$ & $[0.482,\ 0.567]$ \\
+M3\_clin-$\tau=0.1$ & $0.292$ & $[0.266,\ 0.318]$ \\
+\hline
+\end{tabular}
+\end{table}
+
+The confidence intervals of M0, M1, and M2 \textbf{overlap broadly}, indicating that, although M2 has the highest mean, its superiority over the baseline is not statistically significant at the $5\%$ level in this data regime. In contrast, the CI of M3\_clin-$\tau=0.1$ is \textbf{disjoint} from the others, indicating that its deterioration in macro-F1 is consistent across folds and not attributable to random variability.
+
+% \subsection{Inspeção Qualitativa de Erros}
+
+% Para complementar as métricas agregadas, inspecionamos casos representativos de divergência entre M0\_BCE e M2\_coo, amostrados a partir das predições do conjunto de teste das cinco dobras com uma semente aleatória fixa. A Tabela~\ref{tab:error-analysis} resume três comportamentos recorrentes.
+
+% \begin{table}[htbp]
+% \centering
+% \caption{Casos representativos de divergência entre M0\_BCE e M2\_coo. MICRONOD. denota MICRONODULARIDADE.}
+% \label{tab:error-analysis}
+% \footnotesize
+% \setlength{\tabcolsep}{3pt}
+% \renewcommand{\arraystretch}{1.12}
+% \begin{tabular}{
+% >{\raggedright\arraybackslash}p{0.13\linewidth}
+% >{\raggedright\arraybackslash}p{0.25\linewidth}
+% >{\raggedright\arraybackslash}p{0.27\linewidth}
+% >{\raggedright\arraybackslash}p{0.23\linewidth}
+% }
+% \hline
+% \textbf{Gabarito} & \textbf{M0\_BCE} & \textbf{M2\_coo} & \textbf{Padrão} \\
+% \hline
+% PÓLIPO & ENANTEMA, ÚLCERA, EROSÃO & PÓLIPO, ÚLCERA & Recuperação de classe rara \\
+% ÚLCERA & PÓLIPO & ENANTEMA, PÓLIPO, ÚLCERA, EROSÃO, MICRONOD. & Falsos positivos por acoplamento \\
+% ENANTEMA & ENANTEMA, PÓLIPO, MICRONOD. & PÓLIPO, ÚLCERA, EROSÃO & Perda de rótulo prevalente \\
+% \hline
+% \end{tabular}
+% \end{table}
+
+Essa inspeção apoia a interpretação quantitativa: o M2 pode recuperar rótulos de baixa prevalência, mas também pode introduzir falsos positivos por acoplamento forte ou deixar de detectar achados prevalentes isolados. Assim, o ganho em F1-macro reflete um trade-off entre sensibilidade a classes raras e estabilidade em rótulos frequentes.
+
+\subsection{Qualitative Error Inspection}
+
+To complement the aggregate metrics, we inspected representative disagreement cases between M0\_BCE and M2\_coo sampled from the test predictions of the five folds with a fixed random seed. Table~\ref{tab:error-analysis} summarizes three recurrent behaviors.
+
+\begin{table}[htbp]
+\centering
+\caption{Representative disagreement cases between M0\_BCE and M2\_coo. MICRONOD. denotes MICRONODULARITY.}
+\label{tab:error-analysis}
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.12}
+\begin{tabular}{
+>{\raggedright\arraybackslash}p{0.13\linewidth}
+>{\raggedright\arraybackslash}p{0.25\linewidth}
+>{\raggedright\arraybackslash}p{0.27\linewidth}
+>{\raggedright\arraybackslash}p{0.23\linewidth}
+}
+\hline
+\textbf{True label} & \textbf{M0\_BCE} & \textbf{M2\_coo} & \textbf{Pattern} \\
+\hline
+POLYP & ERYTHEMA, ULCER, EROSION & POLYP, ULCER & Rare-label recovery \\
+ULCER & POLYP & ERYTHEMA, POLYP, ULCER, EROSION, MICRONOD. & Coupled false positives \\
+ERYTHEMA & ERYTHEMA, POLYP, MICRONOD. & POLYP, ULCER, EROSION & Missed prevalent label \\
+\hline
+\end{tabular}
+\end{table}
+
+This inspection supports the quantitative interpretation: M2 may recover low-prevalence labels, but can also introduce false positives through strong coupling or miss isolated prevalent findings. Thus, the macro-F1 gain reflects a trade-off between sensitivity to rare classes and stability on frequent labels.
+
+% \subsection{Discussão dos achados}
+
+% Os resultados indicam que a co-ocorrência clínica é um sinal útil para a classificação multilabel em gastroscopia. O M2 superou a baseline em média e produziu ganhos relevantes em classes raras, especialmente PÓLIPO e MICRONODULARIDADE, sugerindo que perdas com prior relacional podem complementar estratégias baseadas apenas em re-pesagem por classe~\cite{Krenzer2026276_1}. No entanto, esse ganho não foi uniforme: a baseline M0\_BCE manteve melhor F1$_{\geq 2}$ ($0{,}442$) entre os modelos com macro-F1 próximo de $0{,}52$, indicando que parte do benefício do M2 vem de imagens com rótulo único e reforçando a importância de avaliar separadamente subgrupos clínicos, como rótulo único versus múltiplos achados~\cite{Liu2024}.
+
+% A forma de incorporação do prior mostrou-se tão importante quanto sua presença. A regularização explícita acoplada à BCE capturou a estrutura de co-ocorrência sem substituir o sinal direto de cada rótulo, enquanto o ML-GCN, ao gerar pesos de classificação por meio de uma GCN sobre o grafo, ficou abaixo da baseline. A queda do M3 parece associada à combinação de poucos rótulos, poucos exemplos por dobra, prevalências raras e \textit{embeddings} de rótulo aprendidos do zero; nesse regime, o acoplamento entre classes pode propagar ruído e reduzir a robustez das predições. Esse resultado reforça que arquiteturas pensadas para grandes vocabulários multilabel, como ChestX-ray14 e MS-COCO, não se transferem trivialmente para pequenos conjuntos clínicos.
+
+% Por fim, os resultados foram obtidos em dados clínicos brasileiros reais, com curadoria explícita de duplicatas, órfãos e rótulos ausentes, validação cruzada e análise por bootstrap. Assim, o objetivo deste estudo não é reivindicar desempenho diagnóstico estado da arte, mas avaliar como relações clínicas entre rótulos podem ser incorporadas em um cenário realista de dados limitados. A principal implicação prática é que, enquanto os datasets institucionais de EDA permanecerem modestos, priors relacionais simples integrados à perda tendem a oferecer melhor relação custo-benefício do que módulos GCN treinados de ponta a ponta.
+
+\subsection{Discussion of findings}
+
+The results indicate that clinical co-occurrence is a useful signal for multilabel classification in gastroscopy. M2 outperformed the baseline on average and produced relevant gains in rare classes, especially POLYP and MICRONODULARITY, suggesting that losses with a relational prior can complement strategies based only on per-class reweighting~\cite{Krenzer2026276}. However, this gain was not uniform: the M0\_BCE baseline maintained the best F1$_{\geq 2}$ ($0.442$) among the models with macro-F1 close to $0.52$, indicating that part of the M2 benefit comes from single-label images and reinforcing the importance of evaluating clinical subgroups separately, such as single-label versus multiple findings~\cite{Liu2024}.
+
+The way the prior is incorporated proved to be as important as its presence. Explicit regularization coupled with BCE captured the co-occurrence structure without replacing the direct signal of each label, while ML-GCN, by generating classification weights through a GCN over the graph, fell below the baseline. The drop of M3 appears associated with the combination of few labels, few examples per fold, low-prevalence labels, and label embeddings learned from scratch; in this regime, coupling between classes can propagate noise and reduce the robustness of predictions. This result reinforces that architectures designed for large multilabel vocabularies, such as ChestX-ray14 and MS-COCO, do not transfer trivially to small clinical sets.
+
+Finally, the results were obtained on real Brazilian clinical data, with explicit curation of duplicates, orphans, and missing labels, cross-validation, and bootstrap analysis. Thus, the goal of this study is not to claim state-of-the-art diagnostic performance, but to evaluate how clinical label relations can be incorporated under a realistic limited-data setting. The main practical implication is that, while institutional UGE datasets remain modest, simple relational priors integrated into the loss tend to offer a better cost-benefit ratio than end-to-end trained GCN modules.
+
+% \section{Conclusão}
+% \label{sec:Conclusion}
+
+% Este trabalho investigou formulações relacionais para classificação multilabel em imagens de EDA, comparando cabeças independentes com BCE, Classifier Chains, regularização explícita de co-ocorrência e ML-GCN sobre grafos empírico, PMI e clínico. Os experimentos utilizaram validação cruzada em cinco folds sobre cinco rótulos clínicos do núcleo, a partir de um conjunto brasileiro real de 1.990 imagens anonimizadas de gastroscopia.
+
+% A regularização de co-ocorrência obteve o melhor F1-macro médio ($0{,}537 \pm 0{,}041$), com ganhos em PÓLIPO e MICRONODULARIDADE, enquanto Classifier Chains apresentou o menor Hamming loss e o ML-GCN não superou a baseline. No entanto, a análise por bootstrap mostrou sobreposição dos intervalos de confiança entre M0, M1 e M2, de modo que a vantagem do M2 deve ser interpretada como promissora, mas não estatisticamente conclusiva neste regime de dados.
+
+% Os resultados sugerem que a co-ocorrência clínica é útil para classificação multilabel em gastroscopia, mas sua forma de incorporação é decisiva: priors simples acoplados à perda mostraram melhor relação custo-benefício do que uma arquitetura relacional treinada de ponta a ponta. As principais limitações são a construção heurística do grafo clínico sem validação por múltiplos endoscopistas e o uso da ResNet50 em $224\times224$, o que restringe conclusões sobre backbones modernos. Como trabalhos futuros, pretende-se avaliar pré-treinamentos no domínio médico, validar o grafo clínico com múltiplos especialistas, publicar um data descriptor e investigar grafos adaptativos para classes raras sob protocolos de few-shot e abstenção.
+
+\section{Conclusion}
+\label{sec:Conclusion}
+
+This work investigated relational formulations for multilabel classification in UGE images, comparing independent heads with BCE, Classifier Chains, explicit co-occurrence regularization, and ML-GCN over empirical, PMI, and clinical graphs. The experiments used five-fold cross-validation over five core clinical labels from a real Brazilian dataset of 1,990 anonymized gastroscopy images.
+
+Co-occurrence regularization achieved the best mean macro-F1 ($0.537 \pm 0.041$), with gains in POLYP and MICRONODULARITY, while Classifier Chains obtained the lowest Hamming loss and ML-GCN did not outperform the baseline. However, bootstrap analysis showed overlapping confidence intervals among M0, M1, and M2, so the advantage of M2 should be interpreted as promising but not statistically conclusive in this data regime.
+
+The results suggest that clinical co-occurrence is useful for multilabel gastroscopy classification, but its form of incorporation matters: simple priors coupled to the loss showed a better cost-benefit ratio than an end-to-end relational architecture. The main limitations are the heuristic construction of the clinical graph without validation by multiple endoscopists and the use of ResNet50 at $224\times224$, which restricts conclusions about modern backbones. Future work will evaluate medical-domain pre-training, validate the clinical graph with multiple specialists, publish a data descriptor, and investigate adaptive graphs for rare classes under few-shot and abstention protocols.
+
+\bibliographystyle{sbc}
+\bibliography{sbc-template}
+
+\end{document}
