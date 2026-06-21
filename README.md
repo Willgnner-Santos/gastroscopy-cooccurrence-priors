@@ -150,5 +150,5 @@ Notebooks 03 and 05 support GPU execution; see the `RUNNING_IN_COLAB` flag to sw
 
 ## License
 
-Code: [MIT](LICENSE).  
+Code: [Apache License 2.0](LICENSE).  
 Dataset: not distributed in this repository; subject to the original data use agreement.

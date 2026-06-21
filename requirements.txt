@@ -1,4 +1,4 @@
-# Trilha-3: Modelagem multilabel relacional com co-ocorrência clínica
+# Relational multilabel modeling with clinical co-occurrence
 # Python >= 3.10
 
 # Core
